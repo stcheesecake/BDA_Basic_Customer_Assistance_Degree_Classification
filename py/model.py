@@ -2,372 +2,127 @@
 # -*- coding: utf-8 -*-
 
 """
-model.py
-- CatBoostClassifier 학습/평가/저장/추론
-- 임계값 정책:
-    - THRESHOLD가 숫자면: 그 값을 고정 사용 (policy: "fixed")
-    - THRESHOLD가 None이면: Balanced Accuracy(= (acc0 + acc1)/2) 최대화로 탐색 (policy: "balacc")
-- 기본 하이퍼파라미터는 전역 DEFAULT_PARAMS만 사용 (best_params.json 사용 제거)
-- 학습 CSV 기본: data/preprocessed_train_oof.csv
-- 테스트 CSV가 주어지면 results/YYYYMMDD_submission.csv 로 저장
+model.py  (multiclass for support_needs)
+- 데이터: data/train.csv (필수), data/test.csv(선택; submission=True일 때 사용)
+- 타깃: support_needs (0/1/2)
+- 전처리: CatBoost의 범주형 직접 처리(스케일/원핫 불필요)
+- 평가: macro-F1, accuracy, per-class 지표, 혼동행렬
+- 저장: (기본) 모델/지표/로그, (옵션) submission.csv
+  * 단, produce_artifacts=False로 호출되면 어떤 파일도 생성하지 않음
 """
 
 import os
 import json
 import argparse
-import datetime
-from typing import Dict, List, Optional, Tuple
+from datetime import datetime
+from typing import List, Dict, Optional
 
 import numpy as np
 import pandas as pd
 from catboost import CatBoostClassifier, Pool
 from sklearn.metrics import (
-    f1_score, roc_auc_score, precision_score, recall_score,
-    confusion_matrix
+    f1_score, precision_recall_fscore_support, accuracy_score, confusion_matrix
 )
 from sklearn.model_selection import train_test_split
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OrdinalEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from imblearn.over_sampling import SMOTENC
-from joblib import dump, load
-from sklearn.neighbors import NearestNeighbors
 
-# ----------------------------- 전역 DEFAULT -----------------------------
+# ─────────────────────────────────────────────────────────────────────
+# 기본 하이퍼파라미터 (필요시 --params_json 또는 params_dict로 덮어쓰기)
+# ─────────────────────────────────────────────────────────────────────
 DEFAULT_PARAMS = dict(
-    iterations=2400,           # param_iterations
-    learning_rate=0.1,        # param_learning_rate
-    depth=9,                   # param_depth
-    l2_leaf_reg=17.0,           # param_l2_leaf_reg
-    border_count=80,          # param_border_count
-    random_strength=1.7,       # param_random_strength
-    bagging_temperature=0.25,   # param_bagging_temperature
-    loss_function="Logloss",
-    eval_metric="F1",
+    loss_function="MultiClass",
+    eval_metric="TotalF1",       # macro F1 유사
+    iterations=1200,
+    learning_rate=0.06,
+    depth=6,
+    l2_leaf_reg=8.0,
+    random_strength=1.5,
+    border_count=128,
+    bagging_temperature=0.5,
+    boosting_type="Ordered",     # GPU일 땐 자동 Plain 가드
+    task_type="CPU",
     od_type="Iter",
     od_wait=100,
-    boosting_type="Ordered",
-    task_type="GPU",
     random_seed=42,
     verbose=False,
-    _use_smote_nc=True,  # 기본적으로 SMOTE-NC 사용
-    _smote_sampling=0.85,  # 소수:다수 비율 목표 (예: 0.9 ≈ 9:10)
-    _smote_k=6,  # k_neighbors
+    # 🔸 추가: 제출 파일 생성 여부 (True면 data/test.csv로 제출 생성)
+    submission=True,
 )
 
-# ======= 임계값 제어 =======
-# 숫자(예: 0.52)로 지정하면 그 임계값을 그대로 사용
-# None이면 Balanced Accuracy 최대화로 임계값 탐색
-THRESHOLD: Optional[float] = 0.46
-
-# ======= EVAL POLICY (탐색 시에만 사용) =======
-THRESHOLD_STRATEGY = "balacc"       # 임계값 선택 정책(탐색 시): Balanced Accuracy
-THRESHOLD_GRID = np.linspace(0.05, 0.95, 181)
-SCORE_KEY = "balacc"                # 로그의 대표 점수 키
-
-# ----------------------------- argparse -----------------------------
-def parse_args():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--train_path", default="data/preprocessed_train_oof.csv",
-                    help="학습 CSV 경로(기본: data/preprocessed_train_oof.csv)")
-    ap.add_argument("--test_path", default="data/preprocessed_test_oof.csv",
-                    help="테스트 CSV 경로(기본: None). 지정 시 submission 생성")
-    ap.add_argument("--target", default="withdrawal", help="타깃 컬럼명(기본: withdrawal)")
-    ap.add_argument("--save_dir", default="results/optimization", help="모델/로그 저장 폴더")
-    ap.add_argument("--valid_size", type=float, default=0.2, help="검증 비율(기본 0.2)")
-    ap.add_argument("--seed", type=int, default=42, help="재현성 시드")
-    ap.add_argument("--deterministic", action="store_true", help="결정론 모드(thread_count=1 권장)")
-    ap.add_argument("--use_smote_nc", action="store_true", help="Train split에만 SMOTE-NC 적용")
-    ap.add_argument("--smote_sampling", type=float, default=0.9, help="SMOTENC sampling_strategy (e.g., 0.8~1.0)")
-    ap.add_argument("--smote_k", type=int, default=5, help="SMOTENC k_neighbors")
-    return ap.parse_args()
-
-# ----------------------------- utils -----------------------------
+# ─────────────────────────────────────────────────────────────────────
+# 유틸
+# ─────────────────────────────────────────────────────────────────────
 def _ensure_dir(p: str) -> None:
     os.makedirs(p, exist_ok=True)
 
-def infer_cat_feature_indices(df: pd.DataFrame) -> List[int]:
-    """OOF 확률(*_oof_prob)은 제외하고, object/category만 cat_features로 지정"""
-    oof_cols = [c for c in df.columns if c.endswith("_oof_prob")]
-    cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
-    cat_cols = [c for c in cat_cols if c not in oof_cols]
+def now_tag(fmt: str = "%Y%m%d_%H%M%S") -> str:
+    return datetime.now().strftime(fmt)
+
+def infer_cat_feature_indices(df: pd.DataFrame, prefer_cols: List[str] = None) -> List[int]:
+    if prefer_cols:
+        cols = [c for c in prefer_cols if c in df.columns]
+        return [df.columns.get_loc(c) for c in cols]
+    cat_cols = df.select_dtypes(include=["object", "category", "bool"]).columns.tolist()
     return [df.columns.get_loc(c) for c in cat_cols]
 
-def compute_class_weights(y: pd.Series) -> List[float]:
-    c0 = int((y == 0).sum())
-    c1 = int((y == 1).sum())
-    if c0 == 0 or c1 == 0:
-        return [1.0, 1.0]
-    return [1.0, c0 / c1]
+def compute_class_weights_multiclass(y: pd.Series) -> List[float]:
+    counts = y.value_counts().sort_index()
+    N = len(y)
+    K = counts.size
+    w = (N / (K * counts)).values.astype(float)
+    return w.tolist()
 
-def now_tag() -> str:
-    return datetime.datetime.now().strftime("%Y%m%d")
+def to_native(o):
+    import numpy as _np
+    if isinstance(o, dict):
+        return {k: to_native(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [to_native(v) for v in o]
+    if isinstance(o, (_np.integer, )):
+        return int(o)
+    if isinstance(o, (_np.floating, )):
+        return float(o)
+    if isinstance(o, _np.ndarray):
+        return o.tolist()
+    return o
 
-def write_report_txt(path: str, params: Dict, thr: float, policy: str, metrics: Dict) -> None:
+def write_report_txt(path: str, metrics: Dict, params: Dict) -> None:
     lines = []
-    lines.append("==== CatBoost Train Report ====")
-    lines.append("")
-    lines.append("[Hyperparameters]")
+    lines.append("==== CatBoost Multiclass Train Report ====\n")
+    lines.append("[Metrics]")
+    for k, v in metrics.items():
+        try:
+            if isinstance(v, float):
+                lines.append(f"{k}: {v:.6f}")
+            else:
+                lines.append(f"{k}: {v}")
+        except Exception:
+            lines.append(f"{k}: {v}")
+    lines.append("\n[Params]")
     for k in sorted(params.keys()):
         lines.append(f"{k}: {params[k]}")
-    lines.append("")
-    lines.append(f"[Threshold] {thr:.6f} (policy: {policy})")
-    lines.append("")
-    lines.append("[Metrics]")
-    for k in ["f1", "auc", "precision", "recall", "acc0", "acc1", "balacc", "youden", "score"]:
-        if k in metrics:
-            v = metrics[k]
-            try:
-                lines.append(f"{k}: {v:.6f}")
-            except Exception:
-                lines.append(f"{k}: {v}")
-    os.makedirs(os.path.dirname(path), exist_ok=True)
+    _ensure_dir(os.path.dirname(path))
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
-    print(f"[Saved] report txt -> {path}")
+    print(f"[Saved] report -> {path}")
 
-# ----------------------- 임계값(BalAcc) 유틸 -----------------------
-def _rates_at(y_true: np.ndarray, prob: np.ndarray, thr: float) -> Dict[str, float]:
-    pred = (prob >= thr).astype(int)
-    tn, fp, fn, tp = confusion_matrix(y_true, pred).ravel()
-    acc1 = tp / (tp + fn) if (tp + fn) else 0.0  # 재현율 TPR
-    acc0 = tn / (tn + fp) if (tn + fp) else 0.0  # 특이도 TNR
-    balacc = 0.5 * (acc0 + acc1)
-    youden = acc1 - (1.0 - acc0)
-    f1 = f1_score(y_true, pred) if (tp + fp > 0 and tp + fn > 0) else 0.0
-    return dict(acc0=acc0, acc1=acc1, balacc=balacc, youden=youden, f1=f1)
-
-def find_best_threshold_balacc(y_true: np.ndarray,
-                               prob: np.ndarray,
-                               grid: Optional[np.ndarray] = None) -> Tuple[float, float]:
-    if grid is None:
-        grid = THRESHOLD_GRID
-    best_thr, best_score = 0.5, -1.0
-    for t in grid:
-        score = _rates_at(y_true, prob, t)["balacc"]
-        if score > best_score:
-            best_score, best_thr = score, t
-    return float(best_thr), float(best_score)
-
-def metrics_from_cm(y_true: np.ndarray, y_pred: np.ndarray, prob: Optional[np.ndarray] = None) -> Dict:
-    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-    acc0 = tn / (tn + fp) if (tn + fp) > 0 else 0.0
-    acc1 = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-    balacc = 0.5 * (acc0 + acc1)
-    youden = acc1 - (1.0 - acc0)
-    res = dict(
-        f1=f1_score(y_true, y_pred),
-        precision=precision_score(y_true, y_pred),
-        recall=recall_score(y_true, y_pred),
-        acc0=acc0,
-        acc1=acc1,
-        balacc=balacc,
-        youden=youden
-    )
-    if prob is not None:
-        try:
-            res["auc"] = roc_auc_score(y_true, prob)
-        except Exception:
-            res["auc"] = float("nan")
-    return res
-
-def build_preprocessor(num_cols, cat_cols):
-    cat_pipe = Pipeline(steps=[
-        ("imp", SimpleImputer(strategy="most_frequent")),
-        ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1)),
-    ])
-    num_pipe = Pipeline(steps=[
-        ("imp", SimpleImputer(strategy="median")),
-    ])
-    return ColumnTransformer(
-        transformers=[("num", num_pipe, num_cols), ("cat", cat_pipe, cat_cols)],
-        remainder="drop"
-    )
-
-# ----------------------- core training API -----------------------
-def train_and_eval(
-    train_path: str = "data/preprocessed_train_oof.csv",
-    params: Optional[Dict] = None,  # 외부에서 dict로 덮어씌우고 싶을 때만 사용
-    target_col: str = "withdrawal",
-    save_dir: str = "results/optimization",
-    valid_size: float = 0.2,
-    seed: int = 42,
-    deterministic: bool = False,
-    produce_artifacts: bool = True,  # 파일 저장/생성 on/off
-    quiet: bool = False,             # 콘솔 출력 on/off
-) -> Dict:
-    """
-    단일 홀드아웃(valid_size)로 학습/평가.
-    반환: {'model_path','threshold','metrics','params','cat_idx','score'}
-    """
-    assert os.path.exists(train_path), f"train csv not found: {train_path}"
-    _ensure_dir(save_dir)
-
-    df = pd.read_csv(train_path)
-    assert target_col in df.columns, f"target '{target_col}' not in {train_path}"
-
-    y = df[target_col].astype(int)
-    X = df.drop(columns=[target_col])
-
-    # cat_features 추정 (OOF 확률 제외 + object/category만)
-    cat_idx = infer_cat_feature_indices(X)
-
-    # 파라미터: 전역 DEFAULT_PARAMS만 사용, 필요 시 인자로 전달된 params로만 덮어쓰기
-    p = DEFAULT_PARAMS.copy()
-    if params is not None:
-        p.update(params)
-
-    # 결정론 옵션
-    if deterministic:
-        p["deterministic"] = True
-        p["thread_count"] = 1
-
-    # class_weights 자동 보정(없을 때만)
-    if "class_weights" not in p and "auto_class_weights" not in p:
-        p["class_weights"] = compute_class_weights(y)
-
-    # split
-    X_tr, X_va, y_tr, y_va = train_test_split(
-        X, y, test_size=valid_size, stratify=y, random_state=seed
-    )
-
-    # ── SMOTE-NC 분기 ─────────────────────────────────────────────
-    use_smote_nc = bool(p.pop("_use_smote_nc", False))
-    smote_sampling = float(p.pop("_smote_sampling", 0.9))
-    smote_k = int(p.pop("_smote_k", 5))
-
-    pre = None  # (SMOTE 경로에서만 사용)
-
-    if use_smote_nc:
-        # (a) 원본 DF 기준 열 분리
-        cat_cols = X.select_dtypes(include=["object", "bool", "category"]).columns.tolist()
-        num_cols = [c for c in X.columns if c not in cat_cols]
-
-        # (b) 전처리: Train에 fit, Valid에 transform
-        cat_pipe = Pipeline(steps=[
-            ("imp", SimpleImputer(strategy="most_frequent")),
-            ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1)),
-        ])
-        num_pipe = Pipeline(steps=[
-            ("imp", SimpleImputer(strategy="median")),
-        ])
-        pre = ColumnTransformer(
-            transformers=[("num", num_pipe, num_cols), ("cat", cat_pipe, cat_cols)],
-            remainder="drop"
-        )
-        X_tr_t = pre.fit_transform(X_tr)
-        X_va_t = pre.transform(X_va)
-
-        # (c) 변환 결과에서 범주형 인덱스([num..., cat...])
-        n_num, n_cat = len(num_cols), len(cat_cols)
-        cat_idx_out = list(range(n_num, n_num + n_cat))
-
-        # (d) Train에만 SMOTENC (누수 방지)
-        smote = SMOTENC(
-            categorical_features=cat_idx_out,
-            sampling_strategy=smote_sampling,
-            k_neighbors=smote_k,
-            random_state=seed,
-        )
-        X_tr_bal, y_tr_bal = smote.fit_resample(X_tr_t, y_tr)
-
-        # (e) Pool (이미 숫자화됐으므로 cat_features 불필요)
-        train_pool = Pool(X_tr_bal, y_tr_bal)
-        valid_pool = Pool(X_va_t, y_va)
-    else:
-        # 기존 경로: CatBoost가 범주형 직접 처리
-        cat_idx = infer_cat_feature_indices(X)
-        train_pool = Pool(X_tr, y_tr, cat_features=cat_idx)
-        valid_pool = Pool(X_va, y_va, cat_features=cat_idx)
-
-    # 학습
-    model = CatBoostClassifier(**p)
-    model.fit(train_pool, eval_set=valid_pool, verbose=p.get("verbose", False))
-
-    # 임계값: 전역 THRESHOLD가 숫자면 고정 사용, 아니면 BalAcc 최대 탐색
-    prob = model.predict_proba(valid_pool)[:, 1]
-    if THRESHOLD is not None:
-        thr = float(THRESHOLD)
-        policy = "fixed"
-    else:
-        thr, _ = find_best_threshold_balacc(y_va.values, prob)
-        policy = THRESHOLD_STRATEGY
-
-    # 지표
-    pred = (prob >= thr).astype(int)
-    metrics = metrics_from_cm(y_va.values, pred, prob)
-    metrics["score"] = metrics.get(SCORE_KEY, float("nan"))
-
-    # 저장물
-    model_path = os.path.join(save_dir, "catboost_model.cbm")
-    if produce_artifacts:
-        model.save_model(model_path)
-        try:
-            if pre is not None:
-                dump(pre, os.path.join(save_dir, "preprocessor.joblib"))
-        except Exception:
-            pass
-        with open(os.path.join(save_dir, "best_threshold.json"), "w", encoding="utf-8") as f:
-            json.dump({"best_threshold": thr, "policy": policy}, f, ensure_ascii=False, indent=2)
-        with open(os.path.join(save_dir, "used_params.json"), "w", encoding="utf-8") as f:
-            json.dump(p, f, ensure_ascii=False, indent=2)
-        write_report_txt(os.path.join(save_dir, "metrics.txt"), p, thr, policy, metrics)
-
-    # 콘솔 요약
-    if not quiet:
-        print("\n==== Summary ====")
-    if produce_artifacts:
-        print(f"Model saved      : {model_path}")
-    print(f"Threshold        : {thr:.4f} (policy: {policy})")
-    for k in ["f1", "auc", "precision", "recall", "acc0", "acc1", "balacc", "youden", "score"]:
-        if k in metrics:
-            v = metrics[k]
-            print(f"{k:>9}: {v:.4f}" if isinstance(v, (int, float)) else f"{k:>9}: {v}")
-
-    return dict(
-        model_path=model_path,
-        threshold=thr,
-        metrics=metrics,
-        params=p,
-        cat_idx=cat_idx,
-        score=metrics["score"]
-    )
-
-# ----------------------------- inference -----------------------------
+# ─────────────────────────────────────────────────────────────────────
+# 추론/제출
+# ─────────────────────────────────────────────────────────────────────
 def infer_and_submit(
-    model_path: str,
-    threshold: float,
-    test_path: str,
-    target_col: str = "withdrawal",
-    save_dir: str = "results",
-    id_candidates: Tuple[str, ...] = ("ID", "id", "Id", "index")
-) -> str:
-    assert os.path.exists(model_path), f"model not found: {model_path}"
-    assert os.path.exists(test_path), f"test csv not found: {test_path}"
+    model: CatBoostClassifier,
+    test_path: str = "data/test.csv",
+    save_dir: str = "results/submission",
+    target_col: str = "support_needs",
+    id_candidates=("ID", "id", "Id", "index")
+) -> Optional[str]:
+    if not os.path.exists(test_path):
+        print(f"[Skip] test csv not found: {test_path}")
+        return None
     _ensure_dir(save_dir)
 
-    model = CatBoostClassifier()
-    model.load_model(model_path)
+    test_df = pd.read_csv(test_path).copy()
 
-    test_df = pd.read_csv(test_path)
-    X_test = test_df.copy()
-    if target_col in X_test.columns:
-        X_test = X_test.drop(columns=[target_col])
-
-    pre_path = os.path.join(os.path.dirname(model_path), "preprocessor.joblib")
-    if os.path.exists(pre_path):
-        pre = load(pre_path)
-        X_test_t = pre.transform(X_test)
-        test_pool = Pool(X_test_t)  # numeric
-    else:
-        cat_idx = infer_cat_feature_indices(X_test)
-        test_pool = Pool(X_test, cat_features=cat_idx)
-
-    prob = model.predict_proba(test_pool)[:, 1]
-    pred = (prob >= threshold).astype(int)
-
-    # ID 컬럼 추정/생성
+    # 1) 제출용 ID 컬럼 결정
     id_col = None
     for c in id_candidates:
         if c in test_df.columns:
@@ -375,36 +130,184 @@ def infer_and_submit(
             break
     if id_col is None:
         id_col = "ID"
-        n = len(test_df)
-        # 🔧 sample_submission.csv와 동일 포맷: TEST_0000 ~ TEST_0787
-        test_df[id_col] = [f"TEST_{i:04d}" for i in range(n)]
+        test_df[id_col] = [f"TEST_{i:05d}" for i in range(len(test_df))]
 
+    # 2) 예측용 X_test 구성: ID/타깃 제거 (여기가 핵심 수정)
+    drop_cols = [id_col, target_col]
+    X_test = test_df.drop(columns=[c for c in drop_cols if c in test_df.columns], errors="ignore")
+
+    # 3) 범주형 지정 (필요하면 object/category 전체 자동 처리로 바꿔도 됨)
+    prefer_cats = ["gender", "subscription_type"]
+    cat_idx = infer_cat_feature_indices(X_test, prefer_cols=prefer_cats)
+
+    # 4) 예측
+    pred = model.predict(Pool(X_test, cat_features=cat_idx)).astype(int).ravel()
+
+    # 5) 제출 저장
     submit = pd.DataFrame({id_col: test_df[id_col], target_col: pred})
-    out_path = os.path.join(save_dir, f"{now_tag()}_submission.csv")
+    out_path = os.path.join(save_dir, f"{now_tag('%y%m%d_%H%M%S')}_submission.csv")
     submit.to_csv(out_path, index=False)
     print(f"[Saved] submission -> {out_path}")
     return out_path
 
-# ------------------------------- CLI --------------------------------
-def main_cli():
-    args = parse_args()
-    out = train_and_eval(
+
+# ─────────────────────────────────────────────────────────────────────
+# 학습/평가
+# ─────────────────────────────────────────────────────────────────────
+def train_and_eval(
+    train_path: str = "data/train.csv",
+    target_col: str = "support_needs",
+    save_dir: str = "results/optimization",
+    valid_size: float = 0.2,
+    seed: int = 42,
+    use_gpu: bool = False,
+    params_json: str = None,
+    params_dict: Dict = None,
+    produce_artifacts: bool = True,   # hpo.py에서 False로 넘기면 파일 저장 없음
+) -> Dict:
+    assert os.path.exists(train_path), f"train csv not found: {train_path}"
+    if produce_artifacts:
+        _ensure_dir(save_dir)
+
+    # ── 데이터 적재 ───────────────────────────────────────────────
+    df = pd.read_csv(train_path)
+
+    # ID 제거
+    drop_cols = [c for c in ["ID", "id", "Id"] if c in df.columns]
+    if drop_cols:
+        df = df.drop(columns=drop_cols)
+
+    # 타깃 확인
+    assert target_col in df.columns, f"target '{target_col}' not in {train_path}"
+
+    # X, y 분리
+    y = df[target_col].astype(int)
+    X = df.drop(columns=[target_col])
+
+    # 범주형 강제 지정
+    prefer_cats = ["gender", "subscription_type"]
+    cat_idx = infer_cat_feature_indices(X, prefer_cols=prefer_cats)
+
+    # ── 파라미터 구성 ────────────────────────────────────────────
+    params = DEFAULT_PARAMS.copy()
+    if use_gpu:
+        params["task_type"] = "GPU"
+    if params_json:
+        with open(params_json, "r", encoding="utf-8") as f:
+            params.update(json.load(f))
+    if params_dict:
+        params.update(params_dict)
+
+    # GPU + MultiClass일 때 Ordered 금지 → Plain으로 강제 (호환 가드)
+    if str(params.get("task_type", "CPU")).upper() == "GPU":
+        if str(params.get("loss_function", "MultiClass")).lower().startswith("multi"):
+            params["boosting_type"] = "Plain"
+
+    # 🔴 CatBoost가 모르는 커스텀 키는 모델에 넘기면 안 됨
+    #    submission 플래그만 꺼내서 내부 제출 로직에서만 사용
+    submission_flag = bool(params.pop("submission", False))
+
+    # class_weights 자동 설정(없을 때만)
+    if "class_weights" not in params:
+        params["class_weights"] = compute_class_weights_multiclass(y)
+
+    # ── 데이터 분할 ───────────────────────────────────────────────
+    X_tr, X_va, y_tr, y_va = train_test_split(
+        X, y, test_size=valid_size, stratify=y, random_state=seed
+    )
+
+    # Pool 구성
+    train_pool = Pool(X_tr, y_tr, cat_features=cat_idx)
+    valid_pool = Pool(X_va, y_va, cat_features=cat_idx)
+
+    # ── 학습 ─────────────────────────────────────────────────────
+    model = CatBoostClassifier(**params)
+    model.fit(train_pool, eval_set=valid_pool, verbose=params.get("verbose", False))
+
+    # ── 검증 지표 ────────────────────────────────────────────────
+    y_pred = model.predict(valid_pool).astype(int).ravel()
+    acc = accuracy_score(y_va, y_pred)
+    classes_sorted = sorted(y.unique())
+
+    prec, rec, f1, support = precision_recall_fscore_support(
+        y_va, y_pred, labels=classes_sorted, average=None
+    )
+    f1_macro = f1_score(y_va, y_pred, average="macro")
+    cm = confusion_matrix(y_va, y_pred, labels=classes_sorted)
+
+    metrics = {
+        "accuracy": float(acc),
+        "f1_macro": float(f1_macro),
+        "per_class_precision": [float(x) for x in prec],
+        "per_class_recall":    [float(x) for x in rec],
+        "per_class_f1":        [float(x) for x in f1],
+        "per_class_support":   [int(x)   for x in support],
+        "confusion_matrix":    cm.astype(int).tolist(),
+        "classes":             [int(c)   for c in classes_sorted]
+    }
+
+    # ── 파일 저장 (옵션) ─────────────────────────────────────────
+    if produce_artifacts:
+        _ensure_dir(save_dir)
+        model_path = os.path.join(save_dir, "catboost_model.cbm")
+        model.save_model(model_path)
+        with open(os.path.join(save_dir, "used_params.json"), "w", encoding="utf-8") as f:
+            json.dump(params, f, ensure_ascii=False, indent=2)
+        with open(os.path.join(save_dir, "metrics.json"), "w", encoding="utf-8") as f:
+            json.dump(to_native(metrics), f, ensure_ascii=False, indent=2)
+        write_report_txt(os.path.join(save_dir, "metrics.txt"), metrics, params)
+
+        # 제출 파일 생성 (옵션): DEFAULT_PARAMS/params_dict의 submission=True일 때만
+        if submission_flag:
+            infer_and_submit(model,
+                             test_path="data/test.csv",
+                             save_dir="results/submission",
+                             target_col=target_col)
+
+    # ── 콘솔 요약 ────────────────────────────────────────────────
+    print("\n==== Summary ====")
+    print(f"accuracy      : {metrics['accuracy']:.4f}")
+    print(f"f1_macro      : {metrics['f1_macro']:.4f}")
+
+    return dict(
+        model=model,
+        metrics=metrics,
+        params=params,
+        cat_idx=cat_idx
+    )
+
+
+# ─────────────────────────────────────────────────────────────────────
+# CLI
+# ─────────────────────────────────────────────────────────────────────
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--train_path", default="data/train.csv")
+    ap.add_argument("--test_path", default=None, help="(미사용) 제출은 DEFAULT_PARAMS['submission']로 제어")
+    ap.add_argument("--target", default="support_needs")
+    ap.add_argument("--save_dir", default="results/optimization")
+    ap.add_argument("--valid_size", type=float, default=0.2)
+    ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--use_gpu", action="store_true")
+    ap.add_argument("--params_json", default=None)
+    ap.add_argument("--submission", action="store_true", help="실행 시 강제로 제출 on")
+    args = ap.parse_args()
+
+    params_dict = {}
+    if args.submission:
+        params_dict["submission"] = True
+
+    train_and_eval(
         train_path=args.train_path,
-        params=None,  # 외부에서 덮어쓸 필요가 있으면 dict로 전달
         target_col=args.target,
         save_dir=args.save_dir,
         valid_size=args.valid_size,
         seed=args.seed,
-        deterministic=args.deterministic,
+        use_gpu=args.use_gpu,
+        params_json=args.params_json,
+        params_dict=params_dict,
+        produce_artifacts=True
     )
-    if args.test_path is not None and str(args.test_path).lower() != "none":
-        infer_and_submit(
-            model_path=out["model_path"],
-            threshold=out["threshold"],
-            test_path=args.test_path,
-            target_col=args.target,
-            save_dir="results"
-        )
 
 if __name__ == "__main__":
-    main_cli()
+    main()
