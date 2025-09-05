@@ -1,8 +1,8 @@
-# hpo.py
+# catboost_hpo.py
 # -*- coding: utf-8 -*-
 
 """
-Optuna(TPE) for current multiclass model.py
+Optuna(TPE) for current multiclass catboost_classifier.py
 
 요구사항:
 - 실행 시 콘솔에는 tqdm 진행바만 표시 (추가 요약 print 전부 제거)
@@ -18,7 +18,7 @@ import argparse
 from datetime import datetime
 import contextlib
 import io
-
+import catboost_classifier
 import numpy as np
 import pandas as pd
 import optuna
@@ -38,7 +38,7 @@ SEARCH_SPACE = dict(
 def parse_args():
     ap = argparse.ArgumentParser()
     ap.add_argument("--train_path", default="data/train.csv")
-    ap.add_argument("--save_dir",   default="results/optimization")
+    ap.add_argument("--save_dir",   default="results/catboost_optimization")
     ap.add_argument("--trials",     type=int, default=500)
     ap.add_argument("--valid_size", type=float, default=0.2)
     ap.add_argument("--seed",       type=int, default=42)
@@ -61,7 +61,7 @@ def main():
     args = parse_args()
     ensure_dir(args.save_dir)
 
-    import model  # 현재 프로젝트용 model.py
+    import catboost_classifier  # 현재 프로젝트용 catboost_classifier.py
 
     # 하나의 CSV만 생성
     tag = datetime.now().strftime("%y%m%d_%H%M%S")
@@ -84,10 +84,10 @@ def main():
             "submission": False,
         })
 
-        # model.train_and_eval (무음 처리 + 파일 미생성)
+        # catboostclassifier.train_and_eval (무음 처리 + 파일 미생성)
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
-            out = model.train_and_eval(
+            out = catboost_classifier.train_and_eval(
                 train_path=args.train_path,
                 target_col="support_needs",
                 save_dir=".",                 # 의미 없음(파일 저장 안 함)

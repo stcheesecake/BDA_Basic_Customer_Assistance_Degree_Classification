@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-model.py  (multiclass for support_needs)
+catboost.py  (multiclass for support_needs)
 - 데이터: data/train.csv (필수), data/test.csv(선택; submission=True일 때 사용)
 - 타깃: support_needs (0/1/2)
 - 전처리: CatBoost의 범주형 직접 처리(스케일/원핫 불필요)
@@ -31,13 +31,13 @@ from sklearn.model_selection import train_test_split
 DEFAULT_PARAMS = dict(
     loss_function="MultiClass",
     eval_metric="TotalF1",       # macro F1 유사
-    iterations=1200,
-    learning_rate=0.06,
-    depth=6,
-    l2_leaf_reg=8.0,
-    random_strength=1.5,
-    border_count=128,
-    bagging_temperature=0.5,
+    iterations=800,
+    learning_rate=0.18,
+    depth=7,
+    l2_leaf_reg=2.0,
+    random_strength=0,
+    border_count=216,
+    bagging_temperature=0.55,
     boosting_type="Ordered",     # GPU일 땐 자동 Plain 가드
     task_type="CPU",
     od_type="Iter",
@@ -145,7 +145,7 @@ def infer_and_submit(
 
     # 5) 제출 저장
     submit = pd.DataFrame({id_col: test_df[id_col], target_col: pred})
-    out_path = os.path.join(save_dir, f"{now_tag('%y%m%d_%H%M%S')}_submission.csv")
+    out_path = os.path.join(save_dir, f"catboost_{now_tag('%y%m%d_%H%M%S')}_submission.csv")
     submit.to_csv(out_path, index=False)
     print(f"[Saved] submission -> {out_path}")
     return out_path
@@ -157,7 +157,7 @@ def infer_and_submit(
 def train_and_eval(
     train_path: str = "data/train.csv",
     target_col: str = "support_needs",
-    save_dir: str = "results/optimization",
+    save_dir: str = "results/catboost_optimization",
     valid_size: float = 0.2,
     seed: int = 42,
     use_gpu: bool = False,
@@ -285,7 +285,7 @@ def main():
     ap.add_argument("--train_path", default="data/train.csv")
     ap.add_argument("--test_path", default=None, help="(미사용) 제출은 DEFAULT_PARAMS['submission']로 제어")
     ap.add_argument("--target", default="support_needs")
-    ap.add_argument("--save_dir", default="results/optimization")
+    ap.add_argument("--save_dir", default="results/catboost_optimization")
     ap.add_argument("--valid_size", type=float, default=0.2)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--use_gpu", action="store_true")

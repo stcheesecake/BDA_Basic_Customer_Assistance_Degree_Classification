@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06cb4d97-b5c6-4e11-8995-c0755de6b4aa" name="변경" comment="initial">
-      <change afterPath="$PROJECT_DIR$/py/feature_analysis.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/feature_engineering.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/py/feature_experiments.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/lightgbm_classifier.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/lightgbm_hpo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/eda.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/eda.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/hpo.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/hpo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/data/sample_submission.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/data/test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/test.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/data/train.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/train.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/feature_engineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_engineering.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/feature_experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_experiments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/hpo.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/catboost_hpo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/catboost_classifier.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,10 +54,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.catboost_classifier.executor": "Run",
     "Python.eda.executor": "Run",
     "Python.feature_analysis.executor": "Run",
     "Python.feature_engineering.executor": "Run",
+    "Python.feature_experiments.executor": "Run",
     "Python.hpo.executor": "Run",
+    "Python.lightgbm_classifier.executor": "Run",
     "Python.model.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
@@ -88,7 +94,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756367713554</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="initial">
+      <option name="closed" value="true" />
+      <created>1756968173270</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1756968173270</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
