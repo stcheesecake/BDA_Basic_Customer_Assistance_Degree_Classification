@@ -11,7 +11,7 @@ Optuna(TPE) for current multiclass lightgbm_classifier.py
 - 목적함수: f1_macro 최대화
 """
 
-TRIALS = 2000
+TRIALS = 100
 
 import os
 import csv
@@ -31,15 +31,15 @@ import lightgbm_classifier
 
 # ───────────────────────── 검색 범위 (LightGBM 용으로 수정) ─────────────────────────
 SEARCH_SPACE = dict(
-    n_estimators=("int", 500, 2000, 100),
-    learning_rate=("float", 0.01, 0.1, None),  # None은 log-uniform 탐색
-    num_leaves=("int", 20, 150, 10),
-    max_depth=("int", 5, 12, 1),
-    min_child_samples=("int", 10, 100, 10),
-    subsample=("float", 0.6, 1.0, 0.1),
-    colsample_bytree=("float", 0.6, 1.0, 0.1),
-    reg_alpha=("float", 1e-3, 10.0, None),  # L1 정규화 (log)
-    reg_lambda=("float", 1e-3, 10.0, None),  # L2 정규화 (log)
+    n_estimators=("int", 1500, 1700, 100),
+    learning_rate=("float", 0.02, 0.05, None),  # None은 log-uniform 탐색
+    num_leaves=("int", 145, 155, 1),
+    max_depth=("int", 17, 18, 1),
+    min_child_samples=("int", 99, 101, 1),
+    subsample=("float", 0.8, 1.0, 0.2),
+    colsample_bytree=("float", 0.9, 1.0, 0.1),
+    reg_alpha=("float", 0.5, 1.5, None),  # L1 정규화 (log)
+    reg_lambda=("float", 1e-3, 0.5, None),  # L2 정규화 (log)
 )
 
 

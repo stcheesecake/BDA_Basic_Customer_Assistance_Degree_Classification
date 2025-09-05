@@ -5,6 +5,8 @@
 Optuna(TPE) for current multiclass xgboost_classifier.py
 """
 
+TRIALS = 1000
+
 import os
 import csv
 import json
@@ -23,17 +25,17 @@ import xgboost_classifier
 
 # ───────────────────────── 검색 범위 (XGBoost 용으로 수정) ─────────────────────────
 SEARCH_SPACE = dict(
-    n_estimators=("int", 500, 2000, 100),
-    learning_rate=("float", 0.01, 0.1, None),
-    max_depth=("int", 3, 10, 1),
-    subsample=("float", 0.6, 1.0, 0.1),
+    n_estimators=("int", 500, 1800, 100),
+    learning_rate=("float", 0.01, 0.04, None),
+    max_depth=("int", 10, 25, 1),
+    subsample=("float", 0.9, 1.0, 0.1),
     colsample_bytree=("float", 0.6, 1.0, 0.1),
 
     # [수정] gamma의 최솟값을 0이 아닌 작은 양수(1e-8)로 변경
-    gamma=("float", 1e-8, 5.0, None),
+    gamma=("float", 1e-8, 0.2, None),
 
-    reg_alpha=("float", 1e-3, 10.0, None),
-    reg_lambda=("float", 1e-3, 10.0, None),
+    reg_alpha=("float", 2.0, 3.0, None),
+    reg_lambda=("float", 1e-3, 2.5, None),
 )
 
 
@@ -99,14 +101,14 @@ def objective(trial: optuna.Trial, args, csv_path):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--train_path", default="data/train.csv")
-    ap.add_argument("--n_trials", type=int, default=2)
+    ap.add_argument("--n_trials", type=int, default=TRIALS)
     ap.add_argument("--valid_size", type=float, default=0.2)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--use_gpu", action="store_true")
     args = ap.parse_args()
 
     timestamp = datetime.now().strftime('%y%m%d_%H%M%S')
-    save_dir = "results/optimization_xgboost"
+    save_dir = "results/xgboost_optimization"
     os.makedirs(save_dir, exist_ok=True)
     csv_path = os.path.join(save_dir, f"{timestamp}_hpo.csv")
 

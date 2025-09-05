@@ -313,8 +313,8 @@ def main():
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--train_input", "-t", default="data/train.csv", help="(선택) train.csv 경로")
-    ap.add_argument("--hpo", "-hpo", default="results/optimization", help="hpo csv 파일 경로 또는 디렉토리")
-    ap.add_argument("--output_dir", "-o", default="results/eda")
+    ap.add_argument("--hpo", "-hpo", default="results/lightgbm_optimization", help="hpo csv 파일 경로 또는 디렉토리")
+    ap.add_argument("--output_dir", "-o", default="results/eda/lightgbm")
     ap.add_argument("--top_frac", type=float, default=0.2, help="상위 비율(다음 탐색 범위 산출에 사용)")
     ap.add_argument("--skip_dataset_eda", action="store_true", help="train.csv EDA를 건너뜀")
     args = ap.parse_args()
