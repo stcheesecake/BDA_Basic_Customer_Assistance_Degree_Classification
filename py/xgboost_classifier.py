@@ -2,12 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-xgboost_classifier.py  (multiclass for support_needs)
-- 데이터: data/train.csv (필수), data/test.csv(선택; submission=True일 때 사용)
-- 타깃: support_needs (0/1/2)
-- 전처리: 범주형 피처에 대한 원-핫 인코딩 적용
-- 평가: macro-F1, accuracy, per-class 지표, 혼동행렬
-- 저장: (기본) 모델/지표/로그, (옵션) xgboost_YYMMDD_HHMMSS_submission.csv
+xgboost_classifier.py (multiclass for support_needs) - XGBoost 2.0+ 호환
 """
 
 import os
@@ -28,12 +23,12 @@ from sklearn.metrics import (
 from sklearn.model_selection import train_test_split
 
 # ─────────────────────────────────────────────────────────────────────
-# 기본 하이퍼파라미터 (XGBoost 용)
+# 기본 하이퍼파라미터
 # ─────────────────────────────────────────────────────────────────────
 DEFAULT_PARAMS = dict(
     objective="multi:softprob",
     eval_metric="mlogloss",
-    n_estimators=1000,
+    n_estimators=2000,
     learning_rate=0.05,
     max_depth=6,
     subsample=0.8,
@@ -41,6 +36,7 @@ DEFAULT_PARAMS = dict(
     seed=42,
     n_jobs=-1,
     submission=False,
+    early_stopping_rounds=100,  # [수정] 모델 생성 시점에 전달
 )
 
 
@@ -58,16 +54,13 @@ def train_and_eval(
         params_dict: Optional[Dict] = None,
         produce_artifacts: bool = True
 ):
-    """
-    XGBoost 모델 학습, 평가 및 결과 저장을 수행합니다.
-    """
-    # ... (파라미터 및 로거 준비 로직은 이전과 동일) ...
+    # --- 파라미터 및 로거 준비 ---
     params = DEFAULT_PARAMS.copy()
     if params_dict:
         params.update(params_dict)
     submission_mode = params.pop("submission", False)
     if use_gpu:
-        params['tree_method'] = 'gpu_hist'
+        params['device'] = 'cuda'
     logger = logging.getLogger(__name__)
     if produce_artifacts:
         os.makedirs(save_dir, exist_ok=True)
@@ -77,7 +70,7 @@ def train_and_eval(
     else:
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
-    # ... (데이터 준비 로직은 이전과 동일) ...
+    # --- 데이터 준비 ---
     logger.info("데이터를 불러옵니다...")
     df = pd.read_csv(train_path)
     drop_cols = [c for c in ["ID", "id", "Id"] if c in df.columns]
@@ -91,34 +84,32 @@ def train_and_eval(
         X, y, test_size=valid_size, random_state=seed, stratify=y
     )
 
-    # ... (모델 학습 로직은 이전과 동일) ...
+    # ------------------ 3. 모델 학습 (수정된 부분) ------------------
     logger.info("모델 학습을 시작합니다...")
+
+    # [수정] XGBClassifier 생성자에 early_stopping_rounds를 전달합니다.
     model = xgb.XGBClassifier(**params)
+
+    # [수정] fit 함수에서는 early_stopping_rounds 인자를 제거합니다.
     model.fit(
         X_train, y_train,
         eval_set=[(X_valid, y_valid)],
-        early_stopping_rounds=100,
         verbose=False
     )
     logger.info("모델 학습 완료.")
 
-    # ... (평가 및 결과 저장 로직은 이전과 동일) ...
+    # ... (이하 모든 코드는 이전과 동일) ...
     logger.info("모델 평가를 시작합니다...")
     preds = model.predict(X_valid)
     metrics = _calculate_metrics(y_valid, preds)
-
     if produce_artifacts:
         logger.info(f"결과를 '{save_dir}'에 저장합니다.")
         joblib.dump(model, os.path.join(save_dir, "model.joblib"))
-        with open(os.path.join(save_dir, "metrics.json"), 'w') as f:
-            json.dump(metrics, f, indent=4)
-        params_to_save = {k: str(v) for k, v in params.items()}
-        with open(os.path.join(save_dir, "params.json"), 'w') as f:
-            json.dump(params_to_save, f, indent=4)
+        with open(os.path.join(save_dir, "metrics.json"), 'w') as f: json.dump(metrics, f, indent=4)
+        params_to_save = {k: str(v) for k, v in params.items()};
+        with open(os.path.join(save_dir, "params.json"), 'w') as f: json.dump(params_to_save, f, indent=4)
         _save_confusion_matrix(y_valid, preds, save_dir)
         logger.info("결과 저장 완료.")
-
-    # ... (제출 파일 생성 로직은 이전과 동일) ...
     if submission_mode:
         logger.info("제출 파일 생성을 시작합니다...")
         test_df = pd.read_csv(test_path)
@@ -126,9 +117,9 @@ def train_and_eval(
         test_df = test_df.drop(columns=["ID"])
         test_df = pd.get_dummies(test_df, columns=categorical_cols, drop_first=True)
         train_cols = X.columns
-        missing_in_test = set(train_cols) - set(test_df.columns)
+        missing_in_test = set(train_cols) - set(test_df.columns);
         for c in missing_in_test: test_df[c] = 0
-        extra_in_test = set(test_df.columns) - set(train_cols)
+        extra_in_test = set(test_df.columns) - set(train_cols);
         test_df = test_df.drop(columns=list(extra_in_test))
         test_df = test_df[train_cols]
         test_preds = model.predict(test_df)
@@ -138,15 +129,12 @@ def train_and_eval(
         submission_path = os.path.join(save_dir, submission_filename)
         submission_df.to_csv(submission_path, index=False)
         logger.info(f"제출 파일이 '{submission_path}'에 저장되었습니다.")
-
     logger.info("\n===== 평가 결과 =====")
     logger.info(f"accuracy      : {metrics['accuracy']:.4f}")
     logger.info(f"f1_macro      : {metrics['f1_macro']:.4f}")
-
     return dict(model=model, metrics=metrics, params=params)
 
 
-# ... (_calculate_metrics, _save_confusion_matrix 함수는 이전과 동일) ...
 def _calculate_metrics(y_true, y_pred) -> Dict:
     accuracy = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred, average="macro")
@@ -169,41 +157,29 @@ def _save_confusion_matrix(y_true, y_pred, save_dir):
     plt.close()
 
 
-# ─────────────────────────────────────────────────────────────────────
-# CLI (Command Line Interface)
-# ─────────────────────────────────────────────────────────────────────
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--train_path", default="data/train.csv")
     ap.add_argument("--test_path", default="data/test.csv")
     ap.add_argument("--target", default="support_needs")
-
-    # [수정] 기본 저장 경로를 'results/optimization_xgboost'로 변경
-    ap.add_argument("--save_dir", default="results/optimization_xgboost")
-
+    ap.add_argument("--save_dir", default="results/xgboost_optimization")
     ap.add_argument("--valid_size", type=float, default=0.2)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--use_gpu", action="store_true")
     ap.add_argument("--params_json", default=None)
     ap.add_argument("--submission", action="store_true")
     args = ap.parse_args()
-
     params_dict = {}
     if args.params_json:
         with open(args.params_json, 'r') as f:
             params_dict = json.load(f)
     if args.submission:
         params_dict['submission'] = True
-
     train_and_eval(
-        train_path=args.train_path,
-        test_path=args.test_path,
-        target_col=args.target,
-        save_dir=args.save_dir,
-        valid_size=args.valid_size,
-        seed=args.seed,
-        use_gpu=args.use_gpu,
-        params_dict=params_dict,
+        train_path=args.train_path, test_path=args.test_path,
+        target_col=args.target, save_dir=args.save_dir,
+        valid_size=args.valid_size, seed=args.seed,
+        use_gpu=args.use_gpu, params_dict=params_dict,
         produce_artifacts=True
     )
 

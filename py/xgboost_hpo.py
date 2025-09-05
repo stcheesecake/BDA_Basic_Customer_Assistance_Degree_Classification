@@ -99,7 +99,7 @@ def objective(trial: optuna.Trial, args, csv_path):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--train_path", default="data/train.csv")
-    ap.add_argument("--n_trials", type=int, default=100)
+    ap.add_argument("--n_trials", type=int, default=2)
     ap.add_argument("--valid_size", type=float, default=0.2)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--use_gpu", action="store_true")

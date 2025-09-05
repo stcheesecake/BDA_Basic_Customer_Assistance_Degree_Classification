@@ -19,7 +19,7 @@ import argparse
 from datetime import datetime
 import contextlib
 import io
-
+import json
 import numpy as np
 import optuna
 from optuna.samplers import TPESampler
@@ -120,7 +120,7 @@ def main():
 
     # 결과 저장 경로 설정
     timestamp = datetime.now().strftime('%y%m%d_%H%M%S')
-    save_dir = "results/optimization_lightgbm"  # [수정]
+    save_dir = "results/lightgbm_optimization"  # [수정]
     os.makedirs(save_dir, exist_ok=True)
     csv_path = os.path.join(save_dir, f"{timestamp}_hpo.csv")
 
