@@ -11,7 +11,7 @@ Optuna(TPE) for current multiclass lightgbm_classifier.py
 - 목적함수: f1_macro 최대화
 """
 
-TRIALS = 100
+TRIALS = 2000
 
 import os
 import csv
