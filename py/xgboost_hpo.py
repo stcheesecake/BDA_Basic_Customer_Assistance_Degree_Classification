@@ -19,7 +19,6 @@ from tqdm import tqdm
 
 optuna.logging.set_verbosity(optuna.logging.WARNING)
 
-# [수정] 튜닝할 모델 스크립트 import
 import xgboost_classifier
 
 # ───────────────────────── 검색 범위 (XGBoost 용으로 수정) ─────────────────────────
@@ -29,7 +28,10 @@ SEARCH_SPACE = dict(
     max_depth=("int", 3, 10, 1),
     subsample=("float", 0.6, 1.0, 0.1),
     colsample_bytree=("float", 0.6, 1.0, 0.1),
-    gamma=("float", 0, 5, None),
+
+    # [수정] gamma의 최솟값을 0이 아닌 작은 양수(1e-8)로 변경
+    gamma=("float", 1e-8, 5.0, None),
+
     reg_alpha=("float", 1e-3, 10.0, None),
     reg_lambda=("float", 1e-3, 10.0, None),
 )
@@ -57,7 +59,6 @@ def objective(trial: optuna.Trial, args, csv_path):
 
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
-            # [수정] xgboost_classifier.train_and_eval 호출
             out = xgboost_classifier.train_and_eval(
                 train_path=args.train_path,
                 target_col="support_needs",
@@ -73,6 +74,10 @@ def objective(trial: optuna.Trial, args, csv_path):
         f1_macro = float(metrics.get("f1_macro", float("nan")))
         accuracy = float(metrics.get("accuracy", float("nan")))
 
+        # NaN 값이 반환되지 않았는지 확인
+        if f1_macro != f1_macro:  # Check for NaN
+            raise ValueError("F1-macro score is NaN.")
+
         row = [trial.number] + [params[k] for k in SEARCH_SPACE.keys()] + [f1_macro, accuracy]
         with open(csv_path, "a", newline="", encoding="utf-8-sig") as f:
             writer = csv.writer(f)
@@ -83,7 +88,8 @@ def objective(trial: optuna.Trial, args, csv_path):
     except optuna.TrialPruned:
         raise
     except Exception as e:
-        print(f"Trial #{trial.number} failed: {e}")
+        # 실패 로그를 남기지만, NaN을 반환하여 Optuna가 계속 진행하도록 함
+        # print(f"Trial #{trial.number} failed: {e}")
         return float("nan")
 
 
@@ -100,7 +106,6 @@ def main():
     args = ap.parse_args()
 
     timestamp = datetime.now().strftime('%y%m%d_%H%M%S')
-    # [수정] 저장 경로 변경
     save_dir = "results/optimization_xgboost"
     os.makedirs(save_dir, exist_ok=True)
     csv_path = os.path.join(save_dir, f"{timestamp}_hpo.csv")
@@ -124,16 +129,21 @@ def main():
         )
 
     print("\n\n===== HPO 완료 =====")
-    print(f"총 Trial: {len(study.trials)}")
-    print(f"최고 점수 (f1_macro): {study.best_value:.4f}")
-    print("최적 파라미터:")
-    for key, value in study.best_params.items():
-        print(f"  - {key}: {value}")
+    # [수정] study.trials가 비어있는 경우를 대비한 예외 처리
+    if not study.trials or study.best_trial is None:
+        print("성공적으로 완료된 Trial이 없습니다.")
+    else:
+        print(f"총 Trial: {len(study.trials)}")
+        print(f"최고 점수 (f1_macro): {study.best_value:.4f}")
+        print("최적 파라미터:")
+        for key, value in study.best_params.items():
+            print(f"  - {key}: {value}")
 
-    best_params_path = os.path.join(save_dir, f"{timestamp}_best_params.json")
-    with open(best_params_path, 'w') as f:
-        json.dump(study.best_params, f, indent=4)
-    print(f"\n최적 파라미터가 '{best_params_path}'에 저장되었습니다.")
+        best_params_path = os.path.join(save_dir, f"{timestamp}_best_params.json")
+        with open(best_params_path, 'w') as f:
+            json.dump(study.best_params, f, indent=4)
+        print(f"\n최적 파라미터가 '{best_params_path}'에 저장되었습니다.")
+
     print(f"전체 결과는 '{csv_path}'를 확인하세요.")
 
 
