@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="06cb4d97-b5c6-4e11-8995-c0755de6b4aa" name="변경" comment="initial">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/eda.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/eda.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/py/lightgbm_hpo.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/lightgbm_hpo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/xgboost_hpo.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/xgboost_hpo.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +138,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757066905320</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="initial">
+      <option name="closed" value="true" />
+      <created>1757067088572</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1757067088572</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

@@ -31,15 +31,15 @@ import lightgbm_classifier
 
 # ───────────────────────── 검색 범위 (LightGBM 용으로 수정) ─────────────────────────
 SEARCH_SPACE = dict(
-    n_estimators=("int", 1500, 1700, 100),
-    learning_rate=("float", 0.02, 0.05, None),  # None은 log-uniform 탐색
-    num_leaves=("int", 145, 155, 1),
-    max_depth=("int", 17, 18, 1),
-    min_child_samples=("int", 99, 101, 1),
-    subsample=("float", 0.8, 1.0, 0.2),
-    colsample_bytree=("float", 0.9, 1.0, 0.1),
-    reg_alpha=("float", 0.5, 1.5, None),  # L1 정규화 (log)
-    reg_lambda=("float", 1e-3, 0.5, None),  # L2 정규화 (log)
+    n_estimators=("int", 1600, 1600, 100),
+    learning_rate=("float", 0.02, 0.03, None),  # None은 log-uniform 탐색
+    num_leaves=("int", 147, 160, 1),
+    max_depth=("int", 18, 25, 1),
+    min_child_samples=("int", 100, 100, 1),
+    subsample=("float", 1.0, 1.0, 0.1),
+    colsample_bytree=("float", 1.0, 1.0, 0.1),
+    reg_alpha=("float", 1.07, 1.17, None),  # L1 정규화 (log)
+    reg_lambda=("float", 1e-3, 0.05, None),  # L2 정규화 (log)
 )
 
 

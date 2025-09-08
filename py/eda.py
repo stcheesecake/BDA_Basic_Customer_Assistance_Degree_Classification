@@ -10,6 +10,9 @@ matplotlib.use("Agg")   # 화면 출력 대신 파일 저장
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+MODEL_NAME = "xgboost"   # lightgbm, catboost, xgboost
+
+
 # ──────────────────────────────
 # 한글 폰트 설정
 # ──────────────────────────────
@@ -313,8 +316,8 @@ def main():
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--train_input", "-t", default="data/train.csv", help="(선택) train.csv 경로")
-    ap.add_argument("--hpo", "-hpo", default="results/lightgbm_optimization", help="hpo csv 파일 경로 또는 디렉토리")
-    ap.add_argument("--output_dir", "-o", default="results/eda/lightgbm")
+    ap.add_argument("--hpo", "-hpo", default=f"results/{MODEL_NAME}_optimization", help="hpo csv 파일 경로 또는 디렉토리")
+    ap.add_argument("--output_dir", "-o", default=f"results/eda/{MODEL_NAME}")
     ap.add_argument("--top_frac", type=float, default=0.2, help="상위 비율(다음 탐색 범위 산출에 사용)")
     ap.add_argument("--skip_dataset_eda", action="store_true", help="train.csv EDA를 건너뜀")
     args = ap.parse_args()
