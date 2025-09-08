@@ -31,13 +31,13 @@ from sklearn.model_selection import train_test_split
 DEFAULT_PARAMS = dict(
     loss_function="MultiClass",
     eval_metric="TotalF1",       # macro F1 유사
-    iterations=800,
-    learning_rate=0.18,
+    iterations=1600,
+    learning_rate=0.13,
     depth=7,
-    l2_leaf_reg=2.0,
+    l2_leaf_reg=14.0,
     random_strength=0,
-    border_count=216,
-    bagging_temperature=0.55,
+    border_count=208,
+    bagging_temperature=0.7,
     boosting_type="Ordered",     # GPU일 땐 자동 Plain 가드
     task_type="CPU",
     od_type="Iter",
@@ -159,7 +159,6 @@ def train_and_eval(
     target_col: str = "support_needs",
     save_dir: str = "results/catboost_optimization",
     valid_size: float = 0.2,
-    seed: int = 42,
     use_gpu: bool = False,
     params_json: str = None,
     params_dict: Dict = None,
@@ -198,6 +197,13 @@ def train_and_eval(
     if params_dict:
         params.update(params_dict)
 
+    # [수정] random_seed와 random_state가 중복되지 않도록 처리합니다.
+    # 기존 random_seed가 있다면 제거합니다.
+    master_seed = params.get('random_seed', 42)
+    params.pop('random_seed', None)
+    # random_state를 함수의 seed 인자로 통일합니다.
+    params['random_seed'] = master_seed
+
     # GPU + MultiClass일 때 Ordered 금지 → Plain으로 강제 (호환 가드)
     if str(params.get("task_type", "CPU")).upper() == "GPU":
         if str(params.get("loss_function", "MultiClass")).lower().startswith("multi"):
@@ -213,7 +219,7 @@ def train_and_eval(
 
     # ── 데이터 분할 ───────────────────────────────────────────────
     X_tr, X_va, y_tr, y_va = train_test_split(
-        X, y, test_size=valid_size, stratify=y, random_state=seed
+        X, y, test_size=valid_size, stratify=y, random_state=master_seed
     )
 
     # Pool 구성
@@ -287,7 +293,6 @@ def main():
     ap.add_argument("--target", default="support_needs")
     ap.add_argument("--save_dir", default="results/catboost_optimization")
     ap.add_argument("--valid_size", type=float, default=0.2)
-    ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--use_gpu", action="store_true")
     ap.add_argument("--params_json", default=None)
     ap.add_argument("--submission", action="store_true", help="실행 시 강제로 제출 on")
@@ -302,7 +307,6 @@ def main():
         target_col=args.target,
         save_dir=args.save_dir,
         valid_size=args.valid_size,
-        seed=args.seed,
         use_gpu=args.use_gpu,
         params_json=args.params_json,
         params_dict=params_dict,

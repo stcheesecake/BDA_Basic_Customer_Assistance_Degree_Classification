@@ -5,7 +5,7 @@
 Optuna(TPE) for current multiclass xgboost_classifier.py
 """
 
-TRIALS = 2000
+TRIALS = 2
 
 import os
 import csv

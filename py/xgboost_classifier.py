@@ -28,15 +28,19 @@ from sklearn.model_selection import train_test_split
 DEFAULT_PARAMS = dict(
     objective="multi:softprob",
     eval_metric="mlogloss",
-    n_estimators=2000,
-    learning_rate=0.05,
-    max_depth=6,
-    subsample=0.8,
-    colsample_bytree=0.8,
+    n_estimators=500,
+    learning_rate=0.0369009142,
+    max_depth=18,
+    subsample=1,
+    colsample_bytree=1,
+    gamma = 0.052014503,
+    reg_alpha = 2.221033771,
+    reg_lambda = 0.0033799196,
     seed=42,
     n_jobs=-1,
     submission=False,
     early_stopping_rounds=100,  # [수정] 모델 생성 시점에 전달
+    verbosity=0
 )
 
 

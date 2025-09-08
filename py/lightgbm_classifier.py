@@ -24,6 +24,7 @@ import pandas as pd
 import lightgbm as lgb
 import matplotlib.pyplot as plt
 import seaborn as sns
+from joblib.externals.loky.backend.resource_tracker import register
 from sklearn.metrics import (
     f1_score, precision_recall_fscore_support, accuracy_score, confusion_matrix
 )
@@ -35,16 +36,19 @@ from sklearn.model_selection import train_test_split
 DEFAULT_PARAMS = dict(
     objective="multiclass",
     metric="multi_logloss",
-    n_estimators=1000,
-    learning_rate=0.05,
-    num_leaves=31,
-    max_depth=-1,
-    min_child_samples=20,
-    subsample=0.8,
-    colsample_bytree=0.8,
+    n_estimators=1600,
+    learning_rate=0.0218060102422869,
+    num_leaves=159,
+    max_depth=-23,
+    min_child_samples=100,
+    subsample=1,
+    colsample_bytree=1,
+    reg_alpha=1.109718440359,
+    reg_lambda=0.0241308626617508,
     random_state=42,
     n_jobs=-1,
     submission=False,
+    verbose=-1
 )
 
 

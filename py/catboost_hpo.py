@@ -1,15 +1,7 @@
 # catboost_hpo.py
 # -*- coding: utf-8 -*-
 
-"""
-Optuna(TPE) for current multiclass catboost_classifier.py
-
-요구사항:
-- 실행 시 콘솔에는 tqdm 진행바만 표시 (추가 요약 print 전부 제거)
-- model.py는 어떤 산출물도 생성하지 않음 (produce_artifacts=False)
-- 결과는 단 하나의 CSV만 생성: results/optimization/YYMMDD_hhmmss_hpo.csv
-- 목적함수: f1_macro 최대화
-"""
+N_TRIALS = 2
 
 import os
 import csv
@@ -26,20 +18,20 @@ from optuna.samplers import TPESampler
 
 # ───────────────────────── 검색 범위 ─────────────────────────
 SEARCH_SPACE = dict(
-    iterations          = ("int",   600, 2000, 100),
-    learning_rate       = ("float", 0.11, 0.18, 0.01),
-    depth               = ("int",   6,   8,    1),
-    l2_leaf_reg         = ("float", 1.0, 19.0, 1.0),
-    border_count        = ("int",   48,  248,  8),
-    random_strength     = ("float", 0.0, 0.5,  0.1),
-    bagging_temperature = ("float", 0.5, 0.9,  0.05),
+    iterations          = ("int",   1600, 1600, 100),
+    learning_rate       = ("float", 0.13, 0.13, 0.01),
+    depth               = ("int",   7,   7,    1),
+    l2_leaf_reg         = ("float", 14.0, 14.0, 1.0),
+    border_count        = ("int",   208,  208,  1),
+    random_strength     = ("float", 0.0, 0.0,  0.1),
+    bagging_temperature = ("float", 0.7, 0.7,  0.1),
 )
 
 def parse_args():
     ap = argparse.ArgumentParser()
     ap.add_argument("--train_path", default="data/train.csv")
     ap.add_argument("--save_dir",   default="results/catboost_optimization")
-    ap.add_argument("--trials",     type=int, default=500)
+    ap.add_argument("--trials",     type=int, default=N_TRIALS)
     ap.add_argument("--valid_size", type=float, default=0.2)
     ap.add_argument("--seed",       type=int, default=42)
     ap.add_argument("--use_gpu",    action="store_true")
