@@ -33,15 +33,15 @@ def add_feature(df):
     new_df = df.copy()
 
     # --- Feature 1: is_older_group ---
-    # age_median = new_df['age'].median()
-    # new_df['is_older_group'] = (new_df['age'] > age_median).astype(int)
-    # print(f"- 'is_older_group' 생성 완료 (기준 나이: {age_median:.1f}세)")
+    age_median = new_df['age'].median()
+    new_df['is_older_group'] = (new_df['age'] > age_median).astype(int)
+    print(f"- 'is_older_group' 생성 완료 (기준 나이: {age_median:.1f}세)")
 
-    # # --- Feature 2: older_and_member ---
-    # is_older = (new_df['age'] > age_median)
-    # is_member = (new_df['subscription_type'] == 'member')
-    # new_df['older_and_member'] = (is_older & is_member).astype(int)
-    # print("- 'older_and_member' 생성 완료")
+    # --- Feature 2: older_and_member ---
+    is_older = (new_df['age'] > age_median)
+    is_member = (new_df['subscription_type'] == 'member')
+    new_df['older_and_member'] = (is_older & is_member).astype(int)
+    print("- 'older_and_member' 생성 완료")
 
     # --- Feature 3: is_low_frequency ---
     freq_q1 = new_df['frequent'].quantile(0.25)
@@ -54,11 +54,11 @@ def add_feature(df):
     new_df['vip_inactive'] = (is_premium & is_inactive).astype(int)
     print("- 'vip_inactive' 생성 완료")
 
-    # # --- Feature 5: new_inactive ---
-    # tenure_q1 = new_df['tenure'].quantile(0.25)
-    # is_new = (new_df['tenure'] <= tenure_q1)
-    # new_df['new_inactive'] = (is_new & is_inactive).astype(int)
-    # print(f"- 'new_inactive' 생성 완료 (기준 가입 기간: {tenure_q1:.1f})")
+    # --- Feature 5: new_inactive ---
+    tenure_q1 = new_df['tenure'].quantile(0.25)
+    is_new = (new_df['tenure'] <= tenure_q1)
+    new_df['new_inactive'] = (is_new & is_inactive).astype(int)
+    print(f"- 'new_inactive' 생성 완료 (기준 가입 기간: {tenure_q1:.1f})")
 
     print("모든 피처 생성이 완료되었습니다.")
 

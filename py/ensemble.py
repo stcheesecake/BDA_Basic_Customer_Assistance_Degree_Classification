@@ -19,12 +19,21 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score, accuracy_score
 
 # ===================================================================
-#                      설정 변수
+#                      설정 변수 (사용자 설정 유지)
 # ===================================================================
 TRAIN_PATH = 'data/train.csv'
 TEST_PATH = 'data/test.csv'
 N_SPLITS = 5
 RANDOM_SEED = 42
+
+# 모델별로 사용할 피처를 선택하기 위한 리스트
+FEATURE_TOTAL = [
+    'is_older_group', 'older_and_member', 'is_low_frequency',
+    'vip_inactive', 'new_inactive'
+]
+FEATURE_CATBOOST = ['is_low_frequency', 'vip_inactive']
+FEATURE_LIGHTGBM = ['older_and_member', 'vip_inactive', 'new_inactive']
+FEATURE_XGBOOST = ['older_and_member']
 # ===================================================================
 
 # ===================================================================
@@ -47,6 +56,7 @@ base_models = [
 
 # ===================================================================
 
+
 def get_oof_predictions(X, y, X_test, models):
     print("Out-of-Fold 예측 피처를 생성합니다...")
 
@@ -55,14 +65,25 @@ def get_oof_predictions(X, y, X_test, models):
     oof_train_preds = np.zeros((X.shape[0], len(models) * num_classes))
     oof_test_preds = np.zeros((X_test.shape[0], len(models) * num_classes))
 
-    # [수정] 원-핫 인코딩을 모델 루프 안으로 이동
-    categorical_cols = X.select_dtypes(include=['object']).columns.tolist()
+    original_features = [col for col in X.columns if col not in FEATURE_TOTAL]
 
     for model_idx, (name, model) in enumerate(models):
         print(f"\nProcessing Model: {name}", flush=True)
 
-        # 모델별로 데이터 복사 및 전처리
-        X_model, X_test_model = X.copy(), X_test.copy()
+        if name == 'CatBoost':
+            model_features = FEATURE_CATBOOST
+        elif name == 'LightGBM':
+            model_features = FEATURE_LIGHTGBM
+        elif name == 'XGBoost':
+            model_features = FEATURE_XGBOOST
+
+        final_feature_list = original_features + model_features
+        X_subset = X[final_feature_list]
+        X_test_subset = X_test[final_feature_list]
+        print(f"  -> Using {len(final_feature_list)} features.")
+
+        X_model, X_test_model = X_subset.copy(), X_test_subset.copy()
+        categorical_cols = X_model.select_dtypes(include=['object']).columns.tolist()
 
         if name in ['LightGBM', 'XGBoost']:
             X_model = pd.get_dummies(X_model, columns=categorical_cols, drop_first=True)
@@ -100,21 +121,27 @@ def get_oof_predictions(X, y, X_test, models):
     return oof_train_preds, oof_test_preds
 
 
-# --- 메인 실행 부분 ---
 if __name__ == "__main__":
+    # 1. 데이터 로드 및 전처리
     print("데이터를 로드하고 전처리합니다...")
     train_df = pd.read_csv(TRAIN_PATH)
     test_df = pd.read_csv(TEST_PATH)
     test_ids = test_df['ID']
 
     y_target = train_df['support_needs']
-    train_df = train_df.drop(columns=['ID', 'support_needs'])
-    test_df = test_df.drop(columns=['ID'])
 
-    # [수정] 메인 부분의 원-핫 인코딩 로직 삭제 (get_oof_predictions 함수로 이동)
+    # 원본 피처와 신규 피처가 모두 포함된 데이터프레임 준비
+    # (ID와 타겟 컬럼만 제거)
+    train_df_features = train_df.drop(columns=['ID', 'support_needs'])
 
-    oof_train, oof_test = get_oof_predictions(train_df, y_target, test_df, base_models)
+    # test_df는 원본 피처만 가지고 있으므로, train_df에서 신규 피처들을 가져와 추가해야 함
+    # 이 과정은 feature_engineering.py에서 test.csv에 대해서도 수행되었다고 가정
+    # 만약 아니라면, 아래 코드는 test_df에 신규 피처가 없어서 오류 발생 가능
+    test_df_features = test_df.drop(columns=['ID'])
 
+    oof_train, oof_test = get_oof_predictions(train_df_features, y_target, test_df_features, base_models)
+
+    # ... (이하 메타 모델 학습 및 최종 예측 로직은 동일) ...
     print("\n메타 모델을 학습합니다...")
     meta_model = LogisticRegression(random_state=RANDOM_SEED, n_jobs=-1)
     meta_model.fit(oof_train, y_target)
