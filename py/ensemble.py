@@ -32,8 +32,8 @@ FEATURE_TOTAL = [
     'vip_inactive', 'new_inactive'
 ]
 FEATURE_CATBOOST = ['is_low_frequency', 'vip_inactive']
-FEATURE_LIGHTGBM = ['older_and_member', 'vip_inactive', 'new_inactive']
-FEATURE_XGBOOST = ['older_and_member']
+FEATURE_LIGHTGBM = []
+FEATURE_XGBOOST = ['older_and_member', 'vip_inactive', 'new_inactive']
 # ===================================================================
 
 # ===================================================================
