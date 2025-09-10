@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06cb4d97-b5c6-4e11-8995-c0755de6b4aa" name="변경" comment="initial">
-      <change afterPath="$PROJECT_DIR$/py/fttransformer_hpo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/fttransformer_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/fttransformer_classifier.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/fttransformer_hpo.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/fttransformer_hpo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/lightgbm_hpo.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/lightgbm_hpo.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,7 +175,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757403877000</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="initial">
+      <option name="closed" value="true" />
+      <created>1757482958965</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1757482958965</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

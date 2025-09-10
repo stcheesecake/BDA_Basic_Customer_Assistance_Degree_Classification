@@ -1,7 +1,7 @@
 # fttransformer_hpo.py
 # -*- coding: utf-8 -*-
 
-TRIALS = 3
+TRIALS = 1000
 
 import os
 import csv
@@ -67,7 +67,7 @@ SEARCH_SPACE = {
 
     # 학습 배치/에폭
     "batch_size": ("int", 128, 512, 64),
-    "epochs": ("int", 1, 2, 1),  # 의미 있는 학습을 위해 최소 10
+    "epochs": ("int", 10, 50, 5),  # 의미 있는 학습을 위해 최소 10
 
     # 유틸
     "grad_clip": ("float", 0.5, 5.0, 0.5),

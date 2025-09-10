@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-N_TRIALS = 2
+N_TRIALS = 1000
 
 import os
 import csv
