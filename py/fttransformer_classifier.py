@@ -18,6 +18,10 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="torch.nn.modules.transformer")
+
+
 # =========================================================
 # 1) CLI 하이퍼파라미터
 # =========================================================
@@ -30,30 +34,30 @@ def parse_args():
 
     # 학습 설정
     p.add_argument("--batch_size", type=int, default=128)
-    p.add_argument("--epochs", type=int, default=3)
-    p.add_argument("--lr", type=float, default=0.05)
-    p.add_argument("--weight_decay", type=float, default=1e-4)
+    p.add_argument("--epochs", type=int, default=50)
+    p.add_argument("--lr", type=float, default=0.001)
+    p.add_argument("--weight_decay", type=float, default=3e-5)
     p.add_argument("--optimizer", type=str, default="adamw",
                    choices=["adamw", "adam", "sgd"])
     p.add_argument("--sched", type=str, default="cosine",
                    choices=["cosine", "step", "none"])
-    p.add_argument("--warmup_ratio", type=float, default=0.1)
-    p.add_argument("--min_lr", type=float, default=1e-6)
+    p.add_argument("--warmup_ratio", type=float, default=0.05)
+    p.add_argument("--min_lr", type=float, default=1e-5)
     p.add_argument("--step_size", type=int, default=10)
-    p.add_argument("--gamma", type=float, default=0.5)
+    p.add_argument("--gamma", type=float, default=0.1)
 
     # 손실
     p.add_argument("--label_smoothing", type=float, default=0.05)
     p.add_argument("--use_focal", action=argparse.BooleanOptionalAction, type=bool, default=True)
-    p.add_argument("--focal_gamma", type=float, default=2.5)
-    p.add_argument("--focal_alpha", type=float, default=0.5)
+    p.add_argument("--focal_gamma", type=float, default=2.0)
+    p.add_argument("--focal_alpha", type=float, default=0.75)
 
     # 모델 구조
-    p.add_argument("--d_model", type=int, default=512)
-    p.add_argument("--n_heads", type=int, default=16)
+    p.add_argument("--d_model", type=int, default=256)
+    p.add_argument("--n_heads", type=int, default=8)
     p.add_argument("--n_layers", type=int, default=6)
-    p.add_argument("--ff_mult", type=int, default=8)
-    p.add_argument("--dropout", type=float, default=0.1)
+    p.add_argument("--ff_mult", type=int, default=6)
+    p.add_argument("--dropout", type=float, default=0.05)
     p.add_argument("--attn_dropout", type=float, default=0.0)
     p.add_argument("--layer_norm_eps", type=float, default=1e-5)
     p.add_argument("--token_dropout", type=float, default=0.0)
@@ -63,7 +67,7 @@ def parse_args():
     p.add_argument("--no_stratify", action="store_true")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--grad_clip", type=float, default=1.0)
-    p.add_argument("--patience", type=int, default=10)
+    p.add_argument("--patience", type=int, default=15)
 
     # 저장 관련
     p.add_argument("--save_dir", type=str, default="results/fttransformer_default")
@@ -355,76 +359,98 @@ def train_and_eval(args, device):
     # ---------------- 학습 루프 ----------------
     best_f1, best_state, no_improve = -1.0, None, 0
 
-    for epoch in tqdm(range(1, args.epochs + 1), desc="Training Epochs"):
-        model.train()
-        running = 0.0
-        for x_cat, x_num, yb in tr_loader:
-            x_cat, x_num, yb = x_cat.to(device), x_num.to(device), yb.to(device)
-            logits = model(x_cat, x_num)
+    # tqdm 한 줄 + 타임스탬프 postfix (훈련 중에는 이것만 보임)
+    with tqdm(total=args.epochs, desc="Training Epochs", leave=True) as pbar:
+        pbar.set_postfix_str(datetime.now().strftime("[%Y-%m-%d %H:%M:%S]"))
 
-            if criterion:
-                loss = criterion(logits, yb, num_classes)
-            else:
-                if num_classes == 2:
-                    loss = F.binary_cross_entropy_with_logits(
-                        logits.squeeze(1), yb.float()
-                    )
+        for epoch in range(1, args.epochs + 1):
+            model.train()
+            running = 0.0
+
+            for x_cat, x_num, yb in tr_loader:
+                x_cat, x_num, yb = x_cat.to(device), x_num.to(device), yb.to(device)
+                logits = model(x_cat, x_num)
+
+                if criterion:
+                    loss = criterion(logits, yb, num_classes)
                 else:
-                    loss = F.cross_entropy(
-                        logits, yb, label_smoothing=args.label_smoothing
-                    )
+                    if num_classes == 2:
+                        loss = F.binary_cross_entropy_with_logits(
+                            logits.squeeze(1), yb.float()
+                        )
+                    else:
+                        loss = F.cross_entropy(
+                            logits, yb, label_smoothing=args.label_smoothing
+                        )
 
-            optimizer.zero_grad()
-            loss.backward()
-            if args.grad_clip > 0:
-                torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
-            optimizer.step()
-            if scheduler and args.sched != "step":
+                optimizer.zero_grad()
+                loss.backward()
+                if args.grad_clip > 0:
+                    torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
+                optimizer.step()
+                if scheduler and args.sched != "step":
+                    scheduler.step()
+                running += loss.item()
+
+            if scheduler and args.sched == "step":
                 scheduler.step()
-            running += loss.item()
-        if scheduler and args.sched == "step":
-            scheduler.step()
 
-        # Validation
-        f1, acc, _ = evaluate(model, va_loader, device, num_classes)
+            # 검증 (에폭 중간 로그는 전혀 출력하지 않음)
+            f1, acc, _ = evaluate(model, va_loader, device, num_classes)
 
-        # ✅ epoch 로그는 logger로만 출력
-        logger.info(
-            f"[Epoch {epoch}/{args.epochs}] "
-            f"TrainLoss: {running/len(tr_loader):.4f} | "
-            f"ValF1: {f1:.4f} | ValAcc: {acc:.4f}"
-        )
+            # 베스트 갱신 & 얼리 스탑 카운터
+            if f1 > best_f1:
+                best_f1 = f1
+                best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
+                no_improve = 0
+            else:
+                no_improve += 1
 
-        # Early stopping
-        if f1 > best_f1:
-            best_f1 = f1
-            best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
-            no_improve = 0
-        else:
-            no_improve += 1
-        if args.patience > 0 and no_improve >= args.patience:
-            logger.info("Early stopping triggered.")
-            break
+            # 진행 바는 한 줄만, 타임스탬프만 갱신
+            pbar.update(1)
+            pbar.set_postfix_str(datetime.now().strftime("[%Y-%m-%d %H:%M:%S]"))
+
+            if args.patience > 0 and no_improve >= args.patience:
+                # 얼리 스탑 메시지도 훈련 중엔 출력하지 않음 (조용히 break)
+                break
 
     # ---------------- 최종 평가 ----------------
+    # 베스트 가중치로 로드
     if best_state:
         model.load_state_dict(best_state)
+
+    # 최종 검증
     f1, acc, (yt, yp) = evaluate(model, va_loader, device, num_classes)
     metrics = {"accuracy": float(acc), "f1_macro": float(f1)}
 
-    # 최종 결과 출력
-    logger.info("===== 최종 평가 결과 =====")
-    logger.info(f"accuracy : {metrics['accuracy']:.4f}")
-    logger.info(f"f1_macro : {metrics['f1_macro']:.4f}")
+    # 클래스별 acc/f1 계산
+    labels = sorted(np.unique(yt))
+    cm = confusion_matrix(yt, yp, labels=labels)
+    support = cm.sum(axis=1)
+    acc_per_class = (np.diag(cm) / np.maximum(support, 1)).tolist()
+
+    # f1 per class (라벨이 일부만 있을 수도 있으니 zero_division=0)
+    f1_per_class = f1_score(yt, yp, labels=labels, average=None, zero_division=0)
+
+    # ===== 최종 출력 (훈련 끝난 뒤에만) =====
+    print("===== 최종 평가 결과 =====")
+    for lab, acc_i, f1_i in zip(labels, acc_per_class, f1_per_class):
+        print(f"{lab} : acc {acc_i:.4f}, f1 {f1_i:.4f}")
+    print(f"전체 accuracy : {metrics['accuracy']:.4f}")
+    print(f"f1_macro : {metrics['f1_macro']:.4f}")
 
     # 저장 (옵션)
     if args.produce_artifacts:
+        os.makedirs(args.save_dir, exist_ok=True)
         with open(os.path.join(args.save_dir, "metrics.json"), "w") as f:
-            json.dump(metrics, f, indent=4)
+            json.dump({
+                **metrics,
+                "per_class": {str(lab): {"acc": float(acc_i), "f1": float(f1_i)}
+                              for lab, acc_i, f1_i in zip(labels, acc_per_class, f1_per_class)}
+            }, f, indent=4, ensure_ascii=False)
         with open(os.path.join(args.save_dir, "params.json"), "w") as f:
-            json.dump(vars(args), f, indent=4)
+            json.dump(vars(args), f, indent=4, ensure_ascii=False)
         _save_confusion_matrix(yt, yp, args.save_dir)
-        logger.info("저장 완료.")
 
     return {"model": model, "metrics": metrics, "params": vars(args)}
 

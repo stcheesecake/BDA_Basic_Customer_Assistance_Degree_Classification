@@ -1,7 +1,7 @@
 # fttransformer_hpo.py
 # -*- coding: utf-8 -*-
 
-TRIALS = 1000
+TRIALS = 200
 
 import os
 import csv
@@ -53,25 +53,25 @@ SEARCH_SPACE = {
     "token_dropout": ("float", 0.0, 0.3, 0.05),
 
     # 학습률/스케줄러
-    "lr": ("float", 1e-4, 1e-3, None),           # log scale
+    "lr": ("float", 5e-4, 5e-3, None),           # log scale
     "weight_decay": ("float", 1e-6, 1e-3, None), # log scale
-    "warmup_ratio": ("float", 0.0, 0.2, 0.05),
-    "min_lr": ("float", 1e-6, 1e-5, None),       # log scale (lr보다 항상 작게 보정)
+    "warmup_ratio": ("float", 0.0, 0.2, 0.01),
+    "min_lr": ("float", 1e-5, 1e-4, None),       # log scale (lr보다 항상 작게 보정)
     "step_size": ("int", 5, 20, 5),
     "gamma": ("float", 0.5, 0.9, 0.1),
 
     # 손실
-    "label_smoothing": ("float", 0.0, 0.1, 0.05),
+    "label_smoothing": ("float", 0.0, 0.1, 0.01),
     "focal_gamma": ("float", 1.0, 3.0, 0.5),
     "focal_alpha": ("float", 0.2, 0.8, 0.2),
 
     # 학습 배치/에폭
-    "batch_size": ("int", 128, 512, 64),
-    "epochs": ("int", 10, 50, 5),  # 의미 있는 학습을 위해 최소 10
+    "batch_size": ("int", 128, 256, 64),
+    "epochs": ("int", 20, 50, 5),  # 의미 있는 학습을 위해 최소 10
 
     # 유틸
-    "grad_clip": ("float", 0.5, 5.0, 0.5),
-    "patience": ("int", 5, 20, 5),
+    "grad_clip": ("float", 0.5, 2.0, 0.5),
+    "patience": ("int", 15, 30, 5),
 }
 
 
