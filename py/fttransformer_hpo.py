@@ -1,7 +1,7 @@
 # fttransformer_hpo.py
 # -*- coding: utf-8 -*-
 
-TRIALS = 1000
+TRIALS = 2
 
 import os
 import csv
@@ -29,18 +29,18 @@ import fttransformer_classifier
 
 # ───────────────────────── Search Space ─────────────────────────
 VALID_HEADS = {
-    128: [2, 4, 8, 16],
-    192: [2, 3, 6, 12],
-    256: [2, 4, 8, 16],
-    384: [2, 3, 6, 12],
-    512: [2, 4, 8, 16],
+    128: [8,16],
+    192: [4, 6, 8, 12],
+    256: [4, 8, 16],
+    384: [3, 4, 6, 8, 12],
+    512: [4, 8, 16],
 }
 
 SEARCH_SPACE_BASE = {
     # 모델 구조
     "d_model": ("categorical", [128, 192, 256, 384, 512]),
     "n_heads": ("categorical", None),  # d_model에 의존
-    "n_layers": ("int", 2, 8, 1),
+    "n_layers": ("int", 4, 12, 1),
     "ff_mult": ("int", 4, 6, 1),
 
     # 드롭아웃
@@ -49,24 +49,24 @@ SEARCH_SPACE_BASE = {
     "token_dropout": ("float", 0.0, 0.3, 0.05),
 
     # 학습률/스케줄러
-    "lr": ("float", 5e-4, 5e-3, None),            # log scale
-    "weight_decay": ("float", 1e-6, 1e-3, None),  # log scale
-    "warmup_ratio": ("float", 0.0, 0.2, 0.01),
+    "lr": ("float", 1e-5, 1e-3, None),            # log scale
+    "weight_decay": ("float", 3e-5, 3e-3, None),  # log scale
+    "warmup_ratio": ("float", 0.01, 0.1, 0.01),
     "min_lr": ("float", 1e-5, 1e-4, None),        # log scale
-    "step_size": ("int", 5, 20, 5),
-    "gamma": ("float", 0.5, 0.9, 0.1),
+    "step_size": ("int", 5, 10, 5),
+    "gamma": ("float", 0.1, 0.5, 0.1),
 
     # 손실
-    "label_smoothing": ("float", 0.0, 0.1, 0.01),
-    "focal_gamma": ("float", 1.0, 3.0, 0.5),
+    "label_smoothing": ("float", 0.1, 0.1, 0.01),
+    "focal_gamma": ("float", 0.0, 3.0, 0.1),
 
     # 배치/에폭
-    "batch_size": ("int", 128, 256, 64),
-    "epochs": ("int", 40, 100, 5),
+    "batch_size": ("int", 128, 128, 64),
+    "epochs": ("int", 40, 40, 5),
 
     # 유틸
-    "grad_clip": ("float", 0.5, 2.0, 0.5),
-    "patience": ("int", 10, 30, 5),
+    "grad_clip": ("float", 0.0, 2.0, 0.5),
+    "patience": ("int", 15, 15, 1),
 }
 
 ALPHA_DIM = None  # main()에서 데이터로 파악
@@ -124,33 +124,40 @@ def _maybe_make_alpha_vec(params: dict, alpha_dim: int):
 
 
 def _extract_class_metrics(metrics: dict, k: int):
-    """metrics에서 per-class f1/precision/recall과 macro precision/recall을 안전하게 추출."""
     # macro
     f1_macro = float(metrics.get("f1_macro", 0.0) or 0.0)
     prec_macro = float(metrics.get("precision_macro", metrics.get("precision", 0.0)) or 0.0)
     rec_macro = float(metrics.get("recall_macro", metrics.get("recall", 0.0)) or 0.0)
     acc = float(metrics.get("accuracy", 0.0) or 0.0)
 
-    # per-class 컨테이너 탐색
+    # per-class 컨테이너
     per = metrics.get("per_class") or metrics.get("by_class") or {}
+
+    # ❶ 기존: 리스트/배열로 제공되는 경우
     f1_arr = per.get("f1") or metrics.get("f1_per_class") or metrics.get("class_f1") or []
-    p_arr = per.get("precision") or metrics.get("precision_per_class") or metrics.get("class_precision") or []
-    r_arr = per.get("recall") or metrics.get("recall_per_class") or metrics.get("class_recall") or []
+    p_arr  = per.get("precision") or metrics.get("precision_per_class") or metrics.get("class_precision") or []
+    r_arr  = per.get("recall") or metrics.get("recall_per_class") or metrics.get("class_recall") or []
+
+    # ❷ 신규: dict-of-dicts({"0":{...},"1":{...}})로 제공되는 경우 지원
+    if (not f1_arr) and isinstance(per, dict) and per and all(isinstance(v, dict) for v in per.values()):
+        def get_arr(key):
+            return [float((per.get(str(i)) or {}).get(key, 0.0)) for i in range(k)]
+        f1_arr = get_arr("f1")
+        p_arr  = get_arr("precision")
+        r_arr  = get_arr("recall")
 
     # 길이 보정
     def _fix(arr):
         if not isinstance(arr, (list, tuple, np.ndarray)):
             return [0.0] * k
         arr = list(arr)
-        if len(arr) < k:
-            arr = arr + [0.0] * (k - len(arr))
-        elif len(arr) > k:
-            arr = arr[:k]
+        if len(arr) < k: arr += [0.0] * (k - len(arr))
+        elif len(arr) > k: arr = arr[:k]
         return [float(x) for x in arr]
 
     f1_arr = _fix(f1_arr)
-    p_arr = _fix(p_arr)
-    r_arr = _fix(r_arr)
+    p_arr  = _fix(p_arr)
+    r_arr  = _fix(r_arr)
 
     return f1_macro, prec_macro, rec_macro, acc, f1_arr, p_arr, r_arr
 
@@ -191,34 +198,31 @@ def objective(trial: optuna.Trial, cli_args, csv_path, search_space: dict, alpha
 
         # CSV 쓰기
         ordered_keys = [k for k in search_space.keys()]
-        if alpha_dim:
-            ordered_keys += [f"alpha{i}" for i in range(alpha_dim)]
+        # if alpha_dim:
+        #     ordered_keys += [f"alpha{i}" for i in range(alpha_dim)]  # ← 지우기
 
-        row = [trial.number] + [params.get(k, "") for k in ordered_keys]
-        # 사람이 읽기 좋은 alpha_vec
+        row = [str(trial.number)] + [str(params.get(k, "")) for k in ordered_keys]
+
         if alpha_dim:
             row += [alpha_vec_str]
 
-        # 메트릭: f1_macro → per-class f1 → per-class precision → per-class recall → precision_macro, recall_macro → accuracy
+        # 메트릭 기록
         row += [f1_macro]
-        if K and (len(f1_arr) == K and len(p_arr) == K and len(r_arr) == K):
+        if K > 0:
+            # _extract_class_metrics에서 항상 K길이로 보정했으니 무조건 기록
             row += [*f1_arr, *p_arr, *r_arr, prec_macro, rec_macro, acc]
-        else:
-            row += []  # 헤더 길이 맞추기는 main()에서 헤더 구성으로 해결
+
+        # 길이 보정 (header 안 쓰는 버전)
+        expected_len = 1 + len(ordered_keys) + (1 if alpha_dim else 0) + 1
+        if K > 0:
+            expected_len += (3 * K) + 3
+
+        while len(row) < expected_len:
+            row.append("")
+        row = row[:expected_len]
 
         with open(csv_path, "a", newline="", encoding="utf-8-sig") as f:
             csv.writer(f).writerow(row)
-
-        # best trial 요약 출력을 위해 user_attrs에 저장
-        trial.set_user_attr("metrics", {
-            "f1_macro": f1_macro,
-            "precision_macro": prec_macro,
-            "recall_macro": rec_macro,
-            "accuracy": acc,
-            "f1_per_class": f1_arr,
-            "precision_per_class": p_arr,
-            "recall_per_class": r_arr,
-        })
 
         return f1_macro
 

@@ -21,6 +21,9 @@ import seaborn as sns
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="torch.nn.modules.transformer")
 
+# csv 기록 스위치
+LOG_TO_CSV: bool = True           # 기록 끄려면 False
+CSV_LOG_PATH: str = "ft_transformer_temp.csv"
 
 # =========================================================
 # 1) CLI 하이퍼파라미터
@@ -35,33 +38,33 @@ def parse_args():
     # 학습 설정
     p.add_argument("--batch_size", type=int, default=128)
     p.add_argument("--epochs", type=int, default=50)
-    p.add_argument("--lr", type=float, default=0.001)
-    p.add_argument("--weight_decay", type=float, default=3e-5)
+    p.add_argument("--lr", type=float, default=1e-4)
+    p.add_argument("--weight_decay", type=float, default=3e-4)
     p.add_argument("--optimizer", type=str, default="adamw",
                    choices=["adamw", "adam", "sgd"])
     p.add_argument("--sched", type=str, default="cosine",
                    choices=["cosine", "step", "none"])
     p.add_argument("--warmup_ratio", type=float, default=0.05)
-    p.add_argument("--min_lr", type=float, default=1e-4)
+    p.add_argument("--min_lr", type=float, default=1e-5)
     p.add_argument("--step_size", type=int, default=10)
     p.add_argument("--gamma", type=float, default=0.1)
 
     # 손실
-    p.add_argument("--label_smoothing", type=float, default=0.0)
+    p.add_argument("--label_smoothing", type=float, default=0.1)
     p.add_argument("--use_focal", action=argparse.BooleanOptionalAction, type=bool, default=True)
-    p.add_argument("--focal_gamma", type=float, default=1.0)
+    p.add_argument("--focal_gamma", type=float, default=2.1)
     p.add_argument("--focal_alpha", type=float, default=0.98)
-    p.add_argument("--alpha_vec", type=str, default="1.0, 1.0, 1.0", help="예: '0.65,1.20,0.85' (클래스 수와 길이가 같아야 함)")
+    p.add_argument("--alpha_vec", type=str, default="1.0, 1.0, 1.00", help="예: '0.65,1.20,0.85' (클래스 수와 길이가 같아야 함)")
 
     # 모델 구조
     p.add_argument("--d_model", type=int, default=256)
     p.add_argument("--n_heads", type=int, default=8)
-    p.add_argument("--n_layers", type=int, default=6)
+    p.add_argument("--n_layers", type=int, default=12)
     p.add_argument("--ff_mult", type=int, default=6)
-    p.add_argument("--dropout", type=float, default=0.05)
+    p.add_argument("--dropout", type=float, default=0.1)
     p.add_argument("--attn_dropout", type=float, default=0.1)
     p.add_argument("--layer_norm_eps", type=float, default=1e-5)
-    p.add_argument("--token_dropout", type=float, default=0.0)
+    p.add_argument("--token_dropout", type=float, default=0.1)
 
     # 기타
     p.add_argument("--val_ratio", type=float, default=0.2)
@@ -223,7 +226,7 @@ class FocalLoss(nn.Module):
     """
     Focal loss with optional per-class alpha vector.
     - gamma: focusing parameter
-    - alpha: None | scalar | 1D tensor (num_classes,)
+    - alpha: None | scalar | 1D tensor (num_classes)
     """
     def __init__(self, gamma: float = 2.0, alpha=None, reduction: str = "mean"):
         super().__init__()
@@ -309,6 +312,75 @@ def evaluate(model, loader, device, num_classes):
     f1 = f1_score(y_true, y_pred, average="macro") if len(set(y_true))>1 else 0.0
     acc = accuracy_score(y_true, y_pred) if len(y_true)>0 else 0.0
     return f1, acc, (y_true, y_pred)
+
+
+def _flatten_metrics_for_csv(args, metrics):
+    """
+    args(하이퍼파라미터) + metrics(최종평가) -> 1행(dict)로 평탄화
+    """
+    row = {
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        # ---- 기본 학습 설정
+        "batch_size": args.batch_size,
+        "epochs": args.epochs,
+        "lr": args.lr,
+        "min_lr": args.min_lr,
+        "weight_decay": args.weight_decay,
+        "optimizer": args.optimizer,
+        "sched": args.sched,
+        "warmup_ratio": args.warmup_ratio,
+        "step_size": args.step_size,
+        "gamma": args.gamma,
+        "label_smoothing": args.label_smoothing,
+        "use_focal": bool(args.use_focal),
+        "focal_gamma": args.focal_gamma,
+        "focal_alpha": args.focal_alpha,
+        "alpha_vec": getattr(args, "alpha_vec", ""),
+        # ---- 모델 구조
+        "d_model": args.d_model,
+        "n_heads": args.n_heads,
+        "n_layers": args.n_layers,
+        "ff_mult": args.ff_mult,
+        "dropout": args.dropout,
+        "attn_dropout": args.attn_dropout,
+        "token_dropout": args.token_dropout,
+        "layer_norm_eps": args.layer_norm_eps,
+        # ---- 기타
+        "val_ratio": args.val_ratio,
+        "seed": args.seed,
+        "grad_clip": args.grad_clip,
+        "patience": args.patience,
+        # ---- 총괄 성능
+        "accuracy": metrics.get("accuracy", None),
+        "precision_macro": metrics.get("precision_macro", None),
+        "recall_macro": metrics.get("recall_macro", None),
+        "f1_macro": metrics.get("f1_macro", None),
+    }
+
+    # per-class (라벨이 0,1,2 처럼 정수라고 가정; 문자열이면 그대로)
+    per_class = metrics.get("per_class", {})
+    for lab in sorted(per_class.keys(), key=lambda x: int(x) if str(x).isdigit() else x):
+        pc = per_class[lab]
+        row[f"class_{lab}_acc"] = pc.get("acc", None)
+        row[f"class_{lab}_precision"] = pc.get("precision", None)
+        row[f"class_{lab}_recall"] = pc.get("recall", None)
+        row[f"class_{lab}_f1"] = pc.get("f1", None)
+        row[f"class_{lab}_support"] = pc.get("support", None)
+    return row
+
+
+def _append_row_to_csv(row: dict, csv_path: str):
+    """
+    row(dict)를 csv에 1행 append (헤더는 파일 없을 때만 기록)
+    """
+    try:
+        df = pd.DataFrame([row])
+        header = not os.path.exists(csv_path)
+        # Excel 친화적 인코딩
+        df.to_csv(csv_path, mode="a", header=header, index=False, encoding="utf-8-sig")
+    except Exception as e:
+        # 조용히 무시(모델 학습 흐름 방해하지 않도록)
+        pass
 
 
 # =========================================================
@@ -518,7 +590,11 @@ def train_and_eval(args, device):
             json.dump(vars(args), f, indent=4, ensure_ascii=False)
         _save_confusion_matrix(yt, yp, args.save_dir)
 
-    # ← 이제 metrics가 정의되어 있으니 안전하게 반환 가능
+    # ===== CSV 로그 (선택) =====
+    if LOG_TO_CSV:
+        row = _flatten_metrics_for_csv(args, metrics)
+        _append_row_to_csv(row, CSV_LOG_PATH)
+
     return {"model": model, "metrics": metrics, "params": vars(args)}
 
 
