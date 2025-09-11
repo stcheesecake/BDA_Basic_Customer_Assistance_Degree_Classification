@@ -13,7 +13,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import f1_score, accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import f1_score, accuracy_score, classification_report, confusion_matrix, precision_recall_fscore_support
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -42,15 +42,16 @@ def parse_args():
     p.add_argument("--sched", type=str, default="cosine",
                    choices=["cosine", "step", "none"])
     p.add_argument("--warmup_ratio", type=float, default=0.05)
-    p.add_argument("--min_lr", type=float, default=1e-5)
+    p.add_argument("--min_lr", type=float, default=1e-4)
     p.add_argument("--step_size", type=int, default=10)
     p.add_argument("--gamma", type=float, default=0.1)
 
     # 손실
-    p.add_argument("--label_smoothing", type=float, default=0.05)
+    p.add_argument("--label_smoothing", type=float, default=0.0)
     p.add_argument("--use_focal", action=argparse.BooleanOptionalAction, type=bool, default=True)
-    p.add_argument("--focal_gamma", type=float, default=2.0)
-    p.add_argument("--focal_alpha", type=float, default=0.75)
+    p.add_argument("--focal_gamma", type=float, default=1.0)
+    p.add_argument("--focal_alpha", type=float, default=0.98)
+    p.add_argument("--alpha_vec", type=str, default="1.0, 1.0, 1.0", help="예: '0.65,1.20,0.85' (클래스 수와 길이가 같아야 함)")
 
     # 모델 구조
     p.add_argument("--d_model", type=int, default=256)
@@ -58,7 +59,7 @@ def parse_args():
     p.add_argument("--n_layers", type=int, default=6)
     p.add_argument("--ff_mult", type=int, default=6)
     p.add_argument("--dropout", type=float, default=0.05)
-    p.add_argument("--attn_dropout", type=float, default=0.0)
+    p.add_argument("--attn_dropout", type=float, default=0.1)
     p.add_argument("--layer_norm_eps", type=float, default=1e-5)
     p.add_argument("--token_dropout", type=float, default=0.0)
 
@@ -219,28 +220,48 @@ class TabTransformer(nn.Module):
 # 4) 학습 유틸
 # =========================================================
 class FocalLoss(nn.Module):
-    def __init__(self, gamma=2.0, alpha=0.25, reduction="mean"):
+    """
+    Focal loss with optional per-class alpha vector.
+    - gamma: focusing parameter
+    - alpha: None | scalar | 1D tensor (num_classes,)
+    """
+    def __init__(self, gamma: float = 2.0, alpha=None, reduction: str = "mean"):
         super().__init__()
-        self.gamma = gamma
-        self.alpha = alpha
+        self.gamma = float(gamma)
         self.reduction = reduction
 
-    def forward(self, logits, targets, num_classes):
-        if num_classes == 2:
-            pt = torch.sigmoid(logits.squeeze(1))
-            targets = targets.float()
-            p_t = pt * targets + (1-pt)*(1-targets)
-            alpha_t = self.alpha*targets + (1-self.alpha)*(1-targets)
-            loss = -alpha_t * (1-p_t)**self.gamma * torch.log(p_t+1e-12)
+        if alpha is None:
+            self.register_buffer("alpha", None)
         else:
-            logp = F.log_softmax(logits, dim=1)
-            p = torch.exp(logp)
-            oh = F.one_hot(targets, num_classes=num_classes).float()
-            p_t = (p*oh).sum(dim=1)
-            alpha_t = self.alpha*oh + (1-self.alpha)*(1-oh)
-            alpha_t = alpha_t.sum(dim=1)
-            loss = -alpha_t * (1-p_t)**self.gamma * logp.gather(1, targets[:,None]).squeeze(1)
-        return loss.mean() if self.reduction=="mean" else loss.sum()
+            if isinstance(alpha, (list, np.ndarray)):
+                alpha = torch.tensor(alpha, dtype=torch.float32)
+            elif isinstance(alpha, (int, float)):
+                alpha = torch.tensor([float(alpha)], dtype=torch.float32)  # scalar
+            assert alpha.ndim in (1,), "alpha must be 1D or scalar"
+            self.register_buffer("alpha", alpha)
+
+    def forward(self, logits: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+        # logits: [B, C], target: [B]
+        logpt = F.log_softmax(logits, dim=1)                       # [B, C]
+        pt = logpt.exp()                                           # [B, C]
+        logpt = logpt.gather(1, target.view(-1, 1)).squeeze(1)     # [B]
+        pt = pt.gather(1, target.view(-1, 1)).squeeze(1)           # [B]
+
+        loss = -(1 - pt).pow(self.gamma) * logpt                   # [B]
+
+        if self.alpha is not None:
+            a = self.alpha
+            if a.numel() == 1:
+                loss = a.to(target.device) * loss
+            else:
+                a = a.to(target.device)                            # per-class
+                loss = a[target] * loss
+
+        if self.reduction == "mean":
+            return loss.mean()
+        if self.reduction == "sum":
+            return loss.sum()
+        return loss
 
 
 def build_optimizer(params, name, lr, weight_decay):
@@ -333,6 +354,19 @@ def train_and_eval(args, device):
         Xc, Xn, y, test_size=args.val_ratio,
         random_state=args.seed, stratify=stratify_vec
     )
+    # === 클래스별 alpha 벡터 자동 계산 (criterion 만들기 전에!) ===
+    alpha_vec = None  # 기본값
+    if args.use_focal and args.alpha_vec.strip():
+        try:
+            alpha_list = [float(x.strip()) for x in args.alpha_vec.split(",") if x.strip()]
+        except Exception as e:
+            raise ValueError(f"--alpha_vec 파싱 실패: {e}")
+        if len(alpha_list) != num_classes:
+            raise ValueError(f"--alpha_vec 길이({len(alpha_list)})가 클래스 수({num_classes})와 다릅니다.")
+        alpha_vec = np.asarray(alpha_list, dtype=np.float32)
+        # 안정성(음수/0 방지)
+        alpha_vec = np.clip(alpha_vec, 1e-8, None)
+
 
     tr_loader = DataLoader(TabularDataset(Xc_tr, Xn_tr, y_tr),
                            batch_size=args.batch_size, shuffle=True)
@@ -354,7 +388,17 @@ def train_and_eval(args, device):
                                 args.warmup_ratio, args.min_lr,
                                 args.step_size, args.gamma)
 
-    criterion = FocalLoss(args.focal_gamma, args.focal_alpha) if args.use_focal else None
+    # === 손실함수 생성 ===
+    if args.use_focal:
+        # alpha_vec이 있으면 per-class, 없으면 스칼라 focal_alpha 사용
+        focal_alpha = alpha_vec if (alpha_vec is not None) else args.focal_alpha
+        _focal = FocalLoss(gamma=args.focal_gamma, alpha=focal_alpha, reduction="mean")
+
+        def criterion(logits, y, num_classes):
+            return _focal(logits, y)
+    else:
+        def criterion(logits, y, num_classes):
+            return F.cross_entropy(logits, y, label_smoothing=args.label_smoothing)
 
     # ---------------- 학습 루프 ----------------
     best_f1, best_state, no_improve = -1.0, None, 0
@@ -421,37 +465,60 @@ def train_and_eval(args, device):
 
     # 최종 검증
     f1, acc, (yt, yp) = evaluate(model, va_loader, device, num_classes)
-    metrics = {"accuracy": float(acc), "f1_macro": float(f1)}
 
-    # 클래스별 acc/f1 계산
+    # 클래스/혼동행렬/클래스별 acc
     labels = sorted(np.unique(yt))
     cm = confusion_matrix(yt, yp, labels=labels)
     support = cm.sum(axis=1)
     acc_per_class = (np.diag(cm) / np.maximum(support, 1)).tolist()
 
-    # f1 per class (라벨이 일부만 있을 수도 있으니 zero_division=0)
-    f1_per_class = f1_score(yt, yp, labels=labels, average=None, zero_division=0)
+    # 클래스별 precision/recall/f1, 전체 macro precision/recall/f1
+    prec_pc, rec_pc, f1_pc, sup_pc = precision_recall_fscore_support(
+        yt, yp, labels=labels, average=None, zero_division=0
+    )
+    macro_prec, macro_rec, macro_f1, _ = precision_recall_fscore_support(
+        yt, yp, average="macro", zero_division=0
+    )
+
+    # 공통으로 쓸 metrics 딕셔너리 생성 (← 이게 없어서 NameError였음)
+    metrics = {
+        "accuracy": float(acc),
+        "precision_macro": float(macro_prec),
+        "recall_macro": float(macro_rec),
+        "f1_macro": float(macro_f1),
+        "per_class": {
+            str(lab): {
+                "acc": float(acc_i),
+                "precision": float(p_i),
+                "recall": float(r_i),
+                "f1": float(f1_i),
+                "support": int(s)
+            }
+            for lab, acc_i, p_i, r_i, f1_i, s in zip(labels, acc_per_class, prec_pc, rec_pc, f1_pc, sup_pc)
+        }
+    }
 
     # ===== 최종 출력 (훈련 끝난 뒤에만) =====
     print("===== 최종 평가 결과 =====")
-    for lab, acc_i, f1_i in zip(labels, acc_per_class, f1_per_class):
-        print(f"{lab} : acc {acc_i:.4f}, f1 {f1_i:.4f}")
+    for lab in labels:
+        pc = metrics["per_class"][str(lab)]
+        print(f"{lab} : acc {pc['acc']:.4f}, precision {pc['precision']:.4f}, "
+              f"recall {pc['recall']:.4f}, f1 {pc['f1']:.4f}")
     print(f"전체 accuracy : {metrics['accuracy']:.4f}")
+    print(f"precision_macro : {metrics['precision_macro']:.4f}")
+    print(f"recall_macro : {metrics['recall_macro']:.4f}")
     print(f"f1_macro : {metrics['f1_macro']:.4f}")
 
     # 저장 (옵션)
     if args.produce_artifacts:
         os.makedirs(args.save_dir, exist_ok=True)
-        with open(os.path.join(args.save_dir, "metrics.json"), "w") as f:
-            json.dump({
-                **metrics,
-                "per_class": {str(lab): {"acc": float(acc_i), "f1": float(f1_i)}
-                              for lab, acc_i, f1_i in zip(labels, acc_per_class, f1_per_class)}
-            }, f, indent=4, ensure_ascii=False)
-        with open(os.path.join(args.save_dir, "params.json"), "w") as f:
+        with open(os.path.join(args.save_dir, 'metrics.json'), 'w') as f:
+            json.dump(metrics, f, indent=4, ensure_ascii=False)
+        with open(os.path.join(args.save_dir, 'params.json'), 'w') as f:
             json.dump(vars(args), f, indent=4, ensure_ascii=False)
         _save_confusion_matrix(yt, yp, args.save_dir)
 
+    # ← 이제 metrics가 정의되어 있으니 안전하게 반환 가능
     return {"model": model, "metrics": metrics, "params": vars(args)}
 
 
