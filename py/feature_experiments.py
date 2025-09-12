@@ -3,23 +3,50 @@ import numpy as np
 import os
 from datetime import datetime
 from itertools import combinations
+import optuna
+optuna.logging.set_verbosity(optuna.logging.WARNING)
+from tqdm import tqdm
+import sys, os
+from contextlib import contextmanager
+
+@contextmanager
+def suppress_output():
+    with open(os.devnull, 'w') as fnull:
+        old_stdout, old_stderr = sys.stdout, sys.stderr
+        sys.stdout, sys.stderr = fnull, fnull
+        try:
+            yield
+        finally:
+            sys.stdout, sys.stderr = old_stdout, old_stderr
 
 # ===================================================================
 #                      사용자 설정 변수
 # ===================================================================
+
+# 탐색 방식: 'grid' 또는 'optuna'
+SEARCHING_SWITCH = 'optuna'   # 'optuna' 로 바꿔서 실행 가능
+
+TRIALS = 200
+
 # 원본 데이터 경로 (수정하지 않음)
-BASE_FEATURED_DATASET = 'data/new_train.csv'
+BASE_FEATURED_DATASET = 'data/1_train.csv'
 
 # 실험할 모델 이름 (수정하지 않음)
 MODEL = 'xgboost'  # 'catboost', 'xgboost' 등으로 변경하여 사용
 
 # 실험을 반복할 시드(seed) 목록
 SEEDS = [42, 43, 44, 45, 46]
+best_f1 = 0.0  # 수정 x
 
 # 실험할 새로운 피처 후보 전체 목록입니다.
 ALL_NEW_FEATURES = [
     'is_older_group', 'older_and_member', 'is_low_frequency',
-    'vip_inactive', 'new_inactive'
+    'vip_inactive', 'new_inactive',
+    'is_long_contract', 'is_high_payment_interval', 'is_high_interaction',
+    'freq_per_tenure', 'interaction_per_freq', 'payment_per_freq',
+    'short_tenure_high_interval', 'older_low_contract', 'vip_low_interaction',
+    'interaction_rate', 'contract_ratio', 'payment_freq_alignment',
+    'renewal_pressure', 'subscription_code', 'gender_age_group', 'usage_cluster'
 ]
 # ===================================================================
 
@@ -43,12 +70,7 @@ def run_and_log_experiment(model_module, dataset_path, features_to_include, seed
     else:
         included_features_str = ', '.join(features_to_include)
 
-    print("\n" + "=" * 50)
-    print(f"실험 시작: 포함된 피처 = {included_features_str}")
-    print("=" * 50)
-
     f1_scores, accuracy_scores = [], []
-
     full_df = pd.read_csv(dataset_path)
 
     features_to_exclude = [f for f in ALL_NEW_FEATURES if f not in features_to_include]
@@ -59,12 +81,13 @@ def run_and_log_experiment(model_module, dataset_path, features_to_include, seed
     df.to_csv(temp_train_path, index=False)
 
     for seed in seeds:
-        # [수정] MODEL 변수 대신, import된 model_module을 사용
-        result = model_module.train_and_eval(
-            train_path=temp_train_path,
-            seed=seed,
-            produce_artifacts=False,
-        )
+        with suppress_output():  # 👈 여기서 출력 전부 차단
+            result = model_module.train_and_eval(
+                train_path=temp_train_path,
+                seed=seed,
+                produce_artifacts=False,
+                use_gpu = True
+            )
         f1_scores.append(result['metrics']['f1_macro'])
         accuracy_scores.append(result['metrics']['accuracy'])
 
@@ -72,8 +95,6 @@ def run_and_log_experiment(model_module, dataset_path, features_to_include, seed
 
     mean_f1 = np.mean(f1_scores)
     mean_accuracy = np.mean(accuracy_scores)
-
-    print(f"-> 평균 F1-Macro: {mean_f1:.4f}, 평균 Accuracy: {mean_accuracy:.4f}")
 
     log_results(included_features_str, mean_f1, mean_accuracy, log_file_path)
 
@@ -103,22 +124,72 @@ if __name__ == "__main__":
     log_file_path = os.path.join(output_dir, f"{timestamp}_{MODEL}_feature_experiments.csv")
     print(f"실험 결과는 다음 파일에 저장됩니다: {log_file_path}")
 
-    all_combinations = []
-    all_combinations.append([])
-    for r in range(1, len(ALL_NEW_FEATURES) + 1):
-        for combo in combinations(ALL_NEW_FEATURES, r):
-            all_combinations.append(list(combo))
+    if SEARCHING_SWITCH == 'grid':
+        all_combinations = [[]]
+        for r in range(1, len(ALL_NEW_FEATURES) + 1):
+            for combo in combinations(ALL_NEW_FEATURES, r):
+                all_combinations.append(list(combo))
 
-    print(f"총 {len(all_combinations)}개의 피처 조합에 대한 실험을 시작합니다.")
+        best_f1 = 0.0
+        with tqdm(total=len(all_combinations), desc="Grid Search") as pbar:
+            for features in all_combinations:
+                run_and_log_experiment(
+                    model_module=model_module,
+                    dataset_path=BASE_FEATURED_DATASET,
+                    features_to_include=features,
+                    seeds=SEEDS,
+                    log_file_path=log_file_path
+                )
+                last_f1 = float(pd.read_csv(log_file_path).iloc[-1]["F1 MACRO"])
+                if last_f1 > best_f1:
+                    best_f1 = last_f1
+                pbar.set_postfix_str(f"BEST F1: {best_f1:.4f}")
+                pbar.update(1)
 
-    for features in all_combinations:
-        run_and_log_experiment(
-            model_module=model_module,  # [수정] 사용할 모델 모듈 전달
-            dataset_path=BASE_FEATURED_DATASET,
-            features_to_include=features,
-            seeds=SEEDS,
-            log_file_path=log_file_path
-        )
+    elif SEARCHING_SWITCH == 'optuna':
+        best_f1 = 0.0
 
-    print("\n\n===== 모든 피처 조합 실험 완료 =====")
+
+        def objective(trial):
+            global best_f1  # 전역 best_f1 사용
+            selected = []
+            for feat in ALL_NEW_FEATURES:
+                use_feat = trial.suggest_int(f"use_{feat}", 0, 1)
+                if use_feat == 1:
+                    selected.append(feat)
+
+            run_and_log_experiment(
+                model_module=model_module,
+                dataset_path=BASE_FEATURED_DATASET,
+                features_to_include=selected,
+                seeds=SEEDS,
+                log_file_path=log_file_path
+            )
+
+            last_f1 = float(pd.read_csv(log_file_path).iloc[-1]["F1 MACRO"])
+
+            if last_f1 > best_f1:  # 🔥 최고 성능 갱신
+                best_f1 = last_f1
+
+            feat_str = ",".join(selected) if selected else "baseline"
+            pbar.set_postfix_str(f"BEST F1: {best_f1:.4f} | 사용된 feature: {feat_str}")
+
+            return last_f1
+
+
+        study = optuna.create_study(direction="maximize")
+        with tqdm(total=TRIALS, desc="Optuna") as pbar:
+            def wrapped_objective(trial):
+                val = objective(trial)
+                pbar.update(1)
+                return val
+
+
+            study.optimize(wrapped_objective, n_trials=TRIALS)
+
+        print("Optuna 탐색 완료")
+        print("Best params:", study.best_params)
+        print("Best score:", study.best_value)
+
+    print("\n\n===== 모든 탐색 완료 =====")
     print(f"전체 결과는 '{log_file_path}'를 확인하세요.")

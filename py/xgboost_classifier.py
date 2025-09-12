@@ -22,6 +22,8 @@ from sklearn.metrics import (
 )
 from sklearn.model_selection import train_test_split
 
+SEED = 46
+
 # ─────────────────────────────────────────────────────────────────────
 # 기본 하이퍼파라미터
 # ─────────────────────────────────────────────────────────────────────
@@ -36,7 +38,7 @@ DEFAULT_PARAMS = dict(
     gamma = 0.052014503,
     reg_alpha = 2.221033771,
     reg_lambda = 0.0033799196,
-    seed=42,
+    seed=SEED,
     n_jobs=-1,
     submission=False,
     early_stopping_rounds=100,  # [수정] 모델 생성 시점에 전달
@@ -53,7 +55,7 @@ def train_and_eval(
         target_col: str = "support_needs",
         save_dir: Optional[str] = "results/default",
         valid_size: float = 0.2,
-        seed: int = 42,
+        seed: int = SEED,
         use_gpu: bool = False,
         params_dict: Optional[Dict] = None,
         produce_artifacts: bool = True
@@ -168,8 +170,8 @@ def main():
     ap.add_argument("--target", default="support_needs")
     ap.add_argument("--save_dir", default="results/xgboost_optimization")
     ap.add_argument("--valid_size", type=float, default=0.2)
-    ap.add_argument("--seed", type=int, default=42)
-    ap.add_argument("--use_gpu", action="store_true")
+    ap.add_argument("--seed", type=int, default=SEED)
+    ap.add_argument("--use_gpu", action="store_true", default =True)
     ap.add_argument("--params_json", default=None)
     ap.add_argument("--submission", action="store_true")
     args = ap.parse_args()

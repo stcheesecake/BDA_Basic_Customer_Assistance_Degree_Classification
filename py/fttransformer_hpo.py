@@ -1,7 +1,7 @@
 # fttransformer_hpo.py
 # -*- coding: utf-8 -*-
 
-TRIALS = 2
+TRIALS = 500
 
 import os
 import csv
@@ -235,12 +235,12 @@ def objective(trial: optuna.Trial, cli_args, csv_path, search_space: dict, alpha
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--train_path", default="data/train.csv")
+    ap.add_argument("--train_path", default="data/1_train.csv")
     ap.add_argument("--n_trials", type=int, default=TRIALS)
     ap.add_argument("--valid_size", type=float, default=0.2)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--use_gpu", action="store_true", default=True)
-    ap.add_argument("--test_path", default="data/test.csv")
+    ap.add_argument("--test_path", default="data/1_test.csv")
     ap.add_argument("--target", default="support_needs")
 
     # alpha_vec 튜닝
