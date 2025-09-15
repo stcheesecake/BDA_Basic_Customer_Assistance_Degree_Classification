@@ -12,10 +12,11 @@ import catboost_classifier  # 수정된 catboost_classifier.py를 임포트
 import numpy as np
 import pandas as pd
 import optuna
+optuna.logging.set_verbosity(optuna.logging.WARNING)
 from optuna.samplers import TPESampler
 from tqdm import tqdm
 
-N_TRIALS = 1000
+N_TRIALS = 5000
 
 # ───────────────────────── 검색 범위 (원본 구조 유지) ─────────────────────────
 SEARCH_SPACE = dict(
@@ -97,8 +98,6 @@ def main():
     now = datetime.now().strftime('%y%m%d_%H%M%S')
     csv_path = os.path.join(args.save_dir, f"{now}_catboost_hpo.csv")
 
-    # CSV 헤더 작성
-    # [요청사항] weight_0, weight_1, weight_2 컬럼 추가
     header = ["trial"] + list(SEARCH_SPACE.keys()) + ["f1_macro"]
     with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
@@ -107,11 +106,27 @@ def main():
     sampler = TPESampler(seed=args.seed)
     study = optuna.create_study(direction="maximize", sampler=sampler)
 
-    # tqdm을 사용한 진행률 표시 (원본에 없었지만 편의상 유지)
-    for i in tqdm(range(args.trials), desc="CatBoost HPO"):
-        trial = study.ask()
-        f1_macro = objective(trial, args, csv_path)
-        study.tell(trial, f1_macro)
+    # [✅ 수정] 최고 점수와 trial 번호를 추적할 변수 초기화
+    best_f1 = -1.0
+    best_trial_num = -1
+
+    # [✅ 수정] tqdm 진행률 표시줄 로직 변경
+    with tqdm(total=args.trials, desc="CatBoost HPO") as pbar:
+        for i in range(args.trials):
+            trial = study.ask()
+            f1_macro = objective(trial, args, csv_path)
+            study.tell(trial, f1_macro)
+
+            # 최고 점수 갱신
+            if f1_macro > best_f1:
+                best_f1 = f1_macro
+                best_trial_num = trial.number
+
+            # 진행률 표시줄의 설명(description) 업데이트
+            pbar.set_description(
+                f"CatBoost HPO | best trial = {best_trial_num}, f1-macro = {best_f1:.4f}"
+            )
+            pbar.update(1)
 
     # 최적화 결과 출력
     print(f"\n✅ HPO가 완료되었습니다. ({csv_path})")
