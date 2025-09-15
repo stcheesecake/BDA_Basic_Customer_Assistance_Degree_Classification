@@ -25,14 +25,14 @@ def suppress_output():
 
 # 탐색 방식: 'grid' 또는 'optuna'
 SEARCHING_SWITCH = 'optuna'   # 'optuna' 로 바꿔서 실행 가능
-USE_GPU = True
-TRIALS = 5000
+USE_GPU = False
+TRIALS = 1000
 
 # 원본 데이터 경로 (수정하지 않음)
 BASE_FEATURED_DATASET = 'data/1_train.csv'
 
 # 실험할 모델 이름 (수정하지 않음)
-MODEL = 'catboost'  # 'catboost', 'xgboost' 등으로 변경하여 사용
+MODEL = 'xgboost'  # 'catboost', 'xgboost' 등으로 변경하여 사용
 
 # 실험을 반복할 시드(seed) 목록
 SEEDS = [42, 43, 44, 45, 46]

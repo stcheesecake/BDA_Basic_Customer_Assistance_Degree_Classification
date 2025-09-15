@@ -208,3 +208,7 @@ def _save_confusion_matrix(y_true, y_pred, save_dir):
 if __name__ == "__main__":
     result = train_and_eval()
     print(result["metrics"])
+
+
+def DEFAULT_PARAMS():
+    return None

@@ -7,13 +7,16 @@ from sklearn.cluster import KMeans
 #                      사용자 설정 변수
 # ===================================================================
 # 원본 데이터가 있는 경로를 지정합니다.
-ORIGINAL_DATASET_PATH = 'data/test.csv'
+ORIGINAL_DATASET_PATH = 'data/original_train.csv'
 
 # 새로 저장할 파일 이름을 지정합니다.
-NEW_DATASET_NAME = '1_test.csv'
+NEW_TRAIN_NAME = 'cat_train.csv'
+NEW_TEST_NAME = 'cat_test.csv'
 
 # 파일을 저장할 폴더를 지정합니다.
 OUTPUT_DIR = 'data/'
+
+add_feature_name_list = 'is_older_group, new_inactive, is_high_interaction, freq_per_tenure, interaction_per_freq, payment_per_freq, older_low_contract, vip_low_interaction, interaction_rate, contract_ratio, renewal_pressure, gender_age_group, usage_cluster'
 
 
 # ===================================================================
@@ -177,23 +180,54 @@ def add_feature(df):
 
 # --- 코드 실행 부분 ---
 
-# 저장할 디렉토리 생성
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
-output_path = os.path.join(OUTPUT_DIR, NEW_DATASET_NAME)
+print("=" * 50)
+print(f"Train 데이터를 처리합니다: {ORIGINAL_DATASET_PATH}")
+df_train = pd.read_csv(ORIGINAL_DATASET_PATH)
+original_train_cols = df_train.columns.tolist()
+df_train_featured = add_feature(df_train)
 
-# 원본 데이터셋 불러오기
-print(f"원본 데이터셋을 불러옵니다: {ORIGINAL_DATASET_PATH}")
-original_df = pd.read_csv(ORIGINAL_DATASET_PATH)
+test_path = ORIGINAL_DATASET_PATH.replace("train.csv", "test.csv")
+if os.path.exists(test_path):
+    print("\n" + "=" * 50)
+    print(f"Test 데이터를 처리합니다: {test_path}")
+    df_test = pd.read_csv(test_path)
+    original_test_cols = df_test.columns.tolist()
+    df_test_featured = add_feature(df_test)
+else:
+    df_test_featured = None
+    print(f"\n경고: Test 파일({test_path})을 찾을 수 없습니다.")
 
-# 함수를 호출하여 새로운 피처가 추가된 데이터셋 생성
-featured_df = add_feature(original_df)
+# --- [요청사항] 피처 선택 로직 추가 ---
+# add_feature_name_list가 비어있지 않은 문자열일 경우에만 실행
+if add_feature_name_list and isinstance(add_feature_name_list, str):
+    print("\n" + "=" * 50)
+    print("지정된 피처만 선택하여 최종 파일을 생성합니다...")
 
-# 새로운 데이터셋 저장
-print(f"새로운 피처가 추가된 데이터셋을 저장합니다: {output_path}")
-featured_df.to_csv(output_path, index=False)
+    # 쉼표로 구분된 문자열을 공백 제거 후 리스트로 변환
+    selected_features = [feat.strip() for feat in add_feature_name_list.split(',')]
 
-print("\n작업 완료!")
-print("생성된 데이터셋의 상위 5개 행:")
-print(featured_df.head())
+    # Train 데이터: 원본 컬럼 + 선택된 신규 피처
+    final_train_cols = original_train_cols + [feat for feat in selected_features if feat in df_train_featured.columns]
+    df_train_featured = df_train_featured[list(dict.fromkeys(final_train_cols))]  # 중복 제거하며 순서 유지
+    print(f"- Train 데이터 컬럼 수: {len(df_train_featured.columns)}")
+
+    # Test 데이터: 원본 컬럼 + 선택된 신규 피처
+    if df_test_featured is not None:
+        final_test_cols = original_test_cols + [feat for feat in selected_features if feat in df_test_featured.columns]
+        df_test_featured = df_test_featured[list(dict.fromkeys(final_test_cols))]
+        print(f"- Test 데이터 컬럼 수: {len(df_test_featured.columns)}")
+
+# --- 파일 저장 (원본 로직) ---
+train_save_path = os.path.join(OUTPUT_DIR, NEW_TRAIN_NAME)
+df_train_featured.to_csv(train_save_path, index=False, encoding='utf-8-sig')
+print(f"\n✅ 새로운 Train 파일이 저장되었습니다: {train_save_path}")
+
+if df_test_featured is not None:
+    test_save_path = os.path.join(OUTPUT_DIR, NEW_TEST_NAME)
+    df_test_featured.to_csv(test_save_path, index=False, encoding='utf-8-sig')
+    print(f"✅ 새로운 Test 파일이 저장되었습니다: {test_save_path}")
+
+print("\n모든 작업이 완료되었습니다.")

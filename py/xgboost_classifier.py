@@ -100,6 +100,10 @@ def train_and_eval(**kwargs):
     if args.use_gpu:
         params["tree_method"] = "gpu_hist"
         params["predictor"] = "gpu_predictor"
+    else:
+        # CPU 병렬 학습 강제
+        params["tree_method"] = "hist"  # 병렬화된 히스토그램 알고리즘
+        params["predictor"] = "cpu_predictor"
 
     # 모델 정의
     model = xgb.XGBClassifier(**params)
