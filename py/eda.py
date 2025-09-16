@@ -10,7 +10,7 @@ matplotlib.use("Agg")   # 화면 출력 대신 파일 저장
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-MODEL_NAME = "lightgbm"   # lightgbm, catboost, xgboost
+MODEL_NAME = "catboost"   # lightgbm, catboost, xgboost
 
 
 # ──────────────────────────────

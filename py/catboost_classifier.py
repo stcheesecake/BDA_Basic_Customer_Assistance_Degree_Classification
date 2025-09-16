@@ -17,18 +17,18 @@ def get_args():
     parser.add_argument("--train_path", type=str, default="data/cat_train.csv")
     parser.add_argument("--test_path", type=str, default="data/cat_test.csv")
     parser.add_argument("--target", type=str, default="support_needs")
-    parser.add_argument("--iterations", type=int, default=1600)
-    parser.add_argument("--learning_rate", type=float, default=0.13)
-    parser.add_argument("--depth", type=int, default=7)
-    parser.add_argument("--l2_leaf_reg", type=float, default=14)
-    parser.add_argument("--random_strength", type=float, default=0)
-    parser.add_argument("--border_count", type=int, default=208)
-    parser.add_argument("--bagging_temperature", type=float, default=0.47)
+    parser.add_argument("--iterations", type=int, default=1400)
+    parser.add_argument("--learning_rate", type=float, default=0.015)
+    parser.add_argument("--depth", type=int, default=10)
+    parser.add_argument("--l2_leaf_reg", type=float, default=18)
+    parser.add_argument("--border_count", type=int, default=240)
+    parser.add_argument("--random_strength", type=float, default=0.23)
+    parser.add_argument("--bagging_temperature", type=float, default=0.37)
     parser.add_argument("--boosting_type", type=str, default="Ordered")
     parser.add_argument("--od_type", type=str, default="Iter")
     parser.add_argument("--od_wait", type=int, default=200)
-    parser.add_argument("--seed", type=int, default=47)
-    parser.add_argument("--use_gpu", type=bool, default=True)
+    parser.add_argument("--seed", type=int, default=2000)
+    parser.add_argument("--use_gpu", type=bool, default=False)
     parser.add_argument("--submission", action="store_true", default = True)
     parser.add_argument("--verbose", type=int, default=0)
 
@@ -36,7 +36,7 @@ def get_args():
     parser.add_argument(
         "--weights",
         type=str,
-        default="balanced",
+        default="[2.85, 5.06, 4.4]",
         help="Class weights. 'balanced' or a JSON string like '[1.0, 2.0, 0.5]'"
     )
 

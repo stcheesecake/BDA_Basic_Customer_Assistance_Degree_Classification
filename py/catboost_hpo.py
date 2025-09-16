@@ -16,21 +16,21 @@ optuna.logging.set_verbosity(optuna.logging.WARNING)
 from optuna.samplers import TPESampler
 from tqdm import tqdm
 
-N_TRIALS = 5000
+N_TRIALS = 6000
 
 # ───────────────────────── 검색 범위 (원본 구조 유지) ─────────────────────────
 SEARCH_SPACE = dict(
-    iterations=("int", 500, 2500, 100),
-    learning_rate=("float", 0.0001, 0.1, 0.0001),
-    depth=("int", 4, 12, 1),
-    l2_leaf_reg=("float", 1.0, 20.0, 1.0),
-    border_count=("int", 20, 300, 1),
-    random_strength=("float", 0.0, 0.8, 0.01),
-    bagging_temperature=("float", 0.0, 0.7, 0.01),
+    iterations=("int", 1400, 1400, 100),
+    learning_rate=("float", 0.01, 0.03, 0.001),
+    depth=("int", 8, 10, 1),
+    l2_leaf_reg=("float", 18.0, 20.0, 1.0),
+    border_count=("int", 200, 300, 1),
+    random_strength=("float", 0.1, 0.8, 0.01),
+    bagging_temperature=("float", 0.3, 0.5, 0.01),
     # [요청사항] 클래스별 가중치 탐색 범위 추가 (start, end, step)
-    weights_0=("float", 0.1, 3.0, 0.1),
-    weights_1=("float", 0.1, 3.0, 0.1),
-    weights_2=("float", 0.1, 3.0, 0.1),
+    weights_0=("float", 2.7, 4.0, 0.01),
+    weights_1=("float", 4.5, 8.0, 0.01),
+    weights_2=("float", 3.5, 5.0, 0.01),
 )
 
 
@@ -42,7 +42,7 @@ def parse_args():
     ap.add_argument("--trials", type=int, default=N_TRIALS)
     ap.add_argument("--use_gpu", type=bool, default=True)
     ap.add_argument("--valid_size", type=float, default=0.2)
-    ap.add_argument("--seed", type=int, default=47)
+    ap.add_argument("--seed", type=int, default=45)
     return ap.parse_args()
 
 
