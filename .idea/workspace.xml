@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06cb4d97-b5c6-4e11-8995-c0755de6b4aa" name="변경" comment="initial">
-      <change afterPath="$PROJECT_DIR$/py/tabnet_classifier.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/catboost_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/catboost_classifier.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/catboost_hpo.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/catboost_hpo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/eda.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/eda.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/feature_experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_experiments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/tabnet_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/tabnet_classifier.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,7 +242,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757930227012</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="initial">
+      <option name="closed" value="true" />
+      <created>1757993959026</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1757993959026</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

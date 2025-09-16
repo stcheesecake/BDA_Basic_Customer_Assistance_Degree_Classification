@@ -175,7 +175,7 @@ def train_and_eval(**kwargs):
         if verbose:
             print(f"Submission file saved to: {save_path}")
 
-    return f1
+    return {'metrics': {'f1_macro': f1}}
 
 
 if __name__ == "__main__":
