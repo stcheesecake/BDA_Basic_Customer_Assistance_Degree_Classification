@@ -10,13 +10,13 @@ from sklearn.cluster import KMeans
 ORIGINAL_DATASET_PATH = 'data/original_train.csv'
 
 # 새로 저장할 파일 이름을 지정합니다.
-NEW_TRAIN_NAME = 'cat_train.csv'
-NEW_TEST_NAME = 'cat_test.csv'
+NEW_TRAIN_NAME = 'tabnet_train.csv'
+NEW_TEST_NAME = 'tabnet_test.csv'
 
 # 파일을 저장할 폴더를 지정합니다.
 OUTPUT_DIR = 'data/'
 
-add_feature_name_list = 'is_older_group, new_inactive, is_high_interaction, freq_per_tenure, interaction_per_freq, payment_per_freq, older_low_contract, vip_low_interaction, interaction_rate, contract_ratio, renewal_pressure, gender_age_group, usage_cluster'
+add_feature_name_list = 'is_older_group, older_and_member, new_inactive, is_long_contract, is_high_payment_interval, interaction_per_freq, short_tenure_high_interval, older_low_contract, payment_freq_alignment, renewal_pressure, subscription_code, usage_cluster'
 
 
 # ===================================================================

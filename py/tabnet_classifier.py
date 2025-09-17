@@ -38,11 +38,11 @@ class F1Macro(Metric):
 def get_args():
     # ... (인자 부분은 이전과 동일) ...
     parser = argparse.ArgumentParser(description="TabNet Classifier Training Script")
-    parser.add_argument("--train_path", type=str, default="data/cat_train.csv")
-    parser.add_argument("--test_path", type=str, default="data/cat_test.csv")
+    parser.add_argument("--train_path", type=str, default="data/tabnet_train.csv")
+    parser.add_argument("--test_path", type=str, default="data/tabnet_test.csv")
     parser.add_argument("--target", type=str, default="support_needs")
     parser.add_argument("--submission", action='store_true')
-    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--seed", type=int, default=45)
     parser.add_argument("--n_d", type=int, default=8)
     parser.add_argument("--n_a", type=int, default=8)
     parser.add_argument("--n_steps", type=int, default=3)
@@ -59,121 +59,130 @@ def get_args():
     parser.add_argument("--learning_rate", type=float, default=2e-2)
     parser.add_argument("--weight_decay", type=float, default=1e-5)
     parser.add_argument("--verbose", type=int, default=1)
+    parser.add_argument("--val_ratio", type=float, default=0.2, help="Validation set ratio")
+
 
     args = parser.parse_args()
     return args
 
 
-def train_and_eval(**kwargs):
-    # ⭐️ [수정] kwargs에서 'train_path'를 받아 데이터프레임을 직접 읽어옵니다.
-    df_train = pd.read_csv(kwargs['train_path'])
+def preprocess_data(df_train, df_test, args):
+    """데이터 전처리를 총괄하는 함수"""
 
-    seed = kwargs.get("seed", 42)
-    verbose = kwargs.get("verbose", 1)
-    seed_everything(seed)
+    # 1. 피처 정의 및 순서 고정
+    features = [col for col in df_train.columns if col not in ['ID', args.target]]
+    X = df_train[features].copy()  # SettingWithCopyWarning 방지를 위해 .copy() 사용
+    y = df_train[args.target]
+    X = X[features]  # 컬럼 순서 고정
 
-    target_col = kwargs.get("target", "support_needs")
+    # 2. 데이터 분할
+    X_train, X_valid, y_train, y_valid = train_test_split(
+        X, y, test_size=args.val_ratio, random_state=args.seed, stratify=y
+    )
 
-    # --- 전처리 ---
-    features = [col for col in df_train.columns if col not in ['ID', target_col]]
-
+    # 3. 피처 타입 정의
     ALL_CAT_FEATURES = [
         'gender', 'subscription_type', 'contract_length', 'is_older_group',
         'new_inactive', 'is_high_interaction', 'older_low_contract',
         'vip_low_interaction', 'gender_age_group', 'usage_cluster'
     ]
-
-    categorical_cols = [col for col in ALL_CAT_FEATURES if col in df_train.columns]
+    categorical_cols = [col for col in ALL_CAT_FEATURES if col in X.columns]
     numerical_cols = [col for col in features if col not in categorical_cols]
 
+    # 4. 스케일러 및 인코더 학습 (Train 데이터 기준) 및 적용
     encoders = {}
+    cat_dims = []
     for col in categorical_cols:
-        df_train[col] = df_train[col].astype(str)
+        # 데이터 타입을 미리 변환
+        X_train[col] = X_train[col].astype(str)
+        X_valid[col] = X_valid[col].astype(str)
+
         encoder = LabelEncoder()
-        df_train[col] = encoder.fit_transform(df_train[col])
+        X_train[col] = encoder.fit_transform(X_train[col])
+        X_valid[col] = encoder.transform(X_valid[col])
         encoders[col] = encoder
+
+        cat_dims.append(len(encoder.classes_))
 
     scaler = None
     if numerical_cols:
         scaler = StandardScaler()
-        df_train[numerical_cols] = scaler.fit_transform(df_train[numerical_cols])
+        X_train[numerical_cols] = scaler.fit_transform(X_train[numerical_cols])
+        X_valid[numerical_cols] = scaler.transform(X_valid[numerical_cols])
 
-    X = df_train[features]
-    y = df_train[target_col]
+    # 5. TabNet에 필요한 파라미터 계산
+    cat_idxs = [X_train.columns.get_loc(col) for col in categorical_cols]
 
-    X_train, X_valid, y_train, y_valid = train_test_split(
-        X, y, test_size=kwargs.get("val_ratio", 0.2), random_state=seed, stratify=y
-    )
+    # 6. 테스트 데이터 전처리 (존재하는 경우)
+    X_test = None
+    if df_test is not None:
+        X_test = df_test[features].copy()
+        X_test = X_test[features]  # 컬럼 순서 고정
 
+        for col, encoder in encoders.items():
+            X_test[col] = X_test[col].astype(str)
+            X_test[col] = encoder.transform(X_test[col])
+
+        if scaler and numerical_cols:
+            X_test[numerical_cols] = scaler.transform(X_test[numerical_cols])
+
+    return X_train, X_valid, y_train, y_valid, X_test, cat_idxs, cat_dims
+
+def train_and_eval(**kwargs):
+    # 1. 파라미터 통합 (기존과 동일)
+    args = get_args()
+    args.__dict__.update(kwargs)
+    seed_everything(args.seed)
+
+    # 2. 원본 데이터 로딩
+    df_train = pd.read_csv(args.train_path)
+    df_test = pd.read_csv(args.test_path) if args.submission else None
+
+    # 3. 전처리 함수 호출로 모든 데이터 준비 완료
+    X_train, X_valid, y_train, y_valid, X_test, cat_idxs, cat_dims = preprocess_data(df_train, df_test, args)
+
+    # 4. 클래스 가중치 계산
     class_weights = compute_class_weight('balanced', classes=np.unique(y_train), y=y_train)
     class_weights = torch.FloatTensor(class_weights).cuda()
 
-    cat_idxs = [X.columns.get_loc(col) for col in categorical_cols]
-    cat_dims = [df_train[col].nunique() for col in categorical_cols]
-
-    # --- 모델 학습 ---
+    # 5. 모델 정의 (기존과 동일)
     model = TabNetClassifier(
-        n_d=kwargs.get("n_d", 8),
-        n_a=kwargs.get("n_a", 8),
-        cat_idxs=cat_idxs,
-        cat_dims=cat_dims,
-        optimizer_params=dict(lr=kwargs.get("lr", 2e-2)),
-        seed=seed,
-        verbose=verbose,
+        n_d=args.n_d, n_a=args.n_a, n_steps=args.n_steps, gamma=args.gamma,
+        cat_emb_dim=args.cat_emb_dim, n_independent=args.n_independent,
+        n_shared=args.n_shared, lambda_sparse=args.lambda_sparse,
+        mask_type=args.mask_type, cat_idxs=cat_idxs, cat_dims=cat_dims,
+        optimizer_params=dict(lr=args.learning_rate, weight_decay=args.weight_decay),
+        seed=args.seed, verbose=args.verbose,
     )
 
+    # 6. 모델 학습 (기존과 동일)
     model.fit(
         X_train=X_train.values, y_train=y_train.values,
         eval_set=[(X_valid.values, y_valid.values)],
         eval_metric=[F1Macro],
-        max_epochs=kwargs.get("epochs", 100),
-        patience=kwargs.get("patience", 15),
-        batch_size=kwargs.get("batch_size", 1024),
-        weights=1,
-        loss_fn=torch.nn.CrossEntropyLoss(weight=class_weights),
+        max_epochs=args.max_epochs, patience=args.patience,
+        batch_size=args.batch_size, virtual_batch_size=args.virtual_batch_size,
+        weights=1, loss_fn=torch.nn.CrossEntropyLoss(weight=class_weights),
     )
 
+    # 7. 평가 및 제출 파일 생성
     preds = model.predict(X_valid.values)
     f1 = f1_score(y_valid, preds, average="macro")
     acc = accuracy_score(y_valid, preds)
 
-    if verbose:
-        print(f"TabNet Validation F1 Macro: {f1:.4f}, Accuracy: {acc:.4f}")
+    if args.submission:
+        test_preds = model.predict(X_test.values)
+        submission_df = pd.DataFrame({'ID': df_test['ID'], args.target: test_preds})
 
-    # --- Submission 파일 생성 로직 ---
-    if kwargs.get("submission"):
-        if verbose:
-            print("Generating submission file...")
-
-        test_path = kwargs.get("test_path")
-        if not test_path:
-            raise ValueError("Submission requires a 'test_path' argument.")
-
-        df_test = pd.read_csv(test_path)
-
-        # 테스트 데이터 전처리 (Train에서 학습한 Encoder/Scaler 사용)
-        for col, encoder in encoders.items():
-            df_test[col] = df_test[col].astype(str)
-            df_test[col] = encoder.transform(df_test[col])
-
-        if scaler and numerical_cols:
-            df_test[numerical_cols] = scaler.transform(df_test[numerical_cols])
-
-        test_preds = model.predict(df_test[features].values)
-
-        # CSV 파일 생성
-        submission_df = pd.DataFrame({'ID': df_test['ID'], target_col: test_preds})
-
+        # [오류 수정] 생략되었던 파일 저장 로직 추가
         save_dir = "results/submission"
         os.makedirs(save_dir, exist_ok=True)
         now = datetime.now().strftime('%y%m%d_%H%M%S')
-
-        # 파일명 형식 (catboost_classifier.py와 유사하게)
-        filename = f"tabnet_{now}_f1_{f1:.4f}_seed_{seed}.csv"
+        filename = f"tabnet_{now}_f1_{f1:.4f}_seed_{args.seed}.csv"
         save_path = os.path.join(save_dir, filename)
 
         submission_df.to_csv(save_path, index=False)
-        if verbose:
+        if args.verbose:
             print(f"Submission file saved to: {save_path}")
 
     return {'metrics': {'f1_macro': f1, 'accuracy': acc}}
@@ -181,10 +190,8 @@ def train_and_eval(**kwargs):
 
 if __name__ == "__main__":
     args = get_args()
-    kwargs = vars(args)
+    results = train_and_eval(**vars(args))
 
-    print(f"Loading data from: {kwargs['train_path']}")
-    df = pd.read_csv(kwargs['train_path'])
-    kwargs['df_train'] = df
-
-    train_and_eval(**kwargs)
+    print("\n==== Final Validation Metrics ====")
+    print(f"F1 Macro : {results['metrics']['f1_macro']:.4f}")
+    print(f"Accuracy : {results['metrics']['accuracy']:.4f}")
