@@ -135,9 +135,10 @@ def train_and_eval(**kwargs):
 
     preds = model.predict(X_valid.values)
     f1 = f1_score(y_valid, preds, average="macro")
+    acc = accuracy_score(y_valid, preds)
 
     if verbose:
-        print(f"TabNet Validation F1 Macro: {f1:.4f}")
+        print(f"TabNet Validation F1 Macro: {f1:.4f}, Accuracy: {acc:.4f}")
 
     # --- Submission 파일 생성 로직 ---
     if kwargs.get("submission"):
@@ -175,7 +176,7 @@ def train_and_eval(**kwargs):
         if verbose:
             print(f"Submission file saved to: {save_path}")
 
-    return {'metrics': {'f1_macro': f1}}
+    return {'metrics': {'f1_macro': f1, 'accuracy': acc}}
 
 
 if __name__ == "__main__":
