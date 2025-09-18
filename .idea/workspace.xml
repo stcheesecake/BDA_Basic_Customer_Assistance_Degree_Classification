@@ -7,8 +7,8 @@
     <list default="true" id="06cb4d97-b5c6-4e11-8995-c0755de6b4aa" name="변경" comment="initial">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/py/feature_engineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_engineering.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/feature_experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_experiments.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/py/tabnet_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/tabnet_classifier.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/tabnet_hpo.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/tabnet_hpo.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,12 +31,12 @@
     &quot;assignee&quot;: &quot;stcheesecake&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/stcheesecake/BDA_Basic_Customer_Assistance_Degree_Classification.git&quot;,
-    &quot;accountId&quot;: &quot;a0b6fb67-6631-41ee-96c9-c6479a0fc9b2&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/stcheesecake/BDA_Basic_Customer_Assistance_Degree_Classification",
+    "accountId": "d8fc41ad-4d0a-4f47-bf18-77b6386075ee"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -64,6 +64,7 @@
     &quot;Python.lightgbm_hpo.executor&quot;: &quot;Run&quot;,
     &quot;Python.model.executor&quot;: &quot;Run&quot;,
     &quot;Python.tabnet_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tabnet_hpo.executor&quot;: &quot;Run&quot;,
     &quot;Python.temp.executor&quot;: &quot;Run&quot;,
     &quot;Python.test.executor&quot;: &quot;Run&quot;,
     &quot;Python.xgboost_classifier.executor&quot;: &quot;Run&quot;,
@@ -80,7 +81,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-41e8cd69c857-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.90" />
+        <option value="bundled-python-sdk-657d8234b839-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.74" />
       </set>
     </attachedChunks>
   </component>
@@ -260,7 +261,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757994197725</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="initial">
+      <option name="closed" value="true" />
+      <created>1758096537964</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1758096537964</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

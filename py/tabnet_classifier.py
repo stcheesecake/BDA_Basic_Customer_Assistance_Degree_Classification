@@ -13,6 +13,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler  # ⭐️ Standar
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.utils.class_weight import compute_class_weight  # ⭐️ 클래스 가중치 계산
 import torch
+from pytorch_tabnet.callbacks import EarlyStopping
 
 
 def seed_everything(seed):
@@ -43,21 +44,21 @@ def get_args():
     parser.add_argument("--target", type=str, default="support_needs")
     parser.add_argument("--submission", action='store_true')
     parser.add_argument("--seed", type=int, default=45)
-    parser.add_argument("--n_d", type=int, default=8)
-    parser.add_argument("--n_a", type=int, default=8)
+    parser.add_argument("--n_d", type=int, default=4)
+    parser.add_argument("--n_a", type=int, default=4)
     parser.add_argument("--n_steps", type=int, default=3)
-    parser.add_argument("--gamma", type=float, default=1.3)
-    parser.add_argument("--cat_emb_dim", type=int, default=1)
-    parser.add_argument("--n_independent", type=int, default=2)
-    parser.add_argument("--n_shared", type=int, default=2)
-    parser.add_argument("--mask_type", type=str, default='sparsemax')
-    parser.add_argument("--lambda_sparse", type=float, default=1e-3)
+    parser.add_argument("--gamma", type=float, default=1.31908169704544)
+    parser.add_argument("--cat_emb_dim", type=int, default=2)
+    parser.add_argument("--n_independent", type=int, default=3)
+    parser.add_argument("--n_shared", type=int, default=5)
+    parser.add_argument("--mask_type", type=str, default='entmax')
+    parser.add_argument("--lambda_sparse", type=float, default=5.228868761298858e-05)
     parser.add_argument("--max_epochs", type=int, default=200)  # ⭐️ 에포크 증가
-    parser.add_argument("--patience", type=int, default=20)  # ⭐️ Patience 증가
-    parser.add_argument("--batch_size", type=int, default=1024)
+    parser.add_argument("--patience", type=int, default=1)  # ⭐️ Patience 증가
+    parser.add_argument("--batch_size", type=int, default=2048)
     parser.add_argument("--virtual_batch_size", type=int, default=128)
-    parser.add_argument("--learning_rate", type=float, default=2e-2)
-    parser.add_argument("--weight_decay", type=float, default=1e-5)
+    parser.add_argument("--learning_rate", type=float, default=0.006887347078754941)
+    parser.add_argument("--weight_decay", type=float, default=1.447930637008661e-06)
     parser.add_argument("--verbose", type=int, default=1)
     parser.add_argument("--val_ratio", type=float, default=0.2, help="Validation set ratio")
 

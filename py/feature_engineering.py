@@ -16,7 +16,7 @@ NEW_TEST_NAME = 'tabnet_test.csv'
 # 파일을 저장할 폴더를 지정합니다.
 OUTPUT_DIR = 'data/'
 
-add_feature_name_list = 'is_older_group, older_and_member, new_inactive, is_long_contract, is_high_payment_interval, interaction_per_freq, short_tenure_high_interval, older_low_contract, payment_freq_alignment, renewal_pressure, subscription_code, usage_cluster'
+add_feature_name_list = 'is_older_group, older_and_member, is_low_frequency, new_inactive, is_high_interaction, interaction_per_freq, payment_per_freq, short_tenure_high_interval, older_low_contract, interaction_rate, renewal_pressure'
 
 
 # ===================================================================
