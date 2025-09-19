@@ -9,6 +9,7 @@ import os
 
 
 
+
 NEW_FEATURE = 'payment_interval, age'
 CALC = 'SUM'   # SUM, TIMES, MINUS, DIV 가능
 TARGET = 'support_needs'

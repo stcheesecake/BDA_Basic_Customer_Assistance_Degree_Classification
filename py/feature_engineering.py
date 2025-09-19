@@ -189,9 +189,20 @@ def add_feature(df):
             (np.log1p(np.abs(tmp1 + tmp2)) * tmp3) / tmp4
     )
 
-    print("- 'teset_2' 생성 완료")
+    print("- 'test_2' 생성 완료")
 
+    # test_3
+    tmp1 = new_df["short_tenure_high_interval"].astype(float).fillna(0)
+    tmp2 = new_df["tenure"].astype(float).fillna(0)
+    tmp3 = new_df["frequent"].astype(float).fillna(0)
+    tmp4 = new_df["is_older_group"].astype(float).fillna(0)
 
+    # 수식 구현
+    new_df["test_3"] = (
+            np.sqrt((tmp1 + tmp2) * tmp3) * tmp4
+    )
+
+    print("- 'test_3' 생성 완료")
 
     print("모든 피처 생성이 완료되었습니다.")
 
