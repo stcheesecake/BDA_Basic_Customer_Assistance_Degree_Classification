@@ -19,7 +19,7 @@ optuna.logging.set_verbosity(optuna.logging.WARNING)  # Optuna 로그 최소화
 # 평가 기준 선택: 'F1_MACRO', 'CLASS_0', 'CLASS_1', 'CLASS_2', 'F1_HARM', 'BAL_ACC', 'AUPRC_MACRO'
 USE_CATEGORICAL = True
 METRICS = "F1_WEIGHTED"
-N_TRIALS = 2000
+N_TRIALS = 40000
 ADD_FEATURE = "None"   # "None" → 기존 로직
                        # numerical feature 이름 → 모든 branch에 포함
                        # categorical feature 이름 → categorical branch만 실행
