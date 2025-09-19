@@ -22,7 +22,7 @@ os.makedirs(SAVE_DIR, exist_ok=True)
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--n_trials", type=int, default=2)
+    parser.add_argument("--n_trials", type=int, default=1000)
     parser.add_argument("--save_dir", type=str, default=SAVE_DIR)
     args = parser.parse_args()
     return args
@@ -47,7 +47,7 @@ def objective(trial):
         "cat_emb_dim": trial.suggest_int("cat_emb_dim", 1, 4),
         "n_independent": trial.suggest_int("n_independent", 1, 5),
         "n_shared": trial.suggest_int("n_shared", 1, 5),
-        "patience": trial.suggest_int("patience", 20, 50),
+        "patience": trial.suggest_int("patience", 20, 70),
         "batch_size": trial.suggest_categorical("batch_size", [512, 1024, 2048]),
 
         # 고정 파라미터 (HPO 대상이 아님)

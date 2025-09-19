@@ -10,13 +10,14 @@ from sklearn.cluster import KMeans
 ORIGINAL_DATASET_PATH = 'data/original_train.csv'
 
 # 새로 저장할 파일 이름을 지정합니다.
-NEW_TRAIN_NAME = 'tabnet_train.csv'
-NEW_TEST_NAME = 'tabnet_test.csv'
+NEW_TRAIN_NAME = 'test_train.csv'
+NEW_TEST_NAME = 'test_test.csv'
 
 # 파일을 저장할 폴더를 지정합니다.
 OUTPUT_DIR = 'data/'
 
-add_feature_name_list = 'is_older_group, older_and_member, is_low_frequency, new_inactive, is_high_interaction, interaction_per_freq, payment_per_freq, short_tenure_high_interval, older_low_contract, interaction_rate, renewal_pressure'
+# 비우면 original 데이터셋 출력, all을 넣으면 모든 feature 추가
+add_feature_name_list = 'all'
 
 
 # ===================================================================
@@ -70,11 +71,13 @@ def add_feature(df):
     # ==============================================================
 
     # 1. is_long_contract (>=90)
-    new_df['is_long_contract'] = (new_df['contract_length'] >= 90).astype(int)
+#    new_df['is_long_contract'] = (new_df['contract_length'] >= 90).astype(int)
+    new_df['is_long_contract'] = (new_df['contract_length'] >= 31).astype(int)
     print("- 'is_long_contract' 생성 완료 (기준 계약기간: 90일)")
 
     # 2. is_high_payment_interval (>= Q3)
-    pay_q3 = new_df['payment_interval'].quantile(0.75)
+#    pay_q3 = new_df['payment_interval'].quantile(0.75)
+    pay_q3 = 24
     new_df['is_high_payment_interval'] = (new_df['payment_interval'] >= pay_q3).astype(int)
     print(f"- 'is_high_payment_interval' 생성 완료 (기준 결제주기: {pay_q3:.1f})")
 
@@ -168,8 +171,25 @@ def add_feature(df):
     new_df['usage_cluster'] = kmeans.fit_predict(usage_features)
     print("- 'usage_cluster' 생성 완료")
 
+    #test
+    bins = [-1, 19, 28, 37, 50, 64, np.inf]
+    labels = [0, 1, 2, 3, 4, 5]
+    new_df['age_group'] = pd.cut(new_df['age'], bins=bins, labels=labels, right=True).astype(int)
+    print("- 'age_group' 생성 완료")
 
 
+    # teset_2
+    tmp1 = new_df["gender_age_group"].astype(float).fillna(0)
+    tmp2 = new_df["payment_per_freq"].astype(float).fillna(0)
+    tmp3 = new_df["is_older_group"].astype(float).fillna(0)
+    tmp4 = new_df["frequent"].astype(float).replace(0, np.nan).fillna(1e-6)
+
+    # 수식 구현
+    new_df["test_2"] = (
+            (np.log1p(np.abs(tmp1 + tmp2)) * tmp3) / tmp4
+    )
+
+    print("- 'teset_2' 생성 완료")
 
 
 
@@ -207,7 +227,10 @@ if add_feature_name_list and isinstance(add_feature_name_list, str):
     print("지정된 피처만 선택하여 최종 파일을 생성합니다...")
 
     # 쉼표로 구분된 문자열을 공백 제거 후 리스트로 변환
-    selected_features = [feat.strip() for feat in add_feature_name_list.split(',')]
+    if add_feature_name_list.strip().lower() == "all":
+        selected_features = [c for c in df_train_featured.columns if c not in original_train_cols]
+    else:
+        selected_features = [feat.strip() for feat in add_feature_name_list.split(',')]
 
     # Train 데이터: 원본 컬럼 + 선택된 신규 피처
     final_train_cols = original_train_cols + [feat for feat in selected_features if feat in df_train_featured.columns]
