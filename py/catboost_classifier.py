@@ -18,8 +18,8 @@ import json  # 수동 가중치 파싱을 위해 추가
 def get_args():
     parser = argparse.ArgumentParser()
     # --- 기존 인자 (변경 없음) ---
-    parser.add_argument("--train_path", type=str, default="data/cat_train.csv")
-    parser.add_argument("--test_path", type=str, default="data/cat_test.csv")
+    parser.add_argument("--train_path", type=str, default="data/cattest_train.csv")
+    parser.add_argument("--test_path", type=str, default="data/cattest_test.csv")
     parser.add_argument("--target", type=str, default="support_needs")
     parser.add_argument("--iterations", type=int, default=1400)
     parser.add_argument("--learning_rate", type=float, default=0.015)
