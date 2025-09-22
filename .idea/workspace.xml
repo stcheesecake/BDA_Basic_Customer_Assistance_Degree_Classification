@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06cb4d97-b5c6-4e11-8995-c0755de6b4aa" name="변경" comment="initial">
-      <change beforePath="$PROJECT_DIR$/py/feature_engineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_engineering.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/feature_experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_experiments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/feature_exploration.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_exploration.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
