@@ -26,8 +26,7 @@ add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_pe
 def add_feature(df):
     """
     원본 데이터프레임에 새로운 피처를 추가하는 함수입니다.
-    새로운 피처 아이디어가 생기면 이 함수 내부를 수정하세요.
-
+    새로운 피처 아이디어가 생기면 이 함수 내부를 수정하세요
     Args:
         df (pd.DataFrame): 원본 데이터프레임
 
@@ -192,12 +191,11 @@ def add_feature(df):
     print("- 'test_3' 생성 완료")
 
     # test_4
-    tmp1 = new_df["test_3"].astype(float).replace(0, np.nan).fillna(1e-6)
-    tmp2 = new_df["payment_interval"].astype(float).replace(0, np.nan).fillna(1e-6)
-
-    # 수식 구현: (log(test_3) / payment_interval)
-    new_df["test_4"] = np.log1p(tmp1) / tmp2
-
+    tmp1 = new_df["test_3"].astype(float)
+    tmp2 = new_df["payment_interval"].astype(float).replace(0, np.nan)
+    new_df["test_4"] = (
+            np.log1p(np.abs(tmp1)) / tmp2
+    ).replace([np.inf, -np.inf], np.nan).fillna(0.0)
     print("- 'test_4' 생성 완료")
 
     print("모든 피처 생성이 완료되었습니다.")

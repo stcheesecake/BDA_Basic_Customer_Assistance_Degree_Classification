@@ -15,7 +15,7 @@ seen_formulas = set()
 # ===========================================
 SEARCHING_SWITCH = 'optuna'     # 'grid' or 'optuna'
 USE_GPU = True
-TRIALS = 22
+TRIALS = 2000
 
 BASE_FEATURED_DATASET = 'data/cattest_train.csv'
 target_col = 'support_needs'
