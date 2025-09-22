@@ -6,6 +6,10 @@ from catboost import CatBoostClassifier, Pool
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.utils import class_weight
+from sklearn.metrics import (
+    accuracy_score, f1_score, balanced_accuracy_score, average_precision_score
+)
+from sklearn.preprocessing import label_binarize
 from datetime import datetime
 
 import json  # 수동 가중치 파싱을 위해 추가
@@ -27,10 +31,13 @@ def get_args():
     parser.add_argument("--boosting_type", type=str, default="Ordered")
     parser.add_argument("--od_type", type=str, default="Iter")
     parser.add_argument("--od_wait", type=int, default=200)
-    parser.add_argument("--seed", type=int, default=2000)
-    parser.add_argument("--use_gpu", type=bool, default=False)
-    parser.add_argument("--submission", action="store_true", default = True)
+    parser.add_argument("--seed", type=int, default=45)
+    parser.add_argument("--use_gpu", type=bool, default=True)
+    parser.add_argument("--submission", action="store_true", default = False)
     parser.add_argument("--verbose", type=int, default=0)
+    parser.add_argument("--metrics", type=str, default="f1_macro",
+        help="평가 지표 선택: f1_macro, class0, class1, class2, bal_acc, auprc_macro, acc"
+    )
 
     # [요청사항] class_weights를 제어할 수 있는 인자 추가
     parser.add_argument(
@@ -50,13 +57,8 @@ def train_and_eval(**kwargs):
 
     df = pd.read_csv(args.train_path)
 
-    if 'features_to_include' in kwargs:
-        base_features = ['age', 'gender', 'tenure', 'frequent', 'payment_interval', 'subscription_type',
-                         'contract_length', 'after_interaction']
-        features = base_features + args.features_to_include
-        X = df[features]
-    else:
-        X = df.drop(columns=[args.target, "ID"], errors="ignore")
+    X = df.drop(columns=[args.target, "ID"], errors="ignore")
+    y = df[args.target]
 
     y = df[args.target]
     cat_features = X.select_dtypes(include=["object", "category"]).columns
@@ -100,10 +102,52 @@ def train_and_eval(**kwargs):
     )
 
     model.fit(train_pool, eval_set=valid_pool)
-    preds = model.predict(valid_pool)
+    preds = model.predict(valid_pool).astype(int).ravel()
+    probas = model.predict_proba(valid_pool)
+
+    # ---- 기본 메트릭 계산 ----
     acc = accuracy_score(y_valid, preds)
     f1_macro = f1_score(y_valid, preds, average="macro")
-    # [✅ 여기에 Submission 파일 생성 로직 추가]
+    f1_classes = f1_score(y_valid, preds, average=None, labels=[0, 1, 2])
+    f1_class0, f1_class1, f1_class2 = f1_classes[0], f1_classes[1], f1_classes[2]
+    bal_acc = balanced_accuracy_score(y_valid, preds)
+
+    try:
+        y_bin = label_binarize(y_valid, classes=[0, 1, 2])
+        auprcs = [average_precision_score(y_bin[:, i], probas[:, i]) for i in range(y_bin.shape[1])]
+        auprc_macro = float(np.mean(auprcs))
+    except Exception:
+        auprc_macro = None
+
+    # ---- metric 선택 ----
+    if args.metrics == "f1_macro":
+        score = f1_macro
+    elif args.metrics == "class0":
+        score = f1_class0
+    elif args.metrics == "class1":
+        score = f1_class1
+    elif args.metrics == "class2":
+        score = f1_class2
+    elif args.metrics == "bal_acc":
+        score = bal_acc
+    elif args.metrics == "auprc_macro":
+        score = auprc_macro if auprc_macro is not None else f1_macro
+    elif args.metrics == "acc":
+        score = acc
+    else:
+        score = f1_macro  # fallback
+
+    metrics = {
+        "accuracy": acc,
+        "f1_macro": f1_macro,
+        "f1_class0": f1_class0,
+        "f1_class1": f1_class1,
+        "f1_class2": f1_class2,
+        "balanced_accuracy": bal_acc,
+        "auprc_macro": auprc_macro,
+        "chosen_metric": args.metrics,
+        "score": score,
+    }
 
     if args.submission:
         print("\nSubmission 파일을 생성합니다...")
@@ -129,7 +173,7 @@ def train_and_eval(**kwargs):
         submission_df.to_csv(submission_path, index=False)
         print(f"✅ Submission 파일 생성이 완료되었습니다: {submission_path}")
 
-    return {"metrics": {"f1_macro": f1_macro, "accuracy": acc}}
+    return {"metrics": metrics}
 
 
 if __name__ == "__main__":

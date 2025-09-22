@@ -10,14 +10,14 @@ from sklearn.cluster import KMeans
 ORIGINAL_DATASET_PATH = 'data/original_train.csv'
 
 # 새로 저장할 파일 이름을 지정합니다.
-NEW_TRAIN_NAME = 'test_train.csv'
-NEW_TEST_NAME = 'test_test.csv'
+NEW_TRAIN_NAME = 'cattest_train.csv'
+NEW_TEST_NAME = 'cattest_test.csv'
 
 # 파일을 저장할 폴더를 지정합니다.
 OUTPUT_DIR = 'data/'
 
 # 비우면 original 데이터셋 출력, all을 넣으면 모든 feature 추가
-add_feature_name_list = 'all'
+add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, log_is_older_group_ratio'
 
 
 # ===================================================================
@@ -171,38 +171,15 @@ def add_feature(df):
     new_df['usage_cluster'] = kmeans.fit_predict(usage_features)
     print("- 'usage_cluster' 생성 완료")
 
-    #test
-    bins = [-1, 19, 28, 37, 50, 64, np.inf]
-    labels = [0, 1, 2, 3, 4, 5]
-    new_df['age_group'] = pd.cut(new_df['age'], bins=bins, labels=labels, right=True).astype(int)
-    print("- 'age_group' 생성 완료")
+    # log(((is_older_group / frequent) / age))
+    tmp1 = new_df["is_older_group"].astype(float).fillna(0)
+    tmp2 = new_df["frequent"].astype(float).replace(0, np.nan).fillna(1e-6)
+    tmp3 = new_df["age"].astype(float).replace(0, np.nan).fillna(1e-6)
 
+    new_df["log_is_older_group_ratio"] = np.log1p((tmp1 / tmp2) / tmp3)
 
-    # teset_2
-    tmp1 = new_df["gender_age_group"].astype(float).fillna(0)
-    tmp2 = new_df["payment_per_freq"].astype(float).fillna(0)
-    tmp3 = new_df["is_older_group"].astype(float).fillna(0)
-    tmp4 = new_df["frequent"].astype(float).replace(0, np.nan).fillna(1e-6)
+    print("- 'log_is_older_group_ratio' 생성 완료")
 
-    # 수식 구현
-    new_df["test_2"] = (
-            (np.log1p(np.abs(tmp1 + tmp2)) * tmp3) / tmp4
-    )
-
-    print("- 'test_2' 생성 완료")
-
-    # test_3
-    tmp1 = new_df["short_tenure_high_interval"].astype(float).fillna(0)
-    tmp2 = new_df["tenure"].astype(float).fillna(0)
-    tmp3 = new_df["frequent"].astype(float).fillna(0)
-    tmp4 = new_df["is_older_group"].astype(float).fillna(0)
-
-    # 수식 구현
-    new_df["test_3"] = (
-            np.sqrt((tmp1 + tmp2) * tmp3) * tmp4
-    )
-
-    print("- 'test_3' 생성 완료")
 
     print("모든 피처 생성이 완료되었습니다.")
 

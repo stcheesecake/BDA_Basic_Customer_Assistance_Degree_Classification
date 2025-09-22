@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06cb4d97-b5c6-4e11-8995-c0755de6b4aa" name="변경" comment="initial">
+      <change afterPath="$PROJECT_DIR$/py/feature_exploration.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/anova_eda.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/anova_eda.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/data/test_test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/test_test.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/data/test_train.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/test_train.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/catboost_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/catboost_classifier.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/py/feature_engineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_engineering.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/optuna_eda.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/optuna_eda.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +57,7 @@
     "Python.feature_analysis.executor": "Run",
     "Python.feature_engineering.executor": "Run",
     "Python.feature_experiments.executor": "Run",
+    "Python.feature_exploration.executor": "Run",
     "Python.fre.executor": "Run",
     "Python.fttransformer_classifier.executor": "Run",
     "Python.fttransformer_hpo.executor": "Run",
@@ -290,7 +289,23 @@
       <option name="project" value="LOCAL" />
       <updated>1758270711129</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="initial">
+      <option name="closed" value="true" />
+      <created>1758275112773</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1758275112773</updated>
+    </task>
+    <task id="LOCAL-00026" summary="initial">
+      <option name="closed" value="true" />
+      <created>1758275149444</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1758275149444</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
