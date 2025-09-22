@@ -17,7 +17,7 @@ NEW_TEST_NAME = 'cattest_test.csv'
 OUTPUT_DIR = 'data/'
 
 # 비우면 original 데이터셋 출력, all을 넣으면 모든 feature 추가
-add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, test_1'
+add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, test_1, test_2'
 
 
 # ===================================================================
@@ -177,8 +177,13 @@ def add_feature(df):
     new_df["test_1"] = (
             (np.log1p(tmp1) ** 2) ** 2 * tmp2
     )
-
     print("- 'test_1' 생성 완료")
+
+    # test_2
+    tmp1 = new_df["gender"].map(new_df["gender"].value_counts()).astype(float).fillna(0)
+    tmp2 = new_df["gender_age_group"].astype(float).fillna(0)
+    new_df["test_2"] = tmp1 - tmp2
+    print("- 'test_2' 생성 완료")
 
     print("모든 피처 생성이 완료되었습니다.")
 

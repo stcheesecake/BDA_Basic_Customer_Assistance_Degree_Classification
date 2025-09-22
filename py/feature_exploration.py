@@ -8,14 +8,16 @@ optuna.logging.set_verbosity(optuna.logging.WARNING)
 import pandas as pd
 from tqdm import tqdm
 
+seen_formulas = set()
+
 # ===========================================
 # 설정 블록
 # ===========================================
 SEARCHING_SWITCH = 'optuna'     # 'grid' or 'optuna'
 USE_GPU = True
-TRIALS = 1000
+TRIALS = 100
 
-BASE_FEATURED_DATASET = 'data/cat_train.csv'
+BASE_FEATURED_DATASET = 'data/cattest_train.csv'
 target_col = 'support_needs'
 
 MODEL = 'catboost'  # 현재 catboost에 맞춰둠
@@ -284,6 +286,16 @@ def objective(trial):
     else:
         # === 새 feature 생성 ===
         new_series, formula, used_features = generate_random_formula(df, trial)
+
+        # === 중복 체크 추가 ===
+        if formula in seen_formulas:
+            trial.set_user_attr("formula", formula)
+            trial.set_user_attr("metric_score", 0.0)
+            trial.set_user_attr("f1_macro", 0.0)
+            raise optuna.TrialPruned()  # Optuna에서 해당 trial 건너뜀
+        else:
+            seen_formulas.add(formula)
+
         new_col_name = f"FEAT__{formula}"
         df[new_col_name] = new_series.replace([np.inf, -np.inf], np.nan).fillna(0.0)
 

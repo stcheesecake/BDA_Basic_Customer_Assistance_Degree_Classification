@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="06cb4d97-b5c6-4e11-8995-c0755de6b4aa" name="변경" comment="initial">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/data/cattest_test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/cattest_test.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/data/cattest_train.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/cattest_train.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/py/feature_engineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_engineering.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/feature_exploration.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_exploration.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,43 +46,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.anova_eda.executor": "Run",
-    "Python.catboost_classifier.executor": "Run",
-    "Python.catboost_hpo.executor": "Run",
-    "Python.eda.executor": "Run",
-    "Python.ensemble.executor": "Run",
-    "Python.ensemble_hpo.executor": "Run",
-    "Python.feature_analysis.executor": "Run",
-    "Python.feature_engineering.executor": "Run",
-    "Python.feature_experiments.executor": "Run",
-    "Python.feature_exploration.executor": "Run",
-    "Python.fre.executor": "Run",
-    "Python.fttransformer_classifier.executor": "Run",
-    "Python.fttransformer_hpo.executor": "Run",
-    "Python.hpo.executor": "Run",
-    "Python.lightgbm_classifier.executor": "Run",
-    "Python.lightgbm_hpo.executor": "Run",
-    "Python.model.executor": "Run",
-    "Python.optuna_eda.executor": "Run",
-    "Python.t_test_eda.executor": "Run",
-    "Python.tabnet_classifier.executor": "Run",
-    "Python.tabnet_hpo.executor": "Run",
-    "Python.temp.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.xgboost_classifier.executor": "Run",
-    "Python.xgboost_hpo.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/ilumi/Project/BDA Basic Customer Assistance Degree Classification",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.anova_eda.executor&quot;: &quot;Run&quot;,
+    &quot;Python.catboost_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.catboost_hpo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.eda.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ensemble.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ensemble_hpo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.feature_analysis.executor&quot;: &quot;Run&quot;,
+    &quot;Python.feature_engineering.executor&quot;: &quot;Run&quot;,
+    &quot;Python.feature_experiments.executor&quot;: &quot;Run&quot;,
+    &quot;Python.feature_exploration.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fre.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fttransformer_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fttransformer_hpo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.hpo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.lightgbm_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.lightgbm_hpo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.optuna_eda.executor&quot;: &quot;Run&quot;,
+    &quot;Python.t_test_eda.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tabnet_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tabnet_hpo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.temp.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.xgboost_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.xgboost_hpo.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ilumi/Project/BDA Basic Customer Assistance Degree Classification&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -311,7 +314,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758526118426</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="initial">
+      <option name="closed" value="true" />
+      <created>1758528392516</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1758528392516</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
