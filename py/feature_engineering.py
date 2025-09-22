@@ -17,7 +17,7 @@ NEW_TEST_NAME = 'cattest_test.csv'
 OUTPUT_DIR = 'data/'
 
 # 비우면 original 데이터셋 출력, all을 넣으면 모든 feature 추가
-add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, log_is_older_group_ratio'
+add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, test_1'
 
 
 # ===================================================================
@@ -171,15 +171,14 @@ def add_feature(df):
     new_df['usage_cluster'] = kmeans.fit_predict(usage_features)
     print("- 'usage_cluster' 생성 완료")
 
-    # log(((is_older_group / frequent) / age))
-    tmp1 = new_df["is_older_group"].astype(float).fillna(0)
-    tmp2 = new_df["frequent"].astype(float).replace(0, np.nan).fillna(1e-6)
-    tmp3 = new_df["age"].astype(float).replace(0, np.nan).fillna(1e-6)
+    # test_1
+    tmp1 = new_df["contract_ratio"].astype(float).replace(0, np.nan).fillna(1e-6)
+    tmp2 = new_df["payment_interval"].astype(float).fillna(0)
+    new_df["test_1"] = (
+            (np.log1p(tmp1) ** 2) ** 2 * tmp2
+    )
 
-    new_df["log_is_older_group_ratio"] = np.log1p((tmp1 / tmp2) / tmp3)
-
-    print("- 'log_is_older_group_ratio' 생성 완료")
-
+    print("- 'test_1' 생성 완료")
 
     print("모든 피처 생성이 완료되었습니다.")
 
