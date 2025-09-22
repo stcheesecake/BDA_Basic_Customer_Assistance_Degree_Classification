@@ -17,7 +17,7 @@ NEW_TEST_NAME = 'cattest_test.csv'
 OUTPUT_DIR = 'data/'
 
 # 비우면 original 데이터셋 출력, all을 넣으면 모든 feature 추가
-add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, test_1, test_2, test_3'
+add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, test_1, test_2, test_3, test_4'
 
 
 # ===================================================================
@@ -190,6 +190,15 @@ def add_feature(df):
     tmp2 = new_df["frequent"].astype(float).fillna(0)
     new_df["test_3"] = tmp1 + tmp2
     print("- 'test_3' 생성 완료")
+
+    # test_4
+    tmp1 = new_df["test_3"].astype(float).replace(0, np.nan).fillna(1e-6)
+    tmp2 = new_df["payment_interval"].astype(float).replace(0, np.nan).fillna(1e-6)
+
+    # 수식 구현: (log(test_3) / payment_interval)
+    new_df["test_4"] = np.log1p(tmp1) / tmp2
+
+    print("- 'test_4' 생성 완료")
 
     print("모든 피처 생성이 완료되었습니다.")
 
