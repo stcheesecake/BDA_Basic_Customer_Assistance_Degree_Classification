@@ -17,7 +17,7 @@ NEW_TEST_NAME = 'cattest_test.csv'
 OUTPUT_DIR = 'data/'
 
 # 비우면 original 데이터셋 출력, all을 넣으면 모든 feature 추가
-add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, test_1, test_2, test_3, test_4'
+add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, test_1, test_2, test_3, test_4, test_5, test_6'
 
 
 # ===================================================================
@@ -197,6 +197,24 @@ def add_feature(df):
             np.log1p(np.abs(tmp1)) / tmp2
     ).replace([np.inf, -np.inf], np.nan).fillna(0.0)
     print("- 'test_4' 생성 완료")
+
+    # test_5
+    tmp1 = new_df["payment_per_freq"].astype(float)
+    tmp2 = new_df["after_interaction"].astype(float)
+    tmp3 = new_df["freq_per_tenure"].astype(float).replace(0, np.nan)
+    new_df["test_5"] = (
+            (tmp1 - tmp2) / tmp3
+    ).replace([np.inf, -np.inf], np.nan).fillna(0.0)
+    print("- 'test_5' 생성 완료")
+
+    # test_6
+    gender_freq = new_df["gender"].map(new_df["gender"].value_counts())
+    age_safe = new_df["age"].astype(float).replace(0, np.nan)
+    new_df["test_6"] = (
+            gender_freq / age_safe
+    ).replace([np.inf, -np.inf], np.nan).fillna(0.0)
+    print("- 'test_6' 생성 완료")
+
 
     print("모든 피처 생성이 완료되었습니다.")
 
