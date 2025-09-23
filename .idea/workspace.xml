@@ -9,6 +9,8 @@
       <change beforePath="$PROJECT_DIR$/py/data/cattest_test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/cattest_test.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/py/data/cattest_train.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/cattest_train.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/py/feature_engineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_engineering.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/feature_experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_experiments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/feature_exploration.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_exploration.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,12 +33,12 @@
     &quot;assignee&quot;: &quot;stcheesecake&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/stcheesecake/BDA_Basic_Customer_Assistance_Degree_Classification&quot;,
-    &quot;accountId&quot;: &quot;d8fc41ad-4d0a-4f47-bf18-77b6386075ee&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/stcheesecake/BDA_Basic_Customer_Assistance_Degree_Classification.git",
+    "accountId": "a0b6fb67-6631-41ee-96c9-c6479a0fc9b2"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -85,7 +87,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-657d8234b839-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.74" />
+        <option value="bundled-python-sdk-41e8cd69c857-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.90" />
       </set>
     </attachedChunks>
   </component>

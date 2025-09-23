@@ -28,7 +28,7 @@ def suppress_output():
 # 탐색 방식: 'grid' 또는 'optuna'
 SEARCHING_SWITCH = 'optuna'   # 'optuna' 로 바꿔서 실행 가능
 USE_GPU = True
-TRIALS = 2
+TRIALS = 2000
 
 # 원본 데이터 경로 (수정하지 않음)
 BASE_FEATURED_DATASET = 'data/cattest_train.csv'

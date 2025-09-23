@@ -17,7 +17,12 @@ NEW_TEST_NAME = 'cattest_test.csv'
 OUTPUT_DIR = 'data/'
 
 # 비우면 original 데이터셋 출력, all을 넣으면 모든 feature 추가
-add_feature_name_list = 'is_older_group,new_inactive,is_high_interaction,freq_per_tenure,interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, test_1, test_2, test_3, test_4, test_5, test_6'
+add_feature_name_list = ('is_older_group,new_inactive,is_high_interaction,freq_per_tenure,'
+                         'interaction_per_freq,payment_per_freq,older_low_contract,vip_low_interaction,'
+                         'interaction_rate,contract_ratio,renewal_pressure,gender_age_group,usage_cluster, '
+                         'test_1, test_2, test_3, test_4, test_5, test_6, test_7, test_8, test_9, test_10,'
+                         'test_11, test_12')
+
 
 
 # ===================================================================
@@ -214,6 +219,61 @@ def add_feature(df):
             gender_freq / age_safe
     ).replace([np.inf, -np.inf], np.nan).fillna(0.0)
     print("- 'test_6' 생성 완료")
+
+    # test_7
+    tmp1 = new_df["test_2"].astype(float)
+    tmp2 = new_df["test_4"].astype(float)
+    tmp3 = new_df["payment_interval"].astype(float)
+    tmp4 = new_df["test_1"].astype(float)
+    tmp5 = new_df["interaction_per_freq"].astype(float)
+    new_df["test_7"] = (
+            ((tmp1 * tmp2 - tmp3) * tmp4) * tmp5
+    )
+    print("- 'test_7' 생성 완료")
+
+    # test_8
+    tmp1 = new_df["gender"].map(new_df["gender"].value_counts())
+    tmp2 = new_df["is_older_group"].astype(float).replace(0, np.nan)
+    new_df["test_8"] = (
+            tmp1 / tmp2
+    ).replace([np.inf, -np.inf], np.nan).fillna(0.0)
+    print("- 'test_8' 생성 완료")
+
+    # test_9
+    tmp1 = new_df["is_older_group"].astype(float)
+    tmp2 = new_df["contract_ratio"].astype(float)
+    # 수식: ((is_older_group + contract_ratio))^2
+    new_df["test_9"] = (
+            (tmp1 + tmp2) ** 2
+    )
+    print("- 'test_9' 생성 완료")
+
+    # test_10
+    sub_freq = new_df["subscription_type"].map(new_df["subscription_type"].value_counts())
+    older = new_df["is_older_group"].astype(float)
+    new_df["test_10"] = (
+            sub_freq * older
+    )
+    print("- 'test_10' 생성 완료")
+
+    # test_11
+    tmp1 = new_df["is_high_interaction"].astype(float)
+    log_log_val = np.log1p(np.abs(np.log1p(np.abs(tmp1))))
+    tmp2 = new_df["test_8"].astype(float)
+    new_df["test_11"] = (
+            log_log_val * tmp2
+    )
+    print("- 'test_11' 생성 완료")
+
+    # test_12
+    tmp1 = new_df["test_7"].astype(float)
+    log_t7 = np.log1p(np.abs(tmp1))
+    tmp2 = new_df["frequent"].astype(float)
+    part1 = log_t7 * tmp2
+    part2 = part1 ** 2
+    tmp3 = new_df["older_low_contract"].astype(float)
+    new_df["test_12"] = part2 * tmp3
+    print("- 'test_12' 생성 완료")
 
 
     print("모든 피처 생성이 완료되었습니다.")
