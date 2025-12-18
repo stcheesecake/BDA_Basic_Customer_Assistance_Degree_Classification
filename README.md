@@ -8,11 +8,6 @@
 - 상담 리소스를 효율적으로 배분
 - 고위험 고객을 우선적으로 대응
 - 고객 이탈 및 불만을 사전에 완화
-<br>
-<br>
-<br>
----
-<br>
 
 ## 2. 문제 정의
 
@@ -27,11 +22,6 @@
   → 특정 지원 수준에 데이터가 편중되어 있어 단순 정확도 기준 모델은 성능 왜곡 가능
 - **Tabular 데이터 특성**  
   → 피처 간 비선형 관계 및 상호작용이 중요
-<br>
-<br>
-<br>
----
-<br>
 
 ## 3. 데이터 특성 분석 (EDA)
 
@@ -55,11 +45,7 @@
 이를 통해
 - 의미 없는 Feature 제거
 - 중요 Feature 우선 활용
-<br>
-<br>
-<br>
----
-<br>
+
 
 ## 4. 접근 방법 및 실험 전략
 
@@ -74,11 +60,7 @@
   - 검증 성능 불안정
   - 과적합 위험 증가
 - **Tabular 데이터 특성상 명시적 Feature 설계가 더 효과적이라 판단하여 최종 제외**
-<br>
-<br>
-<br>
----
-<br>
+
 
 ## 5. 모델링
 
@@ -95,11 +77,7 @@ Tabular 데이터에 강점을 가지는 Tree 계열 모델을 중심으로 다�
 - Class Imbalance 상황에서의 F1 Score
 - 검증 성능의 안정성
 - 과적합 여부
-<br>
-<br>
-<br>
----
-<br>
+
 
 ## 6. 실험 설계 및 코드 구조
 
@@ -159,12 +137,7 @@ BDA_Basic_Customer_Assistance_Degree_Classification
 ├── requirements.txt
 └── README.md
 ```
-<br>
-<br>
-<br>
 
----
-<br>
 
 ## 7. 학습 및 검증 전략
 ### 7.1 데이터 분할
@@ -178,11 +151,6 @@ BDA_Basic_Customer_Assistance_Degree_Classification
 - 보조 지표:
   - Confusion Matrix
   - Class-wise Recall / Precision
-<br>
-<br>
-<br>
----
-<br>
 
 
 ## 8. 실험 결과 요약
@@ -195,10 +163,7 @@ BDA_Basic_Customer_Assistance_Degree_Classification
     - 범주형 처리의 안정성
     - 비교적 적은 튜닝으로도 높은 F1 Score
     - 검증 성능 변동성 낮음
-<br>
-<br>
-<br>
----
+
 <br>
 
 
