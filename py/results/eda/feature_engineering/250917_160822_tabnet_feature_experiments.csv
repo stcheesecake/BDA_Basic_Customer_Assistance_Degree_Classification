@@ -1,0 +1,4 @@
+﻿TIMESTAMP,포함된 FEATURE,F1 MACRO,ACCURACY
+2025-09-17 16:09:20,"older_and_member, vip_inactive, new_inactive, is_high_payment_interval, is_high_interaction, freq_per_tenure, renewal_pressure, usage_cluster",0.4584,0.4600
+2025-09-17 16:10:28,"is_older_group, new_inactive, is_long_contract, is_high_payment_interval, freq_per_tenure, short_tenure_high_interval, older_low_contract, payment_freq_alignment, renewal_pressure, gender_age_group, usage_cluster",0.4830,0.4956
+2025-09-17 16:11:47,"older_and_member, is_low_frequency, is_high_interaction, interaction_per_freq, older_low_contract, vip_low_interaction, renewal_pressure, gender_age_group, usage_cluster",0.4687,0.4700

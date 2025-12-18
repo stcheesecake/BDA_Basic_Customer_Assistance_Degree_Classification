@@ -1,0 +1,72 @@
+﻿TIMESTAMP,포함된 FEATURE,F1 MACRO,ACCURACY
+2025-09-12 13:52:54,"is_older_group, is_high_payment_interval, is_high_interaction, interaction_per_freq, payment_per_freq, short_tenure_high_interval, vip_low_interaction, payment_freq_alignment, subscription_code",0.4386,0.5016
+2025-09-12 13:53:28,"is_older_group, older_and_member, vip_inactive, new_inactive, is_long_contract, interaction_per_freq, payment_per_freq, older_low_contract, interaction_rate, subscription_code, usage_cluster",0.4407,0.5039
+2025-09-12 13:54:07,"new_inactive, is_long_contract, is_high_payment_interval, freq_per_tenure, interaction_per_freq, payment_per_freq, vip_low_interaction, contract_ratio, gender_age_group, usage_cluster",0.4443,0.5054
+2025-09-12 13:54:52,"is_older_group, older_and_member, is_long_contract, is_high_interaction, freq_per_tenure, interaction_per_freq, payment_per_freq, short_tenure_high_interval, older_low_contract, interaction_rate, payment_freq_alignment, renewal_pressure, usage_cluster",0.4416,0.5032
+2025-09-12 13:55:19,"older_and_member, is_low_frequency, vip_inactive, new_inactive, freq_per_tenure, older_low_contract, vip_low_interaction, contract_ratio, payment_freq_alignment, gender_age_group, usage_cluster",0.4452,0.5052
+2025-09-12 13:55:41,"vip_inactive, is_high_payment_interval, short_tenure_high_interval, older_low_contract, interaction_rate",0.4467,0.5084
+2025-09-12 13:56:13,"older_and_member, new_inactive, is_high_payment_interval, is_high_interaction, interaction_per_freq, vip_low_interaction, interaction_rate, contract_ratio, payment_freq_alignment, subscription_code",0.4439,0.5054
+2025-09-12 13:56:46,"older_and_member, is_low_frequency, vip_inactive, is_long_contract, is_high_interaction, payment_per_freq, older_low_contract, vip_low_interaction, interaction_rate, contract_ratio, subscription_code",0.4406,0.5028
+2025-09-12 13:57:29,"vip_inactive, is_high_payment_interval, freq_per_tenure, payment_per_freq, short_tenure_high_interval, older_low_contract, payment_freq_alignment, renewal_pressure, subscription_code, gender_age_group, usage_cluster",0.4404,0.5021
+2025-09-12 13:58:11,"is_long_contract, is_high_payment_interval, freq_per_tenure, interaction_per_freq, short_tenure_high_interval, older_low_contract, vip_low_interaction, payment_freq_alignment, renewal_pressure, subscription_code, gender_age_group, usage_cluster",0.4413,0.5042
+2025-09-12 13:58:45,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 13:59:18,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 13:59:53,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:00:23,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:00:51,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:01:18,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:01:45,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:02:15,"is_older_group, is_low_frequency, vip_inactive, new_inactive, is_high_interaction, short_tenure_high_interval, interaction_rate, contract_ratio, renewal_pressure, gender_age_group",0.4456,0.5066
+2025-09-12 14:02:42,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:03:09,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:03:46,"is_older_group, older_and_member, is_low_frequency, new_inactive, is_long_contract, is_high_interaction, freq_per_tenure, contract_ratio, renewal_pressure, gender_age_group",0.4460,0.5059
+2025-09-12 14:04:18,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:04:49,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:05:19,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:05:50,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:06:22,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:06:55,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:07:26,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:07:56,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:08:32,"is_older_group, is_low_frequency, is_high_payment_interval, is_high_interaction, interaction_per_freq, payment_per_freq, short_tenure_high_interval, vip_low_interaction, payment_freq_alignment, renewal_pressure, subscription_code",0.4440,0.5058
+2025-09-12 14:09:00,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:09:28,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:09:56,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:10:24,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:11:05,"is_older_group, is_low_frequency, vip_inactive, is_long_contract, is_high_payment_interval, interaction_per_freq, payment_per_freq, short_tenure_high_interval, interaction_rate, renewal_pressure, usage_cluster",0.4461,0.5073
+2025-09-12 14:11:29,"is_older_group, older_and_member, is_low_frequency, vip_inactive, new_inactive, interaction_rate",0.4470,0.5085
+2025-09-12 14:12:02,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, freq_per_tenure, short_tenure_high_interval, interaction_rate, renewal_pressure, usage_cluster",0.4449,0.5061
+2025-09-12 14:12:35,"is_older_group, is_long_contract, is_high_payment_interval, interaction_per_freq, short_tenure_high_interval, vip_low_interaction, interaction_rate, contract_ratio, payment_freq_alignment, gender_age_group",0.4476,0.5079
+2025-09-12 14:13:04,"is_older_group, older_and_member, is_low_frequency, vip_inactive, new_inactive, payment_per_freq, older_low_contract, renewal_pressure, subscription_code",0.4465,0.5078
+2025-09-12 14:13:34,"vip_inactive, is_high_payment_interval, is_high_interaction, freq_per_tenure, short_tenure_high_interval, interaction_rate, usage_cluster",0.4450,0.5061
+2025-09-12 14:14:05,"older_and_member, is_low_frequency, is_high_payment_interval, older_low_contract, vip_low_interaction, interaction_rate, contract_ratio, payment_freq_alignment, renewal_pressure, subscription_code",0.4465,0.5073
+2025-09-12 14:14:33,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:15:01,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:15:31,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:16:00,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:16:30,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:16:59,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:17:36,"is_older_group, vip_inactive, is_long_contract, is_high_payment_interval, interaction_per_freq, payment_per_freq, short_tenure_high_interval, older_low_contract, renewal_pressure, gender_age_group",0.4435,0.5055
+2025-09-12 14:18:13,"is_older_group, is_low_frequency, vip_inactive, new_inactive, is_high_payment_interval, freq_per_tenure, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4415,0.5040
+2025-09-12 14:18:39,"is_low_frequency, vip_inactive, is_high_interaction, short_tenure_high_interval, interaction_rate, usage_cluster",0.4461,0.5079
+2025-09-12 14:19:12,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, vip_low_interaction, interaction_rate, contract_ratio, renewal_pressure",0.4454,0.5058
+2025-09-12 14:19:40,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:20:08,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:20:36,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:21:04,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:21:32,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:21:59,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:22:28,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure, gender_age_group",0.4455,0.5071
+2025-09-12 14:22:56,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:23:25,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, payment_freq_alignment, renewal_pressure, subscription_code",0.4448,0.5057
+2025-09-12 14:23:53,"is_older_group, is_low_frequency, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4463,0.5072
+2025-09-12 14:24:22,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:24:50,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:25:20,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:26:02,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:26:32,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:27:13,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:27:52,"is_older_group, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, interaction_rate, renewal_pressure",0.4476,0.5087
+2025-09-12 14:28:25,"is_older_group, older_and_member, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, renewal_pressure",0.4477,0.5090
+2025-09-12 14:28:55,"is_older_group, older_and_member, is_low_frequency, vip_inactive, is_high_payment_interval, short_tenure_high_interval, renewal_pressure",0.4477,0.5090
+2025-09-12 14:29:18,"is_older_group, older_and_member, vip_inactive, new_inactive, is_high_payment_interval, renewal_pressure",0.4454,0.5059

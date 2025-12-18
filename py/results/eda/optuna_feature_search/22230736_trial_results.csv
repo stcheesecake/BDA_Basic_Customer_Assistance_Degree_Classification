@@ -1,0 +1,333 @@
+trial,formula,used_features,f1_macro,metric
+0,baseline_dataset,,0.5026,0.5026
+1,sqrt(sqrt((payment_per_freq / vip_low_interaction))),payment_per_freq|vip_low_interaction|contract_ratio|test_3,0.5018,0.5018
+2,(freq(subscription_type) - test_1),subscription_type|test_1,0.5026,0.5026
+3,(((payment_per_freq)^2 / test_2) / is_high_interaction),payment_per_freq|test_5|test_2|is_high_interaction,0.5013,0.5013
+4,sqrt(((test_1 + payment_interval) / interaction_per_freq)),test_1|payment_interval|interaction_per_freq|freq_per_tenure,0.5016,0.5016
+5,((((interaction_rate / freq_per_tenure) / interaction_per_freq) * test_4) - is_high_interaction),interaction_rate|freq_per_tenure|interaction_per_freq|test_4|is_high_interaction,0.5008,0.5008
+6,(((freq_per_tenure / after_interaction) / is_older_group))^2,freq_per_tenure|after_interaction|is_older_group|new_inactive,0.5012,0.5012
+7,((frequent)^2 / contract_length),frequent|test_5|contract_length,0.5027,0.5027
+8,(freq(gender) * freq_per_tenure),gender|freq_per_tenure,0.5022,0.5022
+9,(freq(subscription_type) + test_5),subscription_type|test_5,0.4999,0.4999
+10,(contract_ratio)^2,contract_ratio|test_1,0.5026,0.5026
+11,(freq(gender) / age),gender|age,0.5032,0.5032
+14,(freq(gender) / renewal_pressure),gender|renewal_pressure,0.5016,0.5016
+15,(renewal_pressure - test_2),renewal_pressure|test_2,0.4995,0.4995
+16,(freq(gender) * frequent),gender|frequent,0.5007,0.5007
+17,((contract_length * gender_age_group) * after_interaction),contract_length|gender_age_group|after_interaction,0.4996,0.4996
+18,(freq(subscription_type) - contract_ratio),subscription_type|contract_ratio,0.5006,0.5006
+19,(freq(gender) + interaction_rate),gender|interaction_rate,0.5004,0.5004
+20,(log(age))^2,age|test_5|tenure,0.5026,0.5026
+21,log(log(log(sqrt(is_high_interaction)))),is_high_interaction|contract_ratio|tenure|interaction_per_freq|older_low_contract,0.5026,0.5026
+22,(freq(subscription_type) / interaction_per_freq),subscription_type|interaction_per_freq,0.5015,0.5015
+23,((test_5)^2 + is_older_group),test_5|tenure|is_older_group,0.5013,0.5013
+24,(freq(gender) / tenure),gender|tenure,0.5011,0.5011
+25,(freq(gender) + payment_interval),gender|payment_interval,0.4979,0.4979
+26,(payment_per_freq + payment_interval),payment_per_freq|payment_interval,0.4996,0.4996
+27,((interaction_per_freq - test_2) - freq_per_tenure),interaction_per_freq|test_2|freq_per_tenure,0.4984,0.4984
+28,(freq(subscription_type) * vip_low_interaction),subscription_type|vip_low_interaction,0.5020,0.5020
+29,(((sqrt(is_older_group) - age) - test_1))^2,is_older_group|new_inactive|age|test_1|payment_per_freq,0.5026,0.5026
+30,(freq(gender) - is_high_interaction),gender|is_high_interaction,0.4946,0.4946
+31,(frequent)^2,frequent|payment_per_freq,0.5026,0.5026
+32,(after_interaction)^2,after_interaction|renewal_pressure,0.5026,0.5026
+33,(gender_age_group)^2,gender_age_group|frequent,0.5026,0.5026
+34,(log(test_1) * older_low_contract),test_1|test_2|older_low_contract,0.5026,0.5026
+35,(test_4 * freq_per_tenure),test_4|freq_per_tenure,0.5017,0.5017
+36,sqrt((freq_per_tenure)^2),freq_per_tenure|vip_low_interaction|tenure,0.5026,0.5026
+38,((new_inactive)^2 + vip_low_interaction),new_inactive|interaction_rate|vip_low_interaction,0.5026,0.5026
+39,log(contract_length),contract_length|after_interaction,0.5026,0.5026
+40,(freq(gender) / is_older_group),gender|is_older_group,0.5026,0.5026
+41,(log(freq_per_tenure))^2,freq_per_tenure|vip_low_interaction|age,0.5026,0.5026
+42,(log(contract_ratio))^2,contract_ratio|contract_length|test_1,0.5026,0.5026
+43,((log(test_5))^2 + is_older_group),test_5|older_low_contract|after_interaction|is_older_group,0.5012,0.5012
+44,log((test_3 + renewal_pressure)),test_3|renewal_pressure|interaction_rate,0.5018,0.5018
+45,((is_older_group - interaction_rate))^2,is_older_group|interaction_rate|freq_per_tenure,0.5020,0.5020
+46,((sqrt(contract_ratio) / older_low_contract) - test_4),contract_ratio|age|older_low_contract|test_4,0.5015,0.5015
+47,(freq(subscription_type) / test_4),subscription_type|test_4,0.5000,0.5000
+48,(interaction_rate * is_high_interaction),interaction_rate|is_high_interaction,0.5017,0.5017
+49,(freq(gender) + older_low_contract),gender|older_low_contract,0.5008,0.5008
+50,(((after_interaction / is_high_interaction))^2 * new_inactive),after_interaction|is_high_interaction|test_1|new_inactive,0.5026,0.5026
+51,log(log(log(sqrt(frequent)))),frequent|contract_length|age|is_older_group|test_2,0.5026,0.5026
+52,log(log(log(sqrt(older_low_contract)))),older_low_contract|contract_length|payment_interval|test_3|interaction_rate,0.5026,0.5026
+53,log(log(sqrt(test_4))),test_4|age|test_2|new_inactive,0.5026,0.5026
+54,((log((test_4)^2) + interaction_per_freq) / new_inactive),test_4|contract_ratio|contract_length|interaction_per_freq|new_inactive,0.5023,0.5023
+55,(freq(gender) - after_interaction),gender|after_interaction,0.4953,0.4953
+56,((log(test_3) + freq_per_tenure))^2,test_3|test_1|freq_per_tenure|payment_per_freq,0.5017,0.5017
+57,(freq(subscription_type) * new_inactive),subscription_type|new_inactive,0.5026,0.5026
+58,((renewal_pressure / frequent) - is_older_group),renewal_pressure|frequent|is_older_group,0.4994,0.4994
+59,(sqrt(sqrt(tenure)) / frequent),tenure|interaction_rate|new_inactive|frequent,0.5014,0.5014
+60,(freq(gender) / test_3),gender|test_3,0.5002,0.5002
+61,(((sqrt(test_4) - is_older_group) - test_1))^2,test_4|vip_low_interaction|is_older_group|test_1|test_3,0.5019,0.5019
+62,(((sqrt(age) - payment_interval) - usage_cluster) + is_high_interaction),age|interaction_per_freq|payment_interval|usage_cluster|is_high_interaction,0.5013,0.5013
+63,(log((sqrt(freq_per_tenure) - payment_interval)))^2,freq_per_tenure|frequent|payment_interval|after_interaction|is_high_interaction,0.5029,0.5029
+64,sqrt(log(((contract_ratio + freq_per_tenure) / tenure))),contract_ratio|freq_per_tenure|tenure|test_5|interaction_per_freq,0.5018,0.5018
+65,(log(((usage_cluster)^2 * test_3)) * freq_per_tenure),usage_cluster|frequent|test_3|renewal_pressure|freq_per_tenure,0.5020,0.5020
+66,(sqrt(test_5) / contract_length),test_5|after_interaction|contract_length,0.5006,0.5006
+67,log(sqrt((frequent - payment_per_freq))),frequent|payment_per_freq|renewal_pressure|gender_age_group,0.5012,0.5012
+68,(freq(subscription_type) / gender_age_group),subscription_type|gender_age_group,0.4996,0.4996
+69,log(log(((frequent)^2 / age))),frequent|gender_age_group|age|payment_per_freq|interaction_per_freq,0.5002,0.5002
+70,((contract_length * vip_low_interaction))^2,contract_length|vip_low_interaction|frequent,0.5025,0.5025
+71,(((sqrt(age) - interaction_rate) - tenure))^2,age|frequent|interaction_rate|tenure|is_high_interaction,0.4995,0.4995
+72,(((sqrt(tenure) - test_1) - older_low_contract))^2,tenure|payment_per_freq|test_1|older_low_contract|is_older_group,0.5017,0.5017
+73,(log((sqrt(payment_interval) - age)))^2,payment_interval|after_interaction|age|is_older_group|interaction_per_freq,0.5020,0.5020
+74,((((test_1)^2 - after_interaction) + test_5))^2,test_1|freq_per_tenure|after_interaction|test_5|test_4,0.5006,0.5006
+75,sqrt(usage_cluster),usage_cluster|after_interaction,0.5026,0.5026
+76,(((payment_per_freq / test_3) - older_low_contract) / test_1),payment_per_freq|test_3|older_low_contract|test_1,0.5008,0.5008
+77,(freq(gender) - payment_per_freq),gender|payment_per_freq,0.4992,0.4992
+78,sqrt(((log(test_2) * interaction_rate) * payment_per_freq)),test_2|test_1|interaction_rate|payment_per_freq|frequent,0.5011,0.5011
+79,(test_3)^2,test_3|interaction_per_freq,0.5026,0.5026
+80,(freq(gender) * contract_length),gender|contract_length,0.5016,0.5016
+81,(tenure)^2,tenure|is_high_interaction,0.5026,0.5026
+82,(vip_low_interaction)^2,vip_low_interaction|interaction_rate,0.5026,0.5026
+83,(is_older_group)^2,is_older_group|test_2,0.5026,0.5026
+84,(test_2 + renewal_pressure),test_2|renewal_pressure,0.4969,0.4969
+85,((after_interaction)^2 / age),after_interaction|gender_age_group|age,0.4989,0.4989
+86,(log(test_5) + older_low_contract),test_5|payment_per_freq|older_low_contract,0.5011,0.5011
+87,(test_5 - is_high_interaction),test_5|is_high_interaction,0.5011,0.5011
+88,(after_interaction * tenure),after_interaction|tenure,0.5001,0.5001
+89,(freq(subscription_type) + age),subscription_type|age,0.5006,0.5006
+90,log(sqrt(interaction_rate)),interaction_rate|gender_age_group|test_3,0.5026,0.5026
+92,(older_low_contract)^2,older_low_contract|interaction_rate,0.5026,0.5026
+93,(freq_per_tenure)^2,freq_per_tenure|interaction_rate,0.5026,0.5026
+94,((after_interaction)^2)^2,after_interaction|test_3|contract_ratio,0.5026,0.5026
+95,log(test_3),test_3|contract_ratio,0.5026,0.5026
+96,sqrt(test_3),test_3|new_inactive,0.5026,0.5026
+97,sqrt(((frequent)^2 - freq_per_tenure)),frequent|vip_low_interaction|freq_per_tenure|renewal_pressure,0.5006,0.5006
+98,(freq(gender) / usage_cluster),gender|usage_cluster,0.5005,0.5005
+99,((((older_low_contract / vip_low_interaction) / test_5))^2 - new_inactive),older_low_contract|vip_low_interaction|test_5|test_2|new_inactive,0.5026,0.5026
+100,sqrt(sqrt(new_inactive)),new_inactive|is_high_interaction|contract_ratio,0.5026,0.5026
+101,(age)^2,age|usage_cluster,0.5026,0.5026
+104,(test_3 + payment_interval),test_3|payment_interval,0.5015,0.5015
+105,(sqrt((log(test_1))^2) * freq_per_tenure),test_1|gender_age_group|contract_ratio|vip_low_interaction|freq_per_tenure,0.5010,0.5010
+107,(freq(subscription_type) + interaction_per_freq),subscription_type|interaction_per_freq,0.5003,0.5003
+108,((log((freq_per_tenure - test_5)) - older_low_contract) + test_1),freq_per_tenure|test_5|new_inactive|older_low_contract|test_1,0.5002,0.5002
+109,(sqrt(after_interaction) * gender_age_group),after_interaction|tenure|gender_age_group,0.4992,0.4992
+110,log(((new_inactive * usage_cluster) + test_1)),new_inactive|usage_cluster|test_1|is_high_interaction,0.5008,0.5008
+111,(log(test_4) * payment_per_freq),test_4|interaction_per_freq|payment_per_freq,0.5009,0.5009
+112,(log(interaction_rate) * payment_per_freq),interaction_rate|tenure|payment_per_freq,0.5005,0.5005
+113,(log(payment_interval) * is_older_group),payment_interval|tenure|is_older_group,0.5011,0.5011
+114,log((test_3)^2),test_3|test_2|contract_length,0.5026,0.5026
+115,sqrt(new_inactive),new_inactive|test_1,0.5026,0.5026
+116,(((log(test_3))^2 / test_1) / interaction_rate),test_3|vip_low_interaction|test_2|test_1|interaction_rate,0.5001,0.5001
+117,(freq(gender) - test_1),gender|test_1,0.4998,0.4998
+118,sqrt(((is_high_interaction)^2 - test_1)),is_high_interaction|payment_interval|test_1|freq_per_tenure,0.5016,0.5016
+119,sqrt(renewal_pressure),renewal_pressure|after_interaction,0.5026,0.5026
+120,((after_interaction)^2 / is_older_group),after_interaction|older_low_contract|is_older_group,0.5012,0.5012
+121,sqrt((vip_low_interaction)^2),vip_low_interaction|gender_age_group|is_high_interaction,0.5026,0.5026
+122,sqrt((payment_per_freq)^2),payment_per_freq|gender_age_group|payment_interval,0.5026,0.5026
+123,sqrt((gender_age_group)^2),gender_age_group|interaction_rate|payment_per_freq,0.5026,0.5026
+124,log((sqrt(sqrt(after_interaction)) * contract_ratio)),after_interaction|is_older_group|age|contract_ratio|older_low_contract,0.5026,0.5026
+125,log((payment_per_freq / test_1)),payment_per_freq|test_1|usage_cluster,0.4997,0.4997
+126,((vip_low_interaction)^2)^2,vip_low_interaction|contract_ratio|tenure,0.5026,0.5026
+127,(freq(subscription_type) * test_2),subscription_type|test_2,0.5002,0.5002
+128,log(gender_age_group),gender_age_group|renewal_pressure,0.5026,0.5026
+129,((((test_4 + payment_per_freq) - interaction_per_freq))^2)^2,test_4|payment_per_freq|interaction_per_freq|frequent|interaction_rate,0.4998,0.4998
+130,(usage_cluster)^2,usage_cluster|contract_ratio,0.5026,0.5026
+131,((new_inactive)^2 + test_2),new_inactive|payment_interval|test_2,0.5010,0.5010
+132,((older_low_contract)^2 + is_high_interaction),older_low_contract|test_1|is_high_interaction,0.5019,0.5019
+133,((gender_age_group)^2 + freq_per_tenure),gender_age_group|test_4|freq_per_tenure,0.5020,0.5020
+134,(sqrt(frequent) + vip_low_interaction),frequent|interaction_per_freq|vip_low_interaction,0.5009,0.5009
+135,((older_low_contract - age) / after_interaction),older_low_contract|age|after_interaction,0.5012,0.5012
+136,(test_1)^2,test_1|contract_length,0.5026,0.5026
+137,(freq(gender) / freq_per_tenure),gender|freq_per_tenure,0.5014,0.5014
+138,((((test_5 * test_2) * tenure) - frequent))^2,test_5|test_2|tenure|frequent|gender_age_group,0.5007,0.5007
+139,(((usage_cluster)^2 - after_interaction) + new_inactive),usage_cluster|test_4|after_interaction|new_inactive,0.5016,0.5016
+140,log(vip_low_interaction),vip_low_interaction|after_interaction,0.5026,0.5026
+141,log(interaction_per_freq),interaction_per_freq|gender_age_group,0.5026,0.5026
+142,log(frequent),frequent|usage_cluster,0.5026,0.5026
+143,log(tenure),tenure|test_4,0.5026,0.5026
+144,sqrt(test_4),test_4|age,0.5026,0.5026
+145,log(log(log((test_5)^2))),test_5|vip_low_interaction|payment_per_freq|freq_per_tenure|contract_length,0.5007,0.5007
+146,log(is_older_group),is_older_group|contract_length,0.5026,0.5026
+147,(sqrt(tenure))^2,tenure|vip_low_interaction|older_low_contract,0.5026,0.5026
+148,(freq(subscription_type) - test_5),subscription_type|test_5,0.5005,0.5005
+149,(test_5)^2,test_5|tenure,0.5007,0.5007
+150,((interaction_rate / frequent) - gender_age_group),interaction_rate|frequent|gender_age_group,0.4977,0.4977
+155,(freq(gender) / contract_length),gender|contract_length,0.5026,0.5026
+156,(log(sqrt((renewal_pressure)^2)))^2,renewal_pressure|older_low_contract|test_1|payment_interval|vip_low_interaction,0.5026,0.5026
+157,log(usage_cluster),usage_cluster|test_1,0.5026,0.5026
+158,(sqrt(payment_per_freq) / contract_ratio),payment_per_freq|interaction_per_freq|contract_ratio,0.4987,0.4987
+160,((interaction_per_freq)^2 + interaction_rate),interaction_per_freq|older_low_contract|interaction_rate,0.5026,0.5026
+161,(log(gender_age_group))^2,gender_age_group|contract_length|after_interaction,0.5026,0.5026
+163,(log(payment_interval))^2,payment_interval|test_1|new_inactive,0.5026,0.5026
+164,((test_1 + test_4))^2,test_1|test_4|renewal_pressure,0.5011,0.5011
+166,(((test_5)^2 * usage_cluster) * test_3),test_5|payment_per_freq|usage_cluster|test_3,0.5010,0.5010
+167,((log(sqrt(interaction_per_freq)) - interaction_rate) / payment_interval),interaction_per_freq|freq_per_tenure|test_3|interaction_rate|payment_interval,0.5011,0.5011
+168,((frequent - after_interaction) - test_3),frequent|after_interaction|test_3,0.4995,0.4995
+169,((test_2 * after_interaction) / vip_low_interaction),test_2|after_interaction|vip_low_interaction,0.5026,0.5026
+171,(log(interaction_per_freq))^2,interaction_per_freq|new_inactive|payment_interval,0.5026,0.5026
+174,(log(new_inactive))^2,new_inactive|test_2|is_high_interaction,0.5026,0.5026
+176,(sqrt(contract_ratio) - age),contract_ratio|freq_per_tenure|age,0.5018,0.5018
+177,(freq(gender) * contract_ratio),gender|contract_ratio,0.5026,0.5026
+178,((sqrt((interaction_per_freq)^2) / is_high_interaction) + contract_length),interaction_per_freq|payment_interval|freq_per_tenure|is_high_interaction|contract_length,0.5003,0.5003
+179,(log(frequent) * contract_length),frequent|new_inactive|contract_length,0.5016,0.5016
+181,((((vip_low_interaction / after_interaction))^2 * test_2) * contract_length),vip_low_interaction|after_interaction|is_high_interaction|test_2|contract_length,0.5026,0.5026
+182,(((is_high_interaction / contract_ratio))^2 * interaction_per_freq),is_high_interaction|contract_ratio|is_older_group|interaction_per_freq,0.5020,0.5020
+183,((sqrt(is_older_group))^2 * test_1),is_older_group|renewal_pressure|interaction_per_freq|test_1,0.4969,0.4969
+184,(log(log((gender_age_group / vip_low_interaction))) - test_4),gender_age_group|vip_low_interaction|tenure|usage_cluster|test_4,0.4997,0.4997
+185,((test_3 / interaction_per_freq))^2,test_3|interaction_per_freq|usage_cluster,0.5008,0.5008
+186,((test_4)^2 - renewal_pressure),test_4|tenure|renewal_pressure,0.5007,0.5007
+187,(freq(gender) / frequent),gender|frequent,0.5012,0.5012
+188,log(is_high_interaction),is_high_interaction|usage_cluster,0.5026,0.5026
+189,sqrt((((vip_low_interaction)^2 + older_low_contract) + interaction_rate)),vip_low_interaction|contract_length|older_low_contract|interaction_rate|test_3,0.5014,0.5014
+190,(sqrt(contract_ratio) / interaction_rate),contract_ratio|vip_low_interaction|interaction_rate,0.5018,0.5018
+191,log(log(log(sqrt(vip_low_interaction)))),vip_low_interaction|freq_per_tenure|test_5|is_high_interaction|payment_interval,0.5026,0.5026
+192,log(log(log(sqrt(test_3)))),test_3|age|test_2|interaction_rate|after_interaction,0.5026,0.5026
+193,log(log(log(sqrt(new_inactive)))),new_inactive|payment_per_freq|renewal_pressure|age|usage_cluster,0.5026,0.5026
+194,log(log(log((test_2 + tenure)))),test_2|tenure|interaction_per_freq|vip_low_interaction|payment_per_freq,0.4997,0.4997
+195,log(((log(usage_cluster) * payment_per_freq))^2),usage_cluster|interaction_rate|payment_per_freq|contract_length|test_2,0.5004,0.5004
+196,log(sqrt(sqrt(interaction_per_freq))),interaction_per_freq|interaction_rate|test_1|renewal_pressure,0.5026,0.5026
+199,(after_interaction / age),after_interaction|age,0.5016,0.5016
+200,((frequent - vip_low_interaction))^2,frequent|vip_low_interaction|new_inactive,0.5016,0.5016
+201,log(log(log(sqrt(test_4)))),test_4|freq_per_tenure|new_inactive|contract_length|vip_low_interaction,0.5026,0.5026
+203,log(log(log(sqrt(test_1)))),test_1|older_low_contract|contract_ratio|payment_per_freq|test_5,0.5026,0.5026
+204,((((freq_per_tenure)^2 - interaction_per_freq) - is_high_interaction))^2,freq_per_tenure|test_1|interaction_per_freq|is_high_interaction|older_low_contract,0.5005,0.5005
+205,(log(log(sqrt(test_2))) - after_interaction),test_2|renewal_pressure|contract_ratio|freq_per_tenure|after_interaction,0.5006,0.5006
+206,log(payment_interval),payment_interval|interaction_rate,0.5026,0.5026
+207,((payment_per_freq * test_3) + interaction_rate),payment_per_freq|test_3|interaction_rate,0.5015,0.5015
+209,((((payment_interval)^2 / test_2) * gender_age_group) / renewal_pressure),payment_interval|after_interaction|test_2|gender_age_group|renewal_pressure,0.5020,0.5020
+210,(log(tenure))^2,tenure|freq_per_tenure|test_1,0.5026,0.5026
+211,log(log(sqrt(is_high_interaction))),is_high_interaction|test_2|payment_interval|test_3,0.5026,0.5026
+212,log(log(sqrt(test_3))),test_3|usage_cluster|test_2|is_high_interaction,0.5026,0.5026
+213,log(log(sqrt(contract_ratio))),contract_ratio|test_2|test_4|payment_interval,0.5026,0.5026
+214,sqrt(sqrt(sqrt(contract_ratio))),contract_ratio|is_older_group|tenure|interaction_per_freq,0.5026,0.5026
+215,((((test_5)^2 - interaction_per_freq) - is_high_interaction))^2,test_5|contract_length|interaction_per_freq|is_high_interaction|payment_per_freq,0.5020,0.5020
+216,sqrt(freq_per_tenure),freq_per_tenure|renewal_pressure,0.5026,0.5026
+217,(log(test_1) * gender_age_group),test_1|test_5|gender_age_group,0.5010,0.5010
+218,log((renewal_pressure)^2),renewal_pressure|gender_age_group|contract_length,0.5026,0.5026
+220,log(log((sqrt(payment_per_freq))^2)),payment_per_freq|is_high_interaction|interaction_per_freq|after_interaction|vip_low_interaction,0.5026,0.5026
+221,(freq(subscription_type) * tenure),subscription_type|tenure,0.5011,0.5011
+224,(freq(subscription_type) * payment_interval),subscription_type|payment_interval,0.5005,0.5005
+227,(log(renewal_pressure) + after_interaction),renewal_pressure|age|after_interaction,0.4984,0.4984
+228,(contract_ratio / usage_cluster),contract_ratio|usage_cluster,0.5028,0.5028
+229,(older_low_contract / frequent),older_low_contract|frequent,0.5026,0.5026
+230,(older_low_contract / payment_per_freq),older_low_contract|payment_per_freq,0.5026,0.5026
+231,(test_1 / vip_low_interaction),test_1|vip_low_interaction,0.5026,0.5026
+232,(is_high_interaction / test_4),is_high_interaction|test_4,0.5016,0.5016
+233,(new_inactive)^2,new_inactive|renewal_pressure,0.5026,0.5026
+234,(log(contract_ratio) - test_1),contract_ratio|renewal_pressure|test_1,0.5026,0.5026
+235,sqrt(vip_low_interaction),vip_low_interaction|usage_cluster,0.5026,0.5026
+236,((test_2 + new_inactive))^2,test_2|new_inactive|test_3,0.5010,0.5010
+237,sqrt((((older_low_contract)^2 / contract_ratio) / gender_age_group)),older_low_contract|interaction_rate|contract_ratio|gender_age_group|test_2,0.5026,0.5026
+238,(freq(subscription_type) / is_high_interaction),subscription_type|is_high_interaction,0.5019,0.5019
+239,log((payment_per_freq / freq_per_tenure)),payment_per_freq|freq_per_tenure|after_interaction,0.5016,0.5016
+240,sqrt(is_older_group),is_older_group|payment_per_freq,0.5026,0.5026
+242,sqrt(age),age|gender_age_group,0.5026,0.5026
+244,log(older_low_contract),older_low_contract|usage_cluster,0.5026,0.5026
+245,(log(sqrt((contract_ratio - tenure))))^2,contract_ratio|tenure|test_2|payment_interval|test_3,0.5012,0.5012
+247,((sqrt(vip_low_interaction))^2)^2,vip_low_interaction|tenure|contract_ratio|is_high_interaction,0.5026,0.5026
+248,(age * tenure),age|tenure,0.5009,0.5009
+249,log((after_interaction)^2),after_interaction|older_low_contract|age,0.5026,0.5026
+250,(freq(subscription_type) - older_low_contract),subscription_type|older_low_contract,0.5022,0.5022
+251,(((log(tenure) * test_3) + contract_length) + test_2),tenure|interaction_rate|test_3|contract_length|test_2,0.5004,0.5004
+252,(sqrt(test_1) - is_older_group),test_1|test_3|is_older_group,0.5005,0.5005
+253,(payment_interval)^2,payment_interval|is_older_group,0.5026,0.5026
+254,(sqrt(test_3))^2,test_3|interaction_per_freq|interaction_rate,0.5026,0.5026
+255,(freq(gender) + after_interaction),gender|after_interaction,0.5003,0.5003
+256,(((log(contract_ratio) + freq_per_tenure) - is_high_interaction) * renewal_pressure),contract_ratio|interaction_rate|freq_per_tenure|is_high_interaction|renewal_pressure,0.5019,0.5019
+257,log(((new_inactive / test_3) / interaction_per_freq)),new_inactive|test_3|interaction_per_freq|payment_per_freq,0.5024,0.5024
+258,(is_high_interaction)^2,is_high_interaction|vip_low_interaction,0.5026,0.5026
+259,((log(sqrt(is_high_interaction)) * interaction_rate))^2,is_high_interaction|test_1|gender_age_group|interaction_rate|older_low_contract,0.5017,0.5017
+260,(log(is_older_group))^2,is_older_group|payment_per_freq|test_1,0.5026,0.5026
+261,(freq(gender) * test_3),gender|test_3,0.5009,0.5009
+263,sqrt(sqrt(test_1)),test_1|payment_per_freq|is_older_group,0.5026,0.5026
+264,log(sqrt(((new_inactive)^2 - payment_per_freq))),new_inactive|vip_low_interaction|payment_per_freq|test_2|test_3,0.5013,0.5013
+265,(log(interaction_rate) * frequent),interaction_rate|test_2|frequent,0.4998,0.4998
+266,(test_4 / interaction_rate),test_4|interaction_rate,0.5021,0.5021
+269,((contract_length)^2)^2,contract_length|vip_low_interaction|payment_per_freq,0.5026,0.5026
+270,((((age + interaction_per_freq) + new_inactive) - payment_interval))^2,age|interaction_per_freq|new_inactive|payment_interval|vip_low_interaction,0.4998,0.4998
+272,log(sqrt(freq_per_tenure)),freq_per_tenure|is_high_interaction|renewal_pressure,0.5026,0.5026
+273,(freq(gender) / payment_per_freq),gender|payment_per_freq,0.5006,0.5006
+275,log((((tenure - test_2))^2 * contract_ratio)),tenure|test_2|payment_interval|contract_ratio|vip_low_interaction,0.5026,0.5026
+276,(sqrt(older_low_contract) / test_2),older_low_contract|interaction_per_freq|test_2,0.5026,0.5026
+278,((((age / is_older_group) - interaction_per_freq) / tenure) - contract_length),age|is_older_group|interaction_per_freq|tenure|contract_length,0.5024,0.5024
+279,(freq(subscription_type) - gender_age_group),subscription_type|gender_age_group,0.5010,0.5010
+280,sqrt((test_1)^2),test_1|gender_age_group|contract_ratio,0.5026,0.5026
+281,(contract_ratio * freq_per_tenure),contract_ratio|freq_per_tenure,0.5011,0.5011
+282,sqrt(test_2),test_2|older_low_contract,0.5026,0.5026
+283,log((test_2)^2),test_2|frequent|renewal_pressure,0.5026,0.5026
+284,log((log(test_5))^2),test_5|test_1|test_3|vip_low_interaction,0.5007,0.5007
+285,(freq(gender) + usage_cluster),gender|usage_cluster,0.5001,0.5001
+286,sqrt(((sqrt(freq_per_tenure) * payment_interval) + older_low_contract)),freq_per_tenure|test_4|payment_interval|older_low_contract|gender_age_group,0.4994,0.4994
+287,((contract_length)^2 - test_4),contract_length|usage_cluster|test_4,0.4977,0.4977
+288,(is_older_group / age),is_older_group|age,0.4984,0.4984
+289,(log(log(log(contract_ratio))) / test_1),contract_ratio|test_4|payment_interval|gender_age_group|test_1,0.4978,0.4978
+290,(sqrt(payment_interval))^2,payment_interval|contract_ratio|is_older_group,0.5026,0.5026
+291,(freq(gender) * test_2),gender|test_2,0.5026,0.5026
+293,log((sqrt(renewal_pressure) + gender_age_group)),renewal_pressure|payment_per_freq|gender_age_group|interaction_per_freq,0.5015,0.5015
+294,(log(older_low_contract) / frequent),older_low_contract|usage_cluster|frequent,0.5026,0.5026
+296,((log(sqrt(usage_cluster)))^2 + after_interaction),usage_cluster|interaction_rate|is_high_interaction|vip_low_interaction|after_interaction,0.5010,0.5010
+297,(freq(subscription_type) / test_5),subscription_type|test_5,0.5014,0.5014
+298,((is_older_group)^2)^2,is_older_group|new_inactive|usage_cluster,0.5026,0.5026
+299,((sqrt(log(usage_cluster)) * test_1))^2,usage_cluster|is_older_group|is_high_interaction|test_1|freq_per_tenure,0.5017,0.5017
+300,(age / tenure),age|tenure,0.5014,0.5014
+301,(sqrt(interaction_per_freq) - contract_length),interaction_per_freq|renewal_pressure|contract_length,0.5005,0.5005
+304,(((vip_low_interaction + test_4) * frequent) - test_1),vip_low_interaction|test_4|frequent|test_1,0.5023,0.5023
+305,(log(log(log(payment_interval))) * is_high_interaction),payment_interval|freq_per_tenure|vip_low_interaction|age|is_high_interaction,0.5020,0.5020
+306,sqrt(older_low_contract),older_low_contract|test_3,0.5026,0.5026
+307,((contract_ratio - contract_length))^2,contract_ratio|contract_length|gender_age_group,0.4980,0.4980
+308,((tenure)^2 + test_2),tenure|usage_cluster|test_2,0.5003,0.5003
+309,(freq(subscription_type) - new_inactive),subscription_type|new_inactive,0.5026,0.5026
+310,sqrt(contract_ratio),contract_ratio|gender_age_group,0.5026,0.5026
+311,log(sqrt(log((payment_per_freq * test_2)))),payment_per_freq|test_2|frequent|usage_cluster|renewal_pressure,0.5019,0.5019
+312,(test_2 / interaction_per_freq),test_2|interaction_per_freq,0.5010,0.5010
+313,log((log(is_high_interaction) / test_5)),is_high_interaction|older_low_contract|test_5|is_older_group,0.5018,0.5018
+314,(log(((test_1)^2 - is_high_interaction)))^2,test_1|vip_low_interaction|is_high_interaction|older_low_contract|interaction_per_freq,0.5016,0.5016
+315,(freq(gender) + test_1),gender|test_1,0.4998,0.4998
+316,(sqrt(frequent))^2,frequent|interaction_per_freq|interaction_rate,0.5026,0.5026
+317,sqrt((age)^2),age|renewal_pressure|after_interaction,0.5026,0.5026
+318,log(renewal_pressure),renewal_pressure|vip_low_interaction,0.5026,0.5026
+319,log((log(sqrt(age)) * renewal_pressure)),age|gender_age_group|is_older_group|renewal_pressure|after_interaction,0.5018,0.5018
+320,((test_1)^2 * usage_cluster),test_1|frequent|usage_cluster,0.5017,0.5017
+321,(payment_per_freq / contract_length),payment_per_freq|contract_length,0.4995,0.4995
+322,(freq(gender) * interaction_per_freq),gender|interaction_per_freq,0.5011,0.5011
+324,(((sqrt(payment_per_freq))^2 / payment_interval))^2,payment_per_freq|usage_cluster|new_inactive|payment_interval|frequent,0.5013,0.5013
+325,((payment_interval)^2 - vip_low_interaction),payment_interval|test_4|vip_low_interaction,0.5015,0.5015
+326,log(sqrt(test_2)),test_2|contract_ratio|usage_cluster,0.5026,0.5026
+327,log(freq_per_tenure),freq_per_tenure|test_3,0.5026,0.5026
+328,(freq(subscription_type) / is_older_group),subscription_type|is_older_group,0.5026,0.5026
+329,log((((freq_per_tenure)^2 + new_inactive) - is_high_interaction)),freq_per_tenure|vip_low_interaction|new_inactive|is_high_interaction|contract_length,0.5008,0.5008
+330,log((sqrt(test_5))^2),test_5|freq_per_tenure|payment_per_freq|test_4,0.5007,0.5007
+331,(test_5 / age),test_5|age,0.5009,0.5009
+332,log((is_high_interaction)^2),is_high_interaction|usage_cluster|vip_low_interaction,0.5026,0.5026
+333,((log(interaction_per_freq) / gender_age_group) + vip_low_interaction),interaction_per_freq|test_4|gender_age_group|vip_low_interaction,0.4985,0.4985
+335,(log(sqrt((new_inactive + renewal_pressure))) - contract_length),new_inactive|renewal_pressure|freq_per_tenure|payment_per_freq|contract_length,0.4998,0.4998
+336,(sqrt(vip_low_interaction))^2,vip_low_interaction|frequent|age,0.5026,0.5026
+337,(age - test_2),age|test_2,0.5002,0.5002
+338,(test_2)^2,test_2|renewal_pressure,0.5026,0.5026
+339,(log(interaction_per_freq) - after_interaction),interaction_per_freq|interaction_rate|after_interaction,0.5001,0.5001
+340,(freq(gender) - renewal_pressure),gender|renewal_pressure,0.4980,0.4980
+341,(((sqrt(contract_length) * is_older_group))^2 / frequent),contract_length|payment_interval|is_older_group|interaction_rate|frequent,0.5005,0.5005
+343,log((interaction_rate / test_3)),interaction_rate|test_3|test_4,0.5012,0.5012
+344,(log((sqrt(renewal_pressure))^2) + interaction_per_freq),renewal_pressure|payment_interval|payment_per_freq|after_interaction|interaction_per_freq,0.5007,0.5007
+345,(tenure * contract_ratio),tenure|contract_ratio,0.5025,0.5025
+346,(freq(subscription_type) * frequent),subscription_type|frequent,0.5015,0.5015
+347,(log(gender_age_group) + interaction_rate),gender_age_group|test_2|interaction_rate,0.5006,0.5006
+348,((payment_interval)^2 / usage_cluster),payment_interval|test_1|usage_cluster,0.5010,0.5010
+349,(log(sqrt(usage_cluster)) * frequent),usage_cluster|payment_interval|payment_per_freq|frequent,0.5004,0.5004
+351,sqrt(((log(frequent) - contract_ratio) - payment_per_freq)),frequent|test_1|contract_ratio|payment_per_freq|is_high_interaction,0.5026,0.5026
+352,(freq(gender) / contract_ratio),gender|contract_ratio,0.5015,0.5015
+354,((older_low_contract)^2)^2,older_low_contract|is_high_interaction|tenure,0.5026,0.5026
+355,(log(sqrt((payment_per_freq / contract_length))) * frequent),payment_per_freq|contract_length|is_high_interaction|vip_low_interaction|frequent,0.4993,0.4993
+356,(log(vip_low_interaction) * test_1),vip_low_interaction|payment_interval|test_1,0.5026,0.5026
+360,log(sqrt(log(sqrt(test_5)))),test_5|payment_interval|test_4|older_low_contract|is_older_group,0.5007,0.5007
+361,((contract_ratio + test_5))^2,contract_ratio|test_5|after_interaction,0.5014,0.5014
+362,(log(new_inactive) - payment_per_freq),new_inactive|older_low_contract|payment_per_freq,0.5013,0.5013
+363,log(((older_low_contract)^2 + after_interaction)),older_low_contract|is_older_group|after_interaction|payment_per_freq,0.5012,0.5012
+366,(log(log((test_3 / gender_age_group))))^2,test_3|gender_age_group|renewal_pressure|contract_ratio|interaction_per_freq,0.4999,0.4999
+368,log(age),age|contract_ratio,0.5026,0.5026
+369,log(((sqrt(new_inactive) / test_3) / tenure)),new_inactive|older_low_contract|test_3|tenure|freq_per_tenure,0.5026,0.5026
+370,(freq(gender) * tenure),gender|tenure,0.5008,0.5008
+371,(payment_interval - test_4),payment_interval|test_4,0.5008,0.5008
+372,log((interaction_rate * payment_per_freq)),interaction_rate|payment_per_freq|is_high_interaction,0.5012,0.5012
+373,(sqrt((test_4)^2) * is_high_interaction),test_4|tenure|interaction_rate|is_high_interaction,0.5014,0.5014
+375,log(((sqrt(test_1))^2 - new_inactive)),test_1|gender_age_group|freq_per_tenure|new_inactive|usage_cluster,0.5015,0.5015
+377,((interaction_per_freq)^2 - usage_cluster),interaction_per_freq|test_4|usage_cluster,0.5006,0.5006
+378,((contract_ratio / older_low_contract) * test_2),contract_ratio|older_low_contract|test_2,0.5026,0.5026
+380,(log(log(log(gender_age_group))))^2,gender_age_group|frequent|test_2|freq_per_tenure|age,0.5026,0.5026
+381,((test_1)^2)^2,test_1|renewal_pressure|interaction_rate,0.5026,0.5026
+382,(freq(subscription_type) - payment_interval),subscription_type|payment_interval,0.5013,0.5013
+384,log((((freq_per_tenure)^2 + is_older_group) + test_1)),freq_per_tenure|test_4|is_older_group|test_1|age,0.5026,0.5026
+385,(log(is_high_interaction) / age),is_high_interaction|tenure|age,0.5005,0.5005
+386,sqrt(is_high_interaction),is_high_interaction|payment_interval,0.5026,0.5026
+387,(log((payment_per_freq / after_interaction)))^2,payment_per_freq|after_interaction|payment_interval|renewal_pressure,0.5019,0.5019

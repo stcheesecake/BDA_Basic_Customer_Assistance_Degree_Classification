@@ -1,0 +1,2 @@
+﻿trial,d_model,n_heads,n_layers,ff_mult,dropout,attn_dropout,token_dropout,lr,weight_decay,warmup_ratio,min_lr,step_size,gamma,label_smoothing,focal_gamma,focal_alpha,batch_size,epochs,grad_clip,patience,f1_macro,accuracy
+0,192,6,6,2,0.3,0.25,0.05,0.0001519934830130982,3.549878832196506e-06,0.05,3.347776308515933e-06,10,0.6,0.05,1.0,0.4,256,1,4.0,1,0.3374660993281335,0.48574206092028516

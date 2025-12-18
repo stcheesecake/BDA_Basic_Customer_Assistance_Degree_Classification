@@ -1,0 +1,17 @@
+===== HPO Recommended Ranges (based on top trials) =====
+
+- source: 250915_193126_catboost_hpo.csv
+- top fraction used: 20% (f1_macro 상위)
+
+                iterations [int] : 1600.0  ~  1600.0
+             learning_rate [float] : 0.13  ~  0.13
+                     depth [int] : 7.0  ~  7.0
+               l2_leaf_reg [int] : 14.0  ~  14.0
+              border_count [int] : 208.0  ~  208.0
+           random_strength [int] : 0.0  ~  0.0
+       bagging_temperature [float] : 0.47  ~  0.47
+                 weights_0 [float] : 2.0  ~  2.2
+                 weights_1 [float] : 3.6  ~  3.89
+                 weights_2 [float] : 2.73  ~  3.28
+
+Tip) 정수형은 그대로 min~max, 실수형은 q10~q90을 다음 탐색 범위로 권장합니다.

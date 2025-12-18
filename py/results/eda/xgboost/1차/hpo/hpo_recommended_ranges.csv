@@ -1,0 +1,9 @@
+﻿param,param_clean,dtype,recommended_min,recommended_max
+n_estimators,n_estimators,int,500.0,2000.0
+learning_rate,learning_rate,float,0.014624,0.035295
+max_depth,max_depth,int,10.0,10.0
+subsample,subsample,float,1.0,1.0
+colsample_bytree,colsample_bytree,int,1.0,1.0
+gamma,gamma,float,0.0,0.000426
+reg_alpha,reg_alpha,float,2.185811,3.107611
+reg_lambda,reg_lambda,float,0.036244,2.246773

@@ -5,11 +5,493 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06cb4d97-b5c6-4e11-8995-c0755de6b4aa" name="변경" comment="initial">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/catboost_training.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/learn/events.out.tfevents" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/learn_error.tsv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/test/events.out.tfevents" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/test_error.tsv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/time_left.tsv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.1698dda4-e8e10e96-effb4da3-672ba2bb.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.1c73c183-3e9cbb95-bf0cf7d7-6a0a23c.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.20814bfe-2fd3a9df-8fed4729-248a1730.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.2bed4e5d-94e8a464-15a55552-8da2b170.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.300ebcb6-7b776bf3-99b5b69a-f8c18e06.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.34a4d416-8b58ee2f-95a4038-547df404.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.34acd4cd-2fdece23-f82da62b-16cf6c7b.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.3520d726-d2503a18-c90384a-2d18797.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.354a439-c2467270-a072363c-20641ed1.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.3b59eb7-6c8dd2ee-a649e2ad-bddf1a55.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.3d044a65-6cec2811-10ee947f-65cfb805.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.3d3b1886-af799ed8-c5fce9b0-3833a13a.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.3f8daa64-37a4f682-736d1752-f495542f.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.47de7c76-547d1fb3-9ce8a488-41473ae4.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.52c1bb16-3e48f275-6e4e4a6f-df079c9f.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.5603ef5-6651e62a-71cd58f2-48989112.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.59eb7658-a0c1dc7a-7da7e333-d1b6eb30.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.5b9c74c3-f739ace9-ae53089d-a9f9e1a2.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.62fe1c9b-f3ba0f5a-147974bc-f9cb575c.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.69a95872-df0b2f47-b4d72764-ab5094db.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.7654b0b9-ab65c63-6ace8c94-8b927482.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.7f76d022-e8c6905c-332525dd-39476f37.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.851bd2bb-bea14727-f2b0ca93-c441305b.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.8c92af20-82175f07-112b8cee-41b780ca.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.95ebd1f1-1c4f11a6-25196fbe-75567ce3.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.969e2fe2-e9bd7a8b-24c215b6-42f6761a.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.9dc00b84-55ada566-494ccaee-cd36bdbc.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.9fabc303-d484b9bb-bd4f73e4-ede82ee7.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.a58a64b0-fa2bde57-de1d9a8f-1a478490.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.a8a8e717-68eaedba-e17a694d-a6deac8b.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.aae8e81a-891cdfc8-f33df220-97e8b852.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.ac1a10f8-3dc7e65a-5792e399-800cbfe9.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.ae0b3054-7d3e6700-706d69df-c200a1e0.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.afc6f806-35ae683f-d8985983-afae0122.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.b2752c81-92f6301e-44774e24-7e255b72.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.b96ff769-62a58bea-21a5d548-5644ea1.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.c0c5f2a3-fae0c0cc-85f24bf6-d1049c35.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.c0d52953-d64b1f39-904ad37b-e2629614.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.c96a4a5e-ab00bd95-b684e16c-856eacb.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.cb2aaa85-3c21256c-72724cf-4d0d3405.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.ccc34576-ccc5929f-3efd446f-211a139a.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.cd07c293-322908c0-374c2ad2-eebe19ba.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.d1b2b99-6568687-ffff0eb0-2dc5d820.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.d30f0caa-5f21958b-aeef07bc-cc581b9e.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.d4acea6b-6962d53a-7f202bb8-49646fd3.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.da10e320-75e5a6c7-70f32b6d-690675b6.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.e07e77ae-91036cfc-f07d7c75-ecc10cf0.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.e79ba1d6-26015697-be841b26-40a95ccc.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.ea1f0df2-2edd75d5-372e0cc0-5eade9d9.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.eb408e65-2b02ff20-eee13ce-c8cda55e.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.ee87344c-9ec5e8dc-948e5654-51c5e0de.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.ef32a280-e5be7d83-f7be9e2a-ff13dd6a.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.f6954d11-dc67b6a0-7497f67d-36367116.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.fcbfdf67-7e57572f-9dd4542c-36bdf11a.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.fd496fe3-7c4a3ce6-fdb2b592-12a54477.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/catboost_info/tmp/cat_feature_index.fea86ac8-7e0e5aa2-3a1158e1-3f767ff8.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/data/contract_length_threshold.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/data/original_test.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/data/original_train.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/data/temp/2_train.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/data/temp/sample_submission.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/data/temp/test.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/data/total_test.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/data/total_train.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/paper/Revisiting Deep Learning Models for Tabular Data.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/paper/Stacked_Generalization_An_Introduction_to_Super_Le.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250902_171318_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250903_140840_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250904_115741_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250908_161514_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250908_161551_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_172047_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_172106_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_172926_catboost_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_173003_catboost_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_173102_catboost_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_185712_catboost_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_185758_catboost_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_190009_catboost_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_191902_catboost_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_193126_catboost_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_194653_catboost_hpo - 복사본.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/250915_194653_catboost_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/catboost_model.cbm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/metrics.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/metrics.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/catboost_optimization/used_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/catboost/boxplot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/catboost/feature_value_distribution.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/catboost/hpo/hpo_param_distributions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/catboost/hpo/hpo_param_effects.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/catboost/hpo/hpo_param_spearman.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/catboost/hpo/hpo_recommended_ranges.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/catboost/hpo/hpo_recommended_ranges.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250909_160945_lightgbm_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250909_162325_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250912_131743_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250912_133114_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250912_133644_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250912_134041_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250912_134338_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250912_134956_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250912_135225_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250912_152108_lightgbm_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250915_162244_catboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250915_163127_catboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250915_165101_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250915_165549_xgboost_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250917_160822_tabnet_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250917_164023_tabnet_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/250917_165556_tabnet_feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/correlation_heatmap.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/feature_experiments.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/feature_engineering/visual_analysis_boxplots_with_values.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/1차/boxplot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/1차/feature_value_distribution.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/1차/hpo/hpo_param_distributions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/1차/hpo/hpo_param_effects.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/1차/hpo/hpo_param_spearman.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/1차/hpo/hpo_recommended_ranges.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/1차/hpo/hpo_recommended_ranges.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/2차/boxplot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/2차/feature_value_distribution.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/2차/hpo/hpo_param_distributions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/2차/hpo/hpo_param_effects.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/2차/hpo/hpo_param_spearman.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/2차/hpo/hpo_recommended_ranges.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/2차/hpo/hpo_recommended_ranges.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/3차/boxplot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/3차/feature_value_distribution.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/3차/hpo/hpo_param_distributions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/3차/hpo/hpo_param_effects.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/3차/hpo/hpo_param_spearman.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/3차/hpo/hpo_recommended_ranges.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/3차/hpo/hpo_recommended_ranges.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/4차/boxplot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/4차/feature_value_distribution.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/4차/hpo/hpo_param_distributions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/4차/hpo/hpo_param_effects.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/4차/hpo/hpo_param_spearman.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/4차/hpo/hpo_recommended_ranges.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/lightgbm/4차/hpo/hpo_recommended_ranges.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/19164921_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/19172432_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/19174729_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/19181912_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/19183006_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/19184600_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/19184950_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/22160115_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/22174812_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/22175159_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/22211921_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/22225031_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/22230736_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/23150544_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/optuna_feature_search/~$19172432_trial_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/after_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/contract_length.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/contract_ratio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/distribution_gender.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/distribution_subscription_type.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/feature_importance_ranking.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/freq_per_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/frequent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/gender.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/gender_age_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/interaction_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/interaction_rate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/is_high_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/is_high_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/is_long_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/is_low_frequency.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/is_older_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/new_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/numerical_features_mean_by_target.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/older_and_member.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/older_low_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/payment_freq_alignment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/payment_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/renewal_pressure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/short_tenure_high_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/subscription_code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/subscription_type.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/support_needs.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/usage_cluster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/vip_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age/vip_low_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/after_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/contract_length.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/contract_ratio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/distribution_gender.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/distribution_subscription_type.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/feature_importance_ranking.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/freq_per_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/frequent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/gender.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/gender_age_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/interaction_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/interaction_rate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/is_high_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/is_high_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/is_long_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/is_low_frequency.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/is_older_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/new_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/numerical_features_mean_by_target.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/older_and_member.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/older_low_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/payment_freq_alignment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/payment_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/renewal_pressure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/short_tenure_high_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/subscription_code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/subscription_type.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/support_needs.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/usage_cluster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/vip_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/age_group/vip_low_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/TIMES_is_high_payment_intervalis_high_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/after_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_after_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_contract_length.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_contract_ratio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_freq_per_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_frequent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_gender_age_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_interaction_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_interaction_rate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_is_high_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_is_high_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_is_long_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_is_low_frequency.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_is_older_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_new_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_older_and_member.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_older_low_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_payment_freq_alignment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_payment_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_renewal_pressure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_short_tenure_high_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_subscription_code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_usage_cluster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_vip_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_dist_vip_low_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_ratio_gender.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/binary_ratio_subscription_type.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/contract_length.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/contract_ratio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/feature_ranking_for_class_1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/freq_per_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/frequent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/gender_age_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/interaction_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/interaction_rate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/is_high_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/is_high_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/is_long_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/is_low_frequency.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/is_older_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/new_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/older_and_member.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/older_low_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/payment_freq_alignment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/payment_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/renewal_pressure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/short_tenure_high_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/subscription_code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/usage_cluster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/vip_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/class_1_separation/vip_low_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/after_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/categorical_count_subscription_type.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/contract_length.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/distribution_subscription_type.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/feature_importance_ranking.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/frequent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_after_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_contract_length.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_contract_ratio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_freq_per_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_frequent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_gender_age_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_interaction_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_interaction_rate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_is_high_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_is_high_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_is_long_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_is_low_frequency.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_is_older_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_new_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_older_and_member.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_older_low_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_payment_freq_alignment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_payment_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_renewal_pressure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_short_tenure_high_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_subscription_code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_support_needs.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_usage_cluster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_vip_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_distribution_vip_low_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/numerical_features_mean_by_target.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/support_needs.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/gender/tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/DIV(payment_interval,age).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/SUM(payment_interval,age).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/TIMES(payment_interval,age).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/TIMES(payment_interval,age_group).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/TIMES(payment_interval,payment_interval,payment_interval).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/after_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/age_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/categorical_count_gender.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/categorical_count_subscription_type.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/contract_length.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/contract_ratio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/distribution_gender.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/distribution_subscription_type.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/feature_importance_ranking.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/freq_per_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/frequent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/gender.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/gender_age_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/interaction_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/interaction_rate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/is_high_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/is_high_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/is_long_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/is_low_frequency.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/is_older_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/new_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_after_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_age.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_contract_length.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_contract_ratio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_freq_per_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_frequent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_gender_age_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_interaction_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_interaction_rate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_is_high_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_is_high_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_is_long_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_is_low_frequency.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_is_older_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_new_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_older_and_member.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_older_low_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_payment_freq_alignment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_payment_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_renewal_pressure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_short_tenure_high_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_subscription_code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_usage_cluster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_vip_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_distribution_vip_low_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/numerical_features_mean_by_target.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/older_and_member.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/older_low_contract.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/payment_freq_alignment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/payment_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/payment_per_freq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/renewal_pressure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/short_tenure_high_interval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/subscription_code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/subscription_type.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/tenure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/test_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/test_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/usage_cluster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/vip_inactive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/visualization/support_needs/vip_low_interaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/1차/boxplot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/1차/feature_value_distribution.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/1차/hpo/hpo_param_distributions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/1차/hpo/hpo_param_effects.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/1차/hpo/hpo_param_spearman.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/1차/hpo/hpo_recommended_ranges.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/1차/hpo/hpo_recommended_ranges.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/2차/boxplot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/2차/feature_value_distribution.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/2차/hpo/hpo_param_distributions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/2차/hpo/hpo_param_effects.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/2차/hpo/hpo_param_spearman.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/2차/hpo/hpo_recommended_ranges.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/eda/xgboost/2차/hpo/hpo_recommended_ranges.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/ensemble/250908_165758_submission.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/ensemble/250908_181230_submission.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/ensemble/250908_182511_submission.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/ensemble/250908_191047_submission.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/ensemble/250909_174218_submission.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/250905_155300_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/250905_155300_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/250905_182547_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/250905_182547_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/250905_190234_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/250905_190234_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/250905_191453_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/250908_140637_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/confusion_matrix.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/metrics.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/model.joblib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/lightgbm_optimization/run.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_125610_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_135835_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_135921_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_140238_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_140649_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_140649_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141005_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141005_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141221_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141221_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141307_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141307_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141608_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141608_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141820_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141820_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_141906_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_142001_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_142001_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_142816_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_142846_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_142846_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_143751_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250910_144116_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_133744_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_134250_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_161634_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_162013_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_162013_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_203450_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_203450_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_204518_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_204518_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_205735_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_205735_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_210501_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_211157_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_fttransformer/250911_233419_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_lightgbm/250908_155641_best_params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_lightgbm/250908_155641_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_lightgbm/251023_223355_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_lightgbm/251023_223445_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_tabnet/20250918_153129_tabnet_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_tabnet/20250918_154230_tabnet_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_tabnet/20250918_154924_tabnet_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_tabnet/20250918_155905_tabnet_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/optimization_tabnet/20250918_161738_tabnet_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/xgboost_optimization/250905_180815_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/xgboost_optimization/250905_202724_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/xgboost_optimization/250908_161353_hpo.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/xgboost_optimization/confusion_matrix.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/xgboost_optimization/metrics.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/xgboost_optimization/model.joblib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/xgboost_optimization/params.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/py/results/xgboost_optimization/run.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/data/cattest_test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/cattest_test.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/data/cattest_train.csv" beforeDir="false" afterPath="$PROJECT_DIR$/py/data/cattest_train.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/feature_engineering.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_engineering.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/feature_experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_experiments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/py/catboost_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/catboost_classifier.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/py/feature_exploration.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/feature_exploration.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,12 +515,12 @@
     &quot;assignee&quot;: &quot;stcheesecake&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/stcheesecake/BDA_Basic_Customer_Assistance_Degree_Classification.git",
-    "accountId": "a0b6fb67-6631-41ee-96c9-c6479a0fc9b2"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/stcheesecake/BDA_Basic_Customer_Assistance_Degree_Classification&quot;,
+    &quot;accountId&quot;: &quot;d8fc41ad-4d0a-4f47-bf18-77b6386075ee&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -47,47 +529,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.anova_eda.executor&quot;: &quot;Run&quot;,
-    &quot;Python.catboost_classifier.executor&quot;: &quot;Run&quot;,
-    &quot;Python.catboost_hpo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.eda.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ensemble.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ensemble_hpo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.feature_analysis.executor&quot;: &quot;Run&quot;,
-    &quot;Python.feature_engineering.executor&quot;: &quot;Run&quot;,
-    &quot;Python.feature_experiments.executor&quot;: &quot;Run&quot;,
-    &quot;Python.feature_exploration.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fre.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fttransformer_classifier.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fttransformer_hpo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.hpo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.lightgbm_classifier.executor&quot;: &quot;Run&quot;,
-    &quot;Python.lightgbm_hpo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.model.executor&quot;: &quot;Run&quot;,
-    &quot;Python.optuna_eda.executor&quot;: &quot;Run&quot;,
-    &quot;Python.t_test_eda.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tabnet_classifier.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tabnet_hpo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.temp.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.xgboost_classifier.executor&quot;: &quot;Run&quot;,
-    &quot;Python.xgboost_hpo.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ilumi/Project/BDA Basic Customer Assistance Degree Classification&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.anova_eda.executor": "Run",
+    "Python.catboost_classifier.executor": "Run",
+    "Python.catboost_hpo.executor": "Run",
+    "Python.codding_test.executor": "Run",
+    "Python.eda.executor": "Run",
+    "Python.ensemble.executor": "Run",
+    "Python.ensemble_hpo.executor": "Run",
+    "Python.feature_analysis.executor": "Run",
+    "Python.feature_engineering.executor": "Run",
+    "Python.feature_experiments.executor": "Run",
+    "Python.feature_exploration.executor": "Run",
+    "Python.fre.executor": "Run",
+    "Python.fttransformer_classifier.executor": "Run",
+    "Python.fttransformer_hpo.executor": "Run",
+    "Python.hpo.executor": "Run",
+    "Python.lightgbm_classifier.executor": "Run",
+    "Python.lightgbm_hpo.executor": "Run",
+    "Python.model.executor": "Run",
+    "Python.optuna_eda.executor": "Run",
+    "Python.t_test_eda.executor": "Run",
+    "Python.tabnet_classifier.executor": "Run",
+    "Python.tabnet_hpo.executor": "Run",
+    "Python.temp.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.xgboost_classifier.executor": "Run",
+    "Python.xgboost_hpo.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/Project/BDA Basic Customer Assistance Degree Classification",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-41e8cd69c857-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.90" />
+        <option value="bundled-python-sdk-657d8234b839-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.74" />
       </set>
     </attachedChunks>
   </component>
@@ -333,6 +816,17 @@
     </task>
     <option name="localTasksCounter" value="30" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>

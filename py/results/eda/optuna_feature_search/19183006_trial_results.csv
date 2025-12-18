@@ -1,0 +1,100 @@
+﻿trial,features,formula,f1_class0,f1_class1,f1_class2,f1_macro
+0,contract_ratio;older_low_contract,log(contract_ratio),0.641658961828028,0.0,0.40333975594091204,0.34833290592298
+1,age;is_high_interaction;interaction_per_freq,sqrt(sqrt(age)),0.6445401570813276,0.0,0.35757792905768543,0.3340393620463377
+2,tenure;age,(tenure - age),0.630500582072177,0.04350250976017847,0.12340642529321774,0.2658031723751911
+3,new_inactive;older_low_contract,(new_inactive)^2,0.633303808680248,0.0,0.0,0.21110126956008268
+4,interaction_per_freq;frequent;vip_inactive,((interaction_per_freq)^2)^2,0.6219105644326934,0.012918379330593071,0.08753861997940268,0.24078918791422974
+5,subscription_type;subscription_code,(freq(subscription_type) / subscription_code),0.633303808680248,0.0,0.0,0.21110126956008268
+6,gender;usage_cluster,(freq(gender) / usage_cluster),0.6351285783600195,0.0,0.26382630069643587,0.29965162635215176
+7,tenure;interaction_per_freq;contract_length;gender_age_group,sqrt(sqrt((tenure - interaction_per_freq))),0.6282734383856705,0.032,0.05188945290468133,0.23738763043011732
+8,tenure;older_low_contract;usage_cluster;short_tenure_high_interval;frequent,(log((sqrt(tenure) + usage_cluster)) + frequent),0.6303641456582633,0.0035629453681710215,0.03112391930835735,0.2216836701115972
+9,is_older_group;contract_ratio;interaction_per_freq;is_low_frequency;renewal_pressure,((sqrt((is_older_group)^2) / is_low_frequency) * renewal_pressure),0.6317138529651637,0.0898172323759791,0.08234019501625135,0.2679570934524647
+10,gender;older_low_contract,(freq(gender) - older_low_contract),0.6369656833232992,0.0,0.26134453781512607,0.2994367403794751
+11,older_and_member;is_high_payment_interval;subscription_code,(log(older_and_member) * subscription_code),0.633303808680248,0.0,0.0,0.21110126956008268
+12,is_high_interaction;is_older_group,(is_high_interaction + is_older_group),0.633303808680248,0.0,0.0,0.21110126956008268
+13,subscription_code;is_high_payment_interval;gender_age_group,(sqrt(subscription_code) - gender_age_group),0.633303808680248,0.0,0.0,0.21110126956008268
+14,subscription_type;gender_age_group,(freq(subscription_type) * gender_age_group),0.633303808680248,0.0,0.0,0.21110126956008268
+15,vip_inactive;tenure;is_low_frequency;contract_ratio,(log(log(vip_inactive)) - contract_ratio),0.6408664641394796,0.018724400234055003,0.39556135770234985,0.35171740735862816
+16,renewal_pressure;payment_interval;is_high_interaction;gender_age_group,(log(log(renewal_pressure)) - gender_age_group),0.6198058252427184,0.11380504700643246,0.27174749807544263,0.3351194567748645
+17,after_interaction;short_tenure_high_interval;is_older_group;gender_age_group,(log(log(after_interaction)) - gender_age_group),0.6338308457711442,0.01855072463768116,0.29623885226832103,0.3162068075590488
+18,gender;is_older_group,(freq(gender) + is_older_group),0.633303808680248,0.0,0.0,0.21110126956008268
+19,vip_inactive;usage_cluster;contract_length;freq_per_tenure,(log((vip_inactive * usage_cluster)) - freq_per_tenure),0.6267510167193855,0.0381807973048849,0.017533606078316773,0.22748847336752906
+20,is_high_payment_interval;contract_ratio;after_interaction;older_low_contract,(log((is_high_payment_interval / contract_ratio)) * older_low_contract),0.6353075170842825,0.0,0.10288713910761155,0.24606488539729798
+21,subscription_code;older_low_contract;contract_ratio;freq_per_tenure;frequent,sqrt(((log(subscription_code) / contract_ratio))^2),0.6333830104321908,0.028538812785388126,0.2866141732283465,0.31617866548197515
+22,renewal_pressure;gender_age_group;payment_freq_alignment;payment_per_freq,(log(log(renewal_pressure)) + payment_per_freq),0.6273131881002577,0.029511918274687854,0.14090019569471623,0.26590843402322056
+23,usage_cluster;contract_length;payment_interval;after_interaction,(log(log(usage_cluster)) - after_interaction),0.6298752388445543,0.0059665871121718375,0.03500846979107849,0.2236167652492682
+24,after_interaction;new_inactive;contract_length,(log(after_interaction))^2,0.633303808680248,0.0,0.0,0.21110126956008268
+25,renewal_pressure;new_inactive;short_tenure_high_interval;payment_freq_alignment;interaction_rate,(((log(renewal_pressure) - short_tenure_high_interval) - payment_freq_alignment))^2,0.6307807061163601,0.01647058823529412,0.2876923076923077,0.3116478673479873
+26,subscription_type;frequent,(freq(subscription_type) + frequent),0.633303808680248,0.0,0.0,0.21110126956008268
+27,age;payment_interval;contract_length;contract_ratio,(((age / payment_interval) + contract_length) - contract_ratio),0.6350887235260446,0.0728051391862955,0.43520642201834864,0.38103342824356295
+28,contract_length;freq_per_tenure;payment_interval;older_and_member,(((contract_length / freq_per_tenure) + payment_interval) - older_and_member),0.6289263947491796,0.027570361860999426,0.13713182037662966,0.26454285899560287
+29,subscription_code;is_long_contract;interaction_rate;new_inactive,(((subscription_code / is_long_contract) + interaction_rate) - new_inactive),0.6193317422434368,0.03656509695290859,0.14821676702176934,0.2680378687393716
+30,is_low_frequency;freq_per_tenure;new_inactive;payment_freq_alignment;age,((((is_low_frequency * freq_per_tenure) / new_inactive) - payment_freq_alignment) / age),0.6296210720887245,0.0447427293064877,0.09578947368421052,0.2567177583598076
+31,short_tenure_high_interval;age;tenure;older_and_member,(((short_tenure_high_interval + age) + tenure) / older_and_member),0.6300280636108513,0.09979633401221996,0.06673960612691467,0.26552133458332866
+32,is_low_frequency;interaction_per_freq;is_high_payment_interval,((is_low_frequency / interaction_per_freq) * is_high_payment_interval),0.6278376519146984,0.030542986425339366,0.06903991370010787,0.2424735173467152
+33,contract_length;is_long_contract;older_low_contract;vip_inactive,(log(log(contract_length)) * vip_inactive),0.6350398179749716,0.0,0.11081794195250659,0.24861925330915938
+34,contract_length;after_interaction,log(contract_length),0.6409694469511409,0.0,0.366120218579235,0.3356965551767919
+35,payment_interval;frequent;contract_length;is_long_contract,sqrt(log((payment_interval / frequent))),0.6228687254083701,0.016045845272206302,0.1763110307414105,0.27174186714066234
+36,vip_inactive;frequent;vip_low_interaction,(log(vip_inactive) + vip_low_interaction),0.633303808680248,0.0,0.0,0.21110126956008268
+37,subscription_type;payment_interval,(freq(subscription_type) * payment_interval),0.6359979889391654,0.0,0.3371198241113961,0.32437260435018717
+38,gender_age_group;contract_length;freq_per_tenure;is_high_interaction,(log(log(gender_age_group)))^2,0.633303808680248,0.0,0.0,0.21110126956008268
+39,short_tenure_high_interval;vip_low_interaction,(short_tenure_high_interval * vip_low_interaction),0.633303808680248,0.0,0.0,0.21110126956008268
+40,short_tenure_high_interval;interaction_per_freq;vip_inactive,((short_tenure_high_interval + interaction_per_freq) - vip_inactive),0.6225817798100598,0.039525691699604744,0.12524461839530332,0.26245069663498927
+41,usage_cluster;interaction_per_freq,(usage_cluster - interaction_per_freq),0.6242285714285715,0.03496897913141568,0.04832509610104338,0.23584088222034352
+42,payment_interval;interaction_per_freq,log(payment_interval),0.6359979889391654,0.0,0.3371198241113961,0.32437260435018717
+43,interaction_per_freq;renewal_pressure,log(interaction_per_freq),0.6219105644326934,0.012918379330593071,0.08753861997940268,0.24078918791422974
+44,contract_length;interaction_rate,log(contract_length),0.6409694469511409,0.0,0.366120218579235,0.3356965551767919
+45,gender;tenure,(freq(gender) - tenure),0.6311051091604771,0.0,0.054474708171206226,0.2285266057772278
+46,interaction_per_freq;is_high_payment_interval,(interaction_per_freq)^2,0.6219105644326934,0.012918379330593071,0.08753861997940268,0.24078918791422974
+47,vip_low_interaction;subscription_code;is_high_payment_interval,((vip_low_interaction - subscription_code) / is_high_payment_interval),0.6158619833684994,0.0,0.258751902587519,0.2915379619853395
+48,is_high_payment_interval;contract_ratio;new_inactive;interaction_rate,log((sqrt(is_high_payment_interval))^2),0.606919095614274,0.0,0.36972778941070894,0.3255489616749943
+49,subscription_type;renewal_pressure,(freq(subscription_type) + renewal_pressure),0.6347408592884403,0.011750881316098707,0.2818578801111552,0.30944987357189807
+50,older_and_member;short_tenure_high_interval;new_inactive;renewal_pressure;frequent,(((log(older_and_member) * new_inactive) + renewal_pressure) - frequent),0.6271610555050046,0.03718309859154929,0.038266741699493526,0.2342036319320158
+51,payment_per_freq;payment_freq_alignment,log(payment_per_freq),0.6228687254083701,0.016045845272206302,0.1763110307414105,0.27174186714066234
+52,freq_per_tenure;is_older_group,log(freq_per_tenure),0.6251982778155449,0.03540833809251856,0.03395585738539898,0.23152082443115415
+53,gender_age_group;subscription_code,log(gender_age_group),0.633303808680248,0.0,0.0,0.21110126956008268
+54,older_and_member;is_high_interaction,(older_and_member)^2,0.633303808680248,0.0,0.0,0.21110126956008268
+55,vip_low_interaction;subscription_code,log(vip_low_interaction),0.633303808680248,0.0,0.0,0.21110126956008268
+56,interaction_per_freq;usage_cluster;contract_ratio,sqrt(sqrt(interaction_per_freq)),0.6219105644326934,0.012918379330593071,0.08753861997940268,0.24078918791422974
+57,subscription_code;short_tenure_high_interval;after_interaction;payment_interval,(((subscription_code / short_tenure_high_interval) + after_interaction) - payment_interval),0.6297107295148092,0.0,0.14442231075697212,0.25804434675726046
+58,is_low_frequency;frequent,log(is_low_frequency),0.633303808680248,0.0,0.0,0.21110126956008268
+59,gender;vip_low_interaction,(freq(gender) - vip_low_interaction),0.633303808680248,0.0,0.0,0.21110126956008268
+60,tenure;new_inactive;older_and_member;vip_inactive,(log(log(tenure)) - vip_inactive),0.6310570205093532,0.00834326579261025,0.05133928571428571,0.23024652400541637
+61,older_and_member;is_low_frequency;frequent,sqrt(sqrt(older_and_member)),0.633303808680248,0.0,0.0,0.21110126956008268
+62,age;payment_interval;contract_length,sqrt((age - payment_interval)),0.6322081575246132,0.003590664272890485,0.18309201307800094,0.2729636116251682
+63,after_interaction;contract_ratio,sqrt(after_interaction),0.633303808680248,0.0,0.0,0.21110126956008268
+64,short_tenure_high_interval;subscription_code;interaction_rate;renewal_pressure,(sqrt(sqrt(short_tenure_high_interval)) - renewal_pressure),0.6358265241986172,0.01066982809721399,0.3182827535159141,0.32159303527058175
+65,is_older_group;frequent;subscription_code;contract_ratio,(sqrt(log(is_older_group)) - contract_ratio),0.6341329677861549,0.08590885280251441,0.40063694267515926,0.37355958775460946
+66,older_low_contract;contract_ratio;is_high_payment_interval;older_and_member,(sqrt(log(older_low_contract)) - older_and_member),0.6369656833232992,0.0,0.26134453781512607,0.2994367403794751
+67,freq_per_tenure;older_low_contract;after_interaction;tenure,((log(freq_per_tenure))^2 - tenure),0.6260375213189312,0.02192729371032891,0.05286343612334802,0.23360941705086935
+68,new_inactive;tenure;frequent;payment_interval;age,log(((log(new_inactive) + frequent) - payment_interval)),0.6336390069335719,0.005973715651135006,0.04513888888888889,0.22825053715786525
+69,older_and_member;is_older_group;is_long_contract;interaction_per_freq,(log((older_and_member / is_older_group)) * interaction_per_freq),0.6276483670841625,0.09841107124551512,0.0681081081081081,0.2647225154792619
+70,subscription_type;new_inactive,(freq(subscription_type) * new_inactive),0.633303808680248,0.0,0.0,0.21110126956008268
+71,is_low_frequency;renewal_pressure;freq_per_tenure;frequent,sqrt(sqrt((is_low_frequency + renewal_pressure))),0.6352680767338909,0.018604651162790697,0.2752808988764045,0.3097178755910287
+72,payment_per_freq;after_interaction;age;is_high_payment_interval,(sqrt((payment_per_freq * after_interaction)) + is_high_payment_interval),0.6183737107219957,0.016231884057971015,0.1841297676457694,0.27291178747524536
+73,short_tenure_high_interval;is_older_group;renewal_pressure;payment_interval,log(sqrt(log(short_tenure_high_interval))),0.6291768541157294,0.0,0.15935114503816794,0.26284266638463244
+74,interaction_rate;vip_inactive,log(interaction_rate),0.6219105644326934,0.012918379330593071,0.08753861997940268,0.24078918791422974
+75,gender_age_group;interaction_per_freq;payment_per_freq,((gender_age_group / interaction_per_freq) - payment_per_freq),0.6219105644326934,0.035614913745130775,0.06277056277056277,0.24009868031612902
+76,interaction_per_freq;older_and_member;is_high_interaction;after_interaction,(log((interaction_per_freq)^2) / after_interaction),0.6209528214616096,0.06417112299465241,0.047097480832420595,0.24407380842956086
+77,vip_inactive;payment_interval;freq_per_tenure;contract_ratio,((log(vip_inactive) * freq_per_tenure))^2,0.6244870041039672,0.039503386004514675,0.044444444444444446,0.2361449448509754
+78,interaction_rate;is_long_contract,log(interaction_rate),0.6219105644326934,0.012918379330593071,0.08753861997940268,0.24078918791422974
+79,is_low_frequency;after_interaction;contract_length,sqrt(sqrt(is_low_frequency)),0.633303808680248,0.0,0.0,0.21110126956008268
+80,new_inactive;freq_per_tenure;vip_low_interaction;payment_interval,((log(new_inactive) / vip_low_interaction) - payment_interval),0.6359180595701898,0.0,0.33651026392961875,0.32414277449993617
+81,is_high_payment_interval;payment_freq_alignment;usage_cluster;interaction_rate,log((sqrt(is_high_payment_interval))^2),0.606919095614274,0.0,0.36972778941070894,0.3255489616749943
+82,tenure;subscription_code;payment_interval;vip_inactive,log((sqrt(tenure))^2),0.633303808680248,0.0,0.0,0.21110126956008268
+83,is_high_payment_interval;subscription_code;payment_freq_alignment;tenure,sqrt((sqrt(is_high_payment_interval))^2),0.606919095614274,0.0,0.36972778941070894,0.3255489616749943
+84,tenure;renewal_pressure;gender_age_group;older_and_member,log(((tenure + renewal_pressure))^2),0.6409694469511409,0.0,0.366120218579235,0.3356965551767919
+85,contract_length;is_long_contract,(contract_length + is_long_contract),0.6409694469511409,0.0,0.366120218579235,0.3356965551767919
+86,is_long_contract;payment_interval,(is_long_contract + payment_interval),0.6373460668509676,0.0,0.3359002566923359,0.32441544118110116
+87,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+88,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+89,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+90,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+91,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+92,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+93,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+94,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+95,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+96,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+97,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554
+98,gender;age,(freq(gender) / age),0.6386856629444231,0.03745743473325766,0.35757792905768543,0.3445736755784554

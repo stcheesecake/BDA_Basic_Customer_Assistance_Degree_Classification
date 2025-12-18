@@ -1,0 +1,11 @@
+﻿param,spearman_w_f1
+weights_0,0.5409729884029317
+weights_1,0.17308170059395292
+weights_2,0.03168214005901688
+iterations,
+learning_rate,
+depth,
+l2_leaf_reg,
+border_count,
+random_strength,
+bagging_temperature,

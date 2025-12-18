@@ -1,0 +1,1 @@
+﻿trial,d_model,n_heads,n_layers,ff_mult,dropout,attn_dropout,token_dropout,lr,weight_decay,warmup_ratio,min_lr,step_size,gamma,label_smoothing,focal_gamma,focal_alpha,batch_size,epochs,grad_clip,patience,f1_macro,accuracy

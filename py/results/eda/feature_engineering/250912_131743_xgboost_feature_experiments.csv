@@ -1,0 +1,17 @@
+﻿TIMESTAMP,포함된 FEATURE,F1 MACRO,ACCURACY
+2025-09-12 13:18:01,Original_Baseline,0.4471,0.5082
+2025-09-12 13:18:17,is_older_group,0.4471,0.5082
+2025-09-12 13:18:36,older_and_member,0.4474,0.5087
+2025-09-12 13:18:55,is_low_frequency,0.4471,0.5082
+2025-09-12 13:19:14,vip_inactive,0.4485,0.5091
+2025-09-12 13:19:32,new_inactive,0.4462,0.5077
+2025-09-12 13:19:50,is_long_contract,0.4471,0.5082
+2025-09-12 13:20:08,is_high_payment_interval,0.4471,0.5082
+2025-09-12 13:20:27,is_high_interaction,0.4471,0.5082
+2025-09-12 13:20:51,freq_per_tenure,0.4465,0.5077
+2025-09-12 13:21:15,interaction_per_freq,0.4477,0.5085
+2025-09-12 13:21:38,payment_per_freq,0.4444,0.5077
+2025-09-12 13:21:58,short_tenure_high_interval,0.4482,0.5093
+2025-09-12 13:22:16,older_low_contract,0.4469,0.5076
+2025-09-12 13:22:34,vip_low_interaction,0.4486,0.5095
+2025-09-12 13:22:59,interaction_rate,0.4477,0.5085

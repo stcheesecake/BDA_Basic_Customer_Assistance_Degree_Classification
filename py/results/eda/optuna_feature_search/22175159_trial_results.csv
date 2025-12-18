@@ -1,0 +1,17 @@
+trial,formula,used_features,f1_macro,metric
+0,baseline_dataset,,0.5001,0.5001
+1,(freq(subscription_type) - tenure),subscription_type|tenure,0.4985,0.4985
+2,(freq(subscription_type) * test_2),subscription_type|test_2,0.4981,0.4981
+3,(freq(gender) + age),gender|age,0.4967,0.4967
+4,(freq(subscription_type) + after_interaction),subscription_type|after_interaction,0.4989,0.4989
+5,(((frequent - age) + usage_cluster))^2,frequent|age|usage_cluster|interaction_per_freq,0.5001,0.5001
+6,(log((payment_per_freq + is_high_interaction)) - interaction_per_freq),payment_per_freq|is_high_interaction|contract_length|interaction_per_freq,0.4985,0.4985
+7,sqrt(test_2),test_2|is_high_interaction,0.5001,0.5001
+8,(log(log(log(usage_cluster))) - tenure),usage_cluster|is_older_group|test_1|contract_ratio|tenure,0.4993,0.4993
+9,(freq(subscription_type) / age),subscription_type|age,0.4981,0.4981
+10,(usage_cluster)^2,usage_cluster|contract_length,0.5001,0.5001
+11,(((test_2 - interaction_rate) + after_interaction))^2,test_2|interaction_rate|after_interaction|contract_length,0.4978,0.4978
+12,log((((freq_per_tenure - age) + after_interaction))^2),freq_per_tenure|age|after_interaction|interaction_rate|gender_age_group,0.5001,0.5001
+13,((new_inactive * older_low_contract) * test_2),new_inactive|older_low_contract|test_2,0.5001,0.5001
+14,((interaction_rate / freq_per_tenure) / renewal_pressure),interaction_rate|freq_per_tenure|renewal_pressure,0.4991,0.4991
+15,(((tenure - is_high_interaction))^2 + vip_low_interaction),tenure|is_high_interaction|usage_cluster|vip_low_interaction,0.4999,0.4999

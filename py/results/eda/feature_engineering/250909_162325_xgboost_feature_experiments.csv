@@ -1,0 +1,33 @@
+﻿TIMESTAMP,포함된 FEATURE,F1 MACRO,ACCURACY
+2025-09-09 16:23:42,Original_Baseline,0.4471,0.5082
+2025-09-09 16:24:00,is_older_group,0.4471,0.5082
+2025-09-09 16:24:16,older_and_member,0.4474,0.5087
+2025-09-09 16:24:38,is_low_frequency,0.4471,0.5082
+2025-09-09 16:25:01,vip_inactive,0.4485,0.5091
+2025-09-09 16:25:29,new_inactive,0.4462,0.5077
+2025-09-09 16:25:46,"is_older_group, older_and_member",0.4474,0.5087
+2025-09-09 16:26:11,"is_older_group, is_low_frequency",0.4471,0.5082
+2025-09-09 16:26:33,"is_older_group, vip_inactive",0.4485,0.5091
+2025-09-09 16:26:54,"is_older_group, new_inactive",0.4462,0.5077
+2025-09-09 16:27:15,"older_and_member, is_low_frequency",0.4474,0.5087
+2025-09-09 16:27:35,"older_and_member, vip_inactive",0.4475,0.5081
+2025-09-09 16:27:55,"older_and_member, new_inactive",0.4466,0.5079
+2025-09-09 16:28:16,"is_low_frequency, vip_inactive",0.4485,0.5091
+2025-09-09 16:28:32,"is_low_frequency, new_inactive",0.4462,0.5077
+2025-09-09 16:28:54,"vip_inactive, new_inactive",0.4471,0.5082
+2025-09-09 16:29:16,"is_older_group, older_and_member, is_low_frequency",0.4474,0.5087
+2025-09-09 16:29:38,"is_older_group, older_and_member, vip_inactive",0.4475,0.5081
+2025-09-09 16:30:03,"is_older_group, older_and_member, new_inactive",0.4466,0.5079
+2025-09-09 16:30:27,"is_older_group, is_low_frequency, vip_inactive",0.4485,0.5091
+2025-09-09 16:30:49,"is_older_group, is_low_frequency, new_inactive",0.4462,0.5077
+2025-09-09 16:31:10,"is_older_group, vip_inactive, new_inactive",0.4471,0.5082
+2025-09-09 16:31:32,"older_and_member, is_low_frequency, vip_inactive",0.4475,0.5081
+2025-09-09 16:31:54,"older_and_member, is_low_frequency, new_inactive",0.4466,0.5079
+2025-09-09 16:32:15,"older_and_member, vip_inactive, new_inactive",0.4486,0.5093
+2025-09-09 16:32:39,"is_low_frequency, vip_inactive, new_inactive",0.4471,0.5082
+2025-09-09 16:33:02,"is_older_group, older_and_member, is_low_frequency, vip_inactive",0.4475,0.5081
+2025-09-09 16:33:24,"is_older_group, older_and_member, is_low_frequency, new_inactive",0.4466,0.5079
+2025-09-09 16:33:47,"is_older_group, older_and_member, vip_inactive, new_inactive",0.4486,0.5093
+2025-09-09 16:34:11,"is_older_group, is_low_frequency, vip_inactive, new_inactive",0.4471,0.5082
+2025-09-09 16:34:35,"older_and_member, is_low_frequency, vip_inactive, new_inactive",0.4486,0.5093
+2025-09-09 16:35:03,"is_older_group, older_and_member, is_low_frequency, vip_inactive, new_inactive",0.4486,0.5093

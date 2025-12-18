@@ -1,0 +1,22 @@
+{
+    "d_model": 384,
+    "n_layers": 2,
+    "ff_mult": 8,
+    "dropout": 0.3,
+    "attn_dropout": 0.25,
+    "token_dropout": 0.1,
+    "lr": 0.00012521954287060397,
+    "weight_decay": 0.00011290133559092664,
+    "warmup_ratio": 0.1,
+    "min_lr": 1.3244581340099348e-06,
+    "step_size": 10,
+    "gamma": 0.5,
+    "label_smoothing": 0.1,
+    "focal_gamma": 1.5,
+    "focal_alpha": 0.6000000000000001,
+    "batch_size": 256,
+    "epochs": 2,
+    "grad_clip": 3.0,
+    "patience": 5,
+    "n_heads": 2
+}

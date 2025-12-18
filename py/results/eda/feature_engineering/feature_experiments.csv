@@ -1,0 +1,14 @@
+﻿TIMESTAMP,포함된 FEATURE,F1 MACRO,ACCURACY
+2025-09-04 16:39:38,Original_Baseline,0.4919,0.5072
+2025-09-04 16:43:12,is_older_group,0.4906,0.5064
+2025-09-04 16:45:55,is_low_frequency,0.4906,0.5064
+2025-09-04 16:53:34,"is_low_frequency, vip_inactive",0.4921,0.5078
+2025-09-04 16:56:42,"is_low_frequency, new_inactive",0.4906,0.5063
+2025-09-05 14:30:11,"is_older_group, older_and_member",0.4911,0.5066
+2025-09-05 14:35:04,"is_low_frequency, vip_inactive, new_inactive",0.4912,0.5067
+2025-09-05 14:38:47,"is_low_frequency, vip_inactive, is_older_group",0.4915,0.5071
+2025-09-05 14:47:18,"is_low_frequency, vip_inactive, is_older_group, older_and_member",0.4911,0.5064
+2025-09-05 15:01:56,"is_low_frequency, vip_inactive, is_older_group, older_and_member, new_inactive",0.4912,0.5070
+2025-09-09 15:39:25,"is_low_frequency, vip_inactive, is_older_group, older_and_member, new_inactive",0.4282,0.5272
+2025-09-09 15:46:00,"is_low_frequency, vip_inactive, is_older_group, older_and_member, new_inactive",0.4282,0.5272
+2025-09-09 15:46:23,is_low_frequency,0.4314,0.5269

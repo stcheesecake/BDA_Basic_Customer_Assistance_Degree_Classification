@@ -1,0 +1,10 @@
+﻿param,spearman_w_f1
+reg_alpha,0.08449126062281516
+max_depth,0.0535473684094544
+reg_lambda,0.010016339504084875
+num_leaves,-0.050023816538029696
+learning_rate,-0.18888309822077456
+n_estimators,
+min_child_samples,
+subsample,
+colsample_bytree,

@@ -1,0 +1,15 @@
+===== HPO Recommended Ranges (based on top trials) =====
+
+- source: 250905_202724_hpo.csv
+- top fraction used: 20% (f1_macro 상위)
+
+              n_estimators [int] : 500.0  ~  1800.0
+             learning_rate [float] : 0.012645  ~  0.036154
+                 max_depth [int] : 16.0  ~  25.0
+                 subsample [float] : 1.0  ~  1.0
+          colsample_bytree [int] : 1.0  ~  1.0
+                     gamma [float] : 2.6e-05  ~  0.066515
+                 reg_alpha [float] : 2.18161  ~  2.308606
+                reg_lambda [float] : 0.001162  ~  0.008728
+
+Tip) 정수형은 그대로 min~max, 실수형은 q10~q90을 다음 탐색 범위로 권장합니다.

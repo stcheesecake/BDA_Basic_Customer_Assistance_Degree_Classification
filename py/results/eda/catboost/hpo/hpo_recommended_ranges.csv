@@ -1,0 +1,11 @@
+﻿param,param_clean,dtype,recommended_min,recommended_max
+iterations,iterations,int,1600.0,1600.0
+learning_rate,learning_rate,float,0.13,0.13
+depth,depth,int,7.0,7.0
+l2_leaf_reg,l2_leaf_reg,int,14.0,14.0
+border_count,border_count,int,208.0,208.0
+random_strength,random_strength,int,0.0,0.0
+bagging_temperature,bagging_temperature,float,0.47,0.47
+weights_0,weights_0,float,2.0,2.2
+weights_1,weights_1,float,3.6,3.89
+weights_2,weights_2,float,2.73,3.28

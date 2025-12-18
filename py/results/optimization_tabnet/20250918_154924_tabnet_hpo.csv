@@ -1,0 +1,2 @@
+number,value,params,datetime_start
+0,0.47604319075046514,"{'n_d_a': 36, 'n_steps': 8, 'gamma': 1.2308564154545052, 'lambda_sparse': 1.3275856787994521e-05, 'mask_type': 'entmax', 'learning_rate': 0.01390779330977616, 'weight_decay': 5.43620503982142e-06, 'virtual_batch_size': 256, 'cat_emb_dim': 1, 'n_independent': 2, 'n_shared': 2, 'patience': 51, 'batch_size': 1024}",2025-09-18 15:49:24.681164

@@ -1,0 +1,22 @@
+{
+  "loss_function": "MultiClass",
+  "eval_metric": "TotalF1",
+  "iterations": 1600,
+  "learning_rate": 0.13,
+  "depth": 7,
+  "l2_leaf_reg": 14.0,
+  "random_strength": 0,
+  "border_count": 208,
+  "bagging_temperature": 0.7,
+  "boosting_type": "Ordered",
+  "task_type": "CPU",
+  "od_type": "Iter",
+  "od_wait": 100,
+  "verbose": false,
+  "random_seed": 42,
+  "class_weights": [
+    0.7194516332097642,
+    1.2397252018801976,
+    1.244675701839303
+  ]
+}
